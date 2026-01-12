@@ -18,6 +18,13 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+
+            // kolom tambahan sesuai kebutuhan kamu
+            $table->string('username', 50)->unique();
+            $table->string('nama', 100);
+            $table->string('nomor', 20)->nullable();
+            $table->enum('role', ['admin','kepsek','staf']);
+
             $table->timestamps();
         });
 
