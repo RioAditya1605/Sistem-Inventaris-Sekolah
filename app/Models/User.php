@@ -55,4 +55,16 @@ class User extends Authenticatable
     public function admin() {
         return $this->hasOne(Admin::class);
     }
+
+    public function kepsek() {
+        return $this->hasOne(Kepsek::class);
+    }
+
+    public function staf() {
+        return $this->hasOne(Staf::class);
+    }
+
+    public function logAktivitas() {
+        return $this->hasMany(LogAktivitas::class);
+    }
 }
