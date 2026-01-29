@@ -21,7 +21,7 @@
                 <div class="w-8 h-8 bg-white rounded-full"></div>
                 <span class="text-sm font-medium text-white hover:text-black">{{ auth()->user()->role }}</span>
             </div>
-        </header>
+    </header>
 
         @yield('content')
 
