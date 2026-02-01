@@ -77,6 +77,18 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
+Route::get('/dashboard', function () {
+    $role = Auth::user()->role;
+
+    return match ($role) {
+        'admin'  => redirect('/admin'),
+        'kepsek' => redirect('/kepsek'),
+        'staf'   => redirect('/staf'),
+        default  => abort(403),
+    };
+})->middleware('auth');
 
 /*
 |--------------------------------------------------------------------------

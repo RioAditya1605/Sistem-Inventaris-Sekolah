@@ -291,74 +291,94 @@ document.addEventListener("DOMContentLoaded", function () {
         <!-- Navigation -->
         <nav class="mt-4 space-y-1">
 
-            <a href="{{ url('/') }}"
-               class="flex items-center px-4 py-2 rounded-md transition
-               {{ request()->is('/') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
-                <i data-lucide="layout-dashboard" class="icon-sidebar w-5 h-5 mr-2"></i>
-                <span class="sidebar-text">Dashboard</span>
+            {{-- DASHBOARD (SEMUA ROLE) --}}
+            <a href="{{ url('/dashboard') }}"
+                class="flex items-center px-4 py-2 rounded-md transition
+                {{ request()->is('/')
+                || request()->is('admin')
+                || request()->is('kepsek')
+                || request()->is('staf')
+                    ? 'bg-white text-gray-900'
+                    : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
+                    <i data-lucide="layout-dashboard" class="icon-sidebar w-5 h-5 mr-2"></i>
+                    <span class="sidebar-text">Dashboard</span>
             </a>
 
-            <a href="{{ url('databarang') }}"
-               class="flex items-center px-4 py-2 rounded-md transition
-               {{ request()->is('databarang') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
-                <i data-lucide="boxes" class="icon-sidebar w-5 h-5 mr-2"></i>
-                <span class="sidebar-text">Data Barang</span>
-            </a>
+            {{-- ADMIN & STAF --}}
+            @if(in_array(auth()->user()->role, ['admin','staf']))
+                <a href="{{ url('databarang') }}"
+                   class="flex items-center px-4 py-2 rounded-md transition
+                   {{ request()->is('databarang') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
+                    <i data-lucide="boxes" class="icon-sidebar w-5 h-5 mr-2"></i>
+                    <span class="sidebar-text">Data Barang</span>
+                </a>
 
-            <a href="{{ url('barangmasuk') }}"
-               class="flex items-center px-4 py-2 rounded-md transition
-               {{ request()->is('barangmasuk') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
-                <i data-lucide="download" class="icon-sidebar w-5 h-5 mr-2"></i>
-                <span class="sidebar-text">Barang Masuk</span>
-            </a>
+                <a href="{{ url('barangmasuk') }}"
+                   class="flex items-center px-4 py-2 rounded-md transition
+                   {{ request()->is('barangmasuk') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
+                    <i data-lucide="download" class="icon-sidebar w-5 h-5 mr-2"></i>
+                    <span class="sidebar-text">Barang Masuk</span>
+                </a>
 
-            <a href="{{ url('barangkeluar') }}"
-               class="flex items-center px-4 py-2 rounded-md transition
-               {{ request()->is('barangkeluar') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
-                <i data-lucide="upload" class="icon-sidebar w-5 h-5 mr-2"></i>
-                <span class="sidebar-text">Barang Keluar</span>
-            </a>
+                <a href="{{ url('barangkeluar') }}"
+                   class="flex items-center px-4 py-2 rounded-md transition
+                   {{ request()->is('barangkeluar') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
+                    <i data-lucide="upload" class="icon-sidebar w-5 h-5 mr-2"></i>
+                    <span class="sidebar-text">Barang Keluar</span>
+                </a>
+            @endif
 
-            <a href="{{ url('laporanbarangmasuk') }}"
-               class="flex items-center px-4 py-2 rounded-md transition
-               {{ request()->is('laporanbarangmasuk') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
-                <i data-lucide="file-input" class="icon-sidebar w-5 h-5 mr-2"></i>
-                <span class="sidebar-text">Laporan Barang Masuk</span>
-            </a>
+            {{-- ADMIN & KEPSEK --}}
+            @if(in_array(auth()->user()->role, ['admin','kepsek']))
+                <a href="{{ url('laporanbarangmasuk') }}"
+                   class="flex items-center px-4 py-2 rounded-md transition
+                   {{ request()->is('laporanbarangmasuk') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
+                    <i data-lucide="file-input" class="icon-sidebar w-5 h-5 mr-2"></i>
+                    <span class="sidebar-text">Laporan Barang Masuk</span>
+                </a>
 
-            <a href="{{ url('laporanbarangkeluar') }}"
-               class="flex items-center px-4 py-2 rounded-md transition
-               {{ request()->is('laporanbarangkeluar') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
-                <i data-lucide="file-output" class="icon-sidebar w-5 h-5 mr-2"></i>
-                <span class="sidebar-text">Laporan Barang Keluar</span>
-            </a>
+                <a href="{{ url('laporanbarangkeluar') }}"
+                   class="flex items-center px-4 py-2 rounded-md transition
+                   {{ request()->is('laporanbarangkeluar') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
+                    <i data-lucide="file-output" class="icon-sidebar w-5 h-5 mr-2"></i>
+                    <span class="sidebar-text">Laporan Barang Keluar</span>
+                </a>
 
-            <a href="{{ url('logaktivitas') }}"
-               class="flex items-center px-4 py-2 rounded-md transition
-               {{ request()->is('logaktivitas') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
-                <i data-lucide="history" class="icon-sidebar w-5 h-5 mr-2"></i>
-                <span class="sidebar-text">Log Aktivitas</span>
-            </a>
+                <a href="{{ url('logaktivitas') }}"
+                   class="flex items-center px-4 py-2 rounded-md transition
+                   {{ request()->is('logaktivitas') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
+                    <i data-lucide="history" class="icon-sidebar w-5 h-5 mr-2"></i>
+                    <span class="sidebar-text">Log Aktivitas</span>
+                </a>
+            @endif
 
-            <a href="{{ url('manajemenuser') }}"
-               class="flex items-center px-4 py-2 rounded-md transition
-               {{ request()->is('manajemenuser') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
-                <i data-lucide="users" class="icon-sidebar w-5 h-5 mr-2"></i>
-                <span class="sidebar-text">Manajemen User</span>
-            </a>
+            {{-- ADMIN ONLY --}}
+            @if(auth()->user()->role === 'admin')
+                <a href="{{ url('manajemenuser') }}"
+                   class="flex items-center px-4 py-2 rounded-md transition
+                   {{ request()->is('manajemenuser') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
+                    <i data-lucide="users" class="icon-sidebar w-5 h-5 mr-2"></i>
+                    <span class="sidebar-text">Manajemen User</span>
+                </a>
+            @endif
 
         </nav>
     </div>
 
     <!-- Logout -->
     <div class="p-4">
-        <a href="logout"
-           class="flex items-center text-red-600 rounded-md font-medium transition hover:text-red-500">
-            <i data-lucide="log-out" class="icon-sidebar w-5 h-5 mr-2"></i>
-            <span class="sidebar-text">Logout</span>
-        </a>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit"
+                class="flex items-center text-red-600 rounded-md font-medium transition hover:text-red-500">
+                <i data-lucide="log-out" class="icon-sidebar w-5 h-5 mr-2"></i>
+                <span class="sidebar-text">Logout</span>
+            </button>
+        </form>
+
     </div>
 </aside>
+
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
