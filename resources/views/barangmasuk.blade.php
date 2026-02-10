@@ -130,7 +130,7 @@
     </section>
 @endsection --}}
 
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('tittle', "Barang Masuk")
 
@@ -339,4 +339,143 @@
     </div>
 
 </section>
+@endsection --}}
+
+@extends('layouts.app')
+
+@section('tittle', 'Barang Masuk')
+
+@section('content')
+<section class="p-6 space-y-6 mt-14">
+
+    <!-- Header -->
+    <div class="items-center justify-normal bg-gray-200 p-3 rounded-lg shadow flex gap-3">
+        <i data-lucide="download" class="w-7 h-7"></i>
+        <h1 class="text-3xl font-semibold">Barang Masuk</h1>
+    </div>
+
+    <!-- FORM TAMBAH BARANG (CREATE) -->
+    <form action="/inventaris" method="POST"
+          class="bg-gray-200 rounded-lg shadow p-6 space-y-6 w-full">
+        @csrf
+
+        <div class="flex items-center gap-2">
+            <i data-lucide="plus-circle" class="w-6 h-6"></i>
+            <label class="text-xl font-semibold">Tambah Barang</label>
+        </div>
+
+        <!-- INPUT BARIS 1 -->
+        <div class="grid grid-cols-3 gap-6">
+
+            <!-- Nama Barang -->
+            <div>
+                <label class="text-sm font-medium flex items-center gap-1">
+                    <i data-lucide="package" class="w-4 h-4"></i> Nama Barang
+                </label>
+                <input
+                    type="text"
+                    name="nama"
+                    class="w-full border border-gray-300 rounded p-2 text-sm"
+                    placeholder="Nama Barang..."
+                    required
+                >
+            </div>
+
+            <!-- Kondisi -->
+            <div class="relative w-full">
+                <label class="text-sm font-medium flex items-center gap-1">
+                    <i data-lucide="shield-check" class="w-4 h-4"></i> Kondisi Barang
+                </label>
+
+                <select
+                    name="kondisi"
+                    class="w-full border border-gray-300 rounded p-2 text-sm
+                           focus:outline-none focus:ring-2 focus:ring-blue-500
+                           appearance-none bg-no-repeat bg-[right_0.75rem_center] pr-8"
+                    required
+                >
+                    <option value="">Pilih Kondisi...</option>
+                    <option value="Baik">Baik</option>
+                    <option value="Rusak Ringan">Rusak Ringan</option>
+                    <option value="Rusak Berat">Rusak Berat</option>
+                </select>
+
+                <i data-lucide="chevron-down"
+                   class="absolute top-9 right-3 w-4 h-4 text-gray-500 pointer-events-none"></i>
+            </div>
+
+            <!-- Tanggal Masuk -->
+            <div>
+                <label class="text-sm font-medium flex items-center gap-1">
+                    <i data-lucide="calendar" class="w-4 h-4"></i> Tanggal Masuk
+                </label>
+                <input
+                    type="date"
+                    name="tanggal_masuk"
+                    class="w-full border border-gray-300 rounded p-2 text-sm"
+                    required
+                >
+            </div>
+        </div>
+
+        <!-- INPUT BARIS 2 -->
+        <div class="grid grid-cols-3 gap-6">
+
+            <!-- Kode Barang -->
+            <div>
+                <label class="text-sm font-medium flex items-center gap-1">
+                    <i data-lucide="scan-barcode" class="w-4 h-4"></i> Kode Barang
+                </label>
+                <input
+                    type="text"
+                    name="kode"
+                    class="w-full border border-gray-300 rounded p-2 text-sm"
+                    placeholder="Kode Barang..."
+                    required
+                >
+            </div>
+
+            <!-- Jumlah -->
+            <div>
+                <label class="text-sm font-medium flex items-center gap-1">
+                    <i data-lucide="hash" class="w-4 h-4"></i> Jumlah Barang
+                </label>
+                <input
+                    type="number"
+                    name="jumlah"
+                    class="w-full border border-gray-300 rounded p-2 text-sm"
+                    placeholder="Jumlah Barang..."
+                    min="1"
+                    required
+                >
+            </div>
+
+            <!-- Lokasi -->
+            <div>
+                <label class="text-sm font-medium flex items-center gap-1">
+                    <i data-lucide="map-pin" class="w-4 h-4"></i> Lokasi Barang
+                </label>
+                <input
+                    type="text"
+                    name="lokasi"
+                    class="w-full border border-gray-300 rounded p-2 text-sm"
+                    placeholder="Lokasi Barang..."
+                    required
+                >
+            </div>
+        </div>
+
+        <!-- BUTTON SIMPAN -->
+        <div class="flex gap-4 mt-4">
+            <button type="submit"
+                    class="flex-1 bg-white p-2 rounded-md shadow font-medium
+                           hover:bg-gray-300 flex items-center justify-center gap-2">
+                <i data-lucide="save" class="w-5 h-5"></i>
+                Simpan Barang
+            </button>
+        </div>
+
+    </form>
+</section>
 @endsection
+

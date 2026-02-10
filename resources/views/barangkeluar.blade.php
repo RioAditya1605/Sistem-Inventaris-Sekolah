@@ -133,215 +133,109 @@
 
 @extends('layouts.app')
 
-@section('tittle', "Barang Keluar")
+@section('tittle', 'Barang Keluar')
 
 @section('content')
 <section class="p-6 space-y-6 mt-14">
 
-    <!-- HEADER PAGE -->
+    <!-- HEADER -->
     <div class="flex items-center gap-3 bg-gray-200 p-3 rounded-lg shadow">
         <i data-lucide="upload" class="w-7 h-7"></i>
         <h1 class="text-3xl font-semibold">Barang Keluar</h1>
     </div>
 
-    <!-- FILTER BOX -->
-    <div class="bg-gray-200 rounded-lg shadow p-6 space-y-6 w-full">
+    <!-- ALERT -->
+    @if (session('success'))
+        <div class="bg-green-100 text-green-700 p-3 rounded shadow">
+            {{ session('success') }}
+        </div>
+    @endif
 
-        <!-- Title -->
+    @if (session('error'))
+        <div class="bg-red-100 text-red-700 p-3 rounded shadow">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <!-- FORM BARANG KELUAR -->
+    <form method="POST" action="{{ route('barang.keluar') }}"
+          class="bg-gray-200 rounded-lg shadow p-6 space-y-6 w-full">
+        @csrf
+        @method('PUT')
+
         <div class="flex items-center gap-2">
             <i data-lucide="file-minus" class="w-6 h-6"></i>
-            <label class="text-xl font-semibold">Keluar Barang</label>
+            <label class="text-xl font-semibold">Form Barang Keluar</label>
         </div>
 
-        <!-- Row 1 -->
+        <!-- BARIS 1 -->
         <div class="grid grid-cols-3 gap-6">
 
-            <!-- Nama Barang -->
+            <!-- KODE BARANG -->
             <div>
                 <label class="text-sm font-medium flex items-center gap-1">
-                    <i data-lucide="package" class="w-4 h-4"></i> Nama Barang
+                    <i data-lucide="barcode" class="w-4 h-4"></i>
+                    Kode Barang
                 </label>
-                <input 
+                <input
                     type="text"
+                    name="kode"
                     class="w-full border border-gray-300 rounded p-2 text-sm"
-                    placeholder="Nama Barang..."
+                    placeholder="Contoh: KB0001"
+                    required
                 >
             </div>
 
-            <!-- Kondisi -->
-            <div class="relative w-full">
-                <label class="text-sm font-medium flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-4 h-4"></i> Kondisi Barang
-                </label>
-
-                <select 
-                    class="w-full border border-gray-300 rounded p-2 text-sm 
-                    focus:outline-none focus:ring-2 focus:ring-blue-500
-                    appearance-none bg-no-repeat bg-[right_0.75rem_center] pr-8"
-                >
-                    <option>Pilih Kondisi...</option>
-                    <option>Baik</option>
-                    <option>Rusak Ringan</option>
-                    <option>Rusak Berat</option>
-                </select>
-
-                <!-- Icon arrow dropdown -->
-                <i data-lucide="chevron-down" class="absolute top-9 right-3 w-4 h-4 text-gray-500 pointer-events-none"></i>
-            </div>
-
-            <!-- Tanggal -->
+            <!-- JUMLAH KELUAR -->
             <div>
                 <label class="text-sm font-medium flex items-center gap-1">
-                    <i data-lucide="calendar" class="w-4 h-4"></i> Tanggal
+                    <i data-lucide="hash" class="w-4 h-4"></i>
+                    Jumlah Keluar
                 </label>
-                <input 
-                    type="date"
-                    class="w-full border border-gray-300 rounded p-2 text-sm"
-                >
-            </div>
-        </div>
-
-        <!-- Row 2 -->
-        <div class="grid grid-cols-3 gap-6">
-
-            <!-- Kode Barang -->
-            <div>
-                <label class="text-sm font-medium flex items-center gap-1">
-                    <i data-lucide="scan-barcode" class="w-4 h-4"></i> Kode Barang
-                </label>
-                <input 
-                    type="text"
-                    class="w-full border border-gray-300 rounded p-2 text-sm"
-                    placeholder="Kode Barang..."
-                >
-            </div>
-
-            <!-- Jumlah -->
-            <div>
-                <label class="text-sm font-medium flex items-center gap-1">
-                    <i data-lucide="hash" class="w-4 h-4"></i> Jumlah Barang
-                </label>
-                <input 
+                <input
                     type="number"
+                    name="jumlah_keluar"
                     class="w-full border border-gray-300 rounded p-2 text-sm"
-                    placeholder="Jumlah Barang..."
+                    min="1"
+                    placeholder="Jumlah"
+                    required
                 >
             </div>
 
-            <!-- Lokasi -->
+            <!-- TANGGAL KELUAR -->
             <div>
                 <label class="text-sm font-medium flex items-center gap-1">
-                    <i data-lucide="map-pin" class="w-4 h-4"></i> Lokasi Barang
+                    <i data-lucide="calendar" class="w-4 h-4"></i>
+                    Tanggal Keluar
                 </label>
-                <input 
-                    type="text"
+                <input
+                    type="date"
+                    name="tanggal_keluar"
                     class="w-full border border-gray-300 rounded p-2 text-sm"
-                    placeholder="Lokasi Barang..."
+                    required
                 >
             </div>
-
         </div>
 
-        <!-- Button -->
+        <!-- BUTTON -->
         <div class="flex gap-4 mt-4">
-            <button class="flex-1 bg-white p-2 rounded-md shadow font-medium hover:bg-gray-300 flex items-center justify-center gap-2">
+            <button type="submit"
+                class="flex-1 bg-white p-2 rounded-md shadow font-medium
+                       hover:bg-gray-300 flex items-center justify-center gap-2">
                 <i data-lucide="log-out" class="w-5 h-5"></i>
-                Keluar
+                Keluarkan Barang
             </button>
         </div>
 
-    </div>
-
-    <!-- Card Background -->
-    <div class="bg-[#E5E5E5] p-6 rounded-xl shadow-md mt-6">
-
-        <!-- Table -->
-        <div class="overflow-x-auto rounded-lg">
-            <table class="w-full text-sm text-left bg-gray-300 rounded-lg shadow">
-
-                <thead class="bg-gray-500 text-white">
-                <tr>
-                    <th class="py-2 px-3">No</th>
-
-                    <th class="py-2 px-3">
-                        <div class="flex items-center gap-1">
-                            <i data-lucide="barcode" class="w-4 h-4"></i>
-                            Kode Barang
-                        </div>
-                    </th>
-
-                    <th class="py-2 px-3">
-                        <div class="flex items-center gap-1">
-                            <i data-lucide="box" class="w-4 h-4"></i>
-                            Nama Barang
-                        </div>
-                    </th>
-
-                    <th class="py-2 px-3">
-                        <div class="flex items-center gap-1">
-                            <i data-lucide="calendar" class="w-4 h-4"></i>
-                            Tanggal
-                        </div>
-                    </th>
-
-                    <th class="py-2 px-3">
-                        <div class="flex items-center gap-1">
-                            <i data-lucide="tag" class="w-4 h-4"></i>
-                            Kondisi
-                        </div>
-                    </th>
-
-                    <th class="py-2 px-3">
-                        <div class="flex items-center gap-1">
-                            <i data-lucide="hash" class="w-4 h-4"></i>
-                            Jumlah
-                        </div>
-                    </th>
-
-                    <th class="py-2 px-3">
-                        <div class="flex items-center gap-1">
-                            <i data-lucide="map-pin" class="w-4 h-4"></i>
-                            Lokasi
-                        </div>
-                    </th>
-
-                    <th class="py-2 px-3">
-                        <div class="flex items-center gap-1">
-                            Aksi
-                        </div>
-                    </th>
-                </tr>
-                </thead>
-
-
-                <tbody>
-                    @for ($i = 1; $i <= 7; $i++)
-                    <tr class="border-b border-gray-400">
-                        <td class="py-2 px-3">{{ $i }}</td>
-                        <td class="py-2 px-3">KB0001</td>
-                        <td class="py-2 px-3">Buku</td>
-                        <td class="py-2 px-3">01-01-2025</td>
-                        <td class="py-2 px-3">Baik</td>
-                        <td class="py-2 px-3">1000</td>
-                        <td class="py-2 px-3">Kelas 1A</td>
-
-                        <td class="py-2 px-3 flex gap-3">
-                            <button class="text-blue-600 hover:text-blue-800">
-                                <i data-lucide="pencil" class="w-5 h-5"></i>
-                            </button>
-
-                            <button class="text-red-600 hover:text-red-800">
-                                <i data-lucide="trash-2" class="w-5 h-5"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    @endfor
-                </tbody>
-
-            </table>
-        </div>
-    </div>
+    </form>
 
 </section>
+
+<!-- LUCIDE -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+    lucide.createIcons();
+</script>
 @endsection
+
 

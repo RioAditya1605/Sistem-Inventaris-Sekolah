@@ -228,7 +228,7 @@
                     <th class="py-2 px-3">
                         <div class="flex items-center gap-1">
                             <i data-lucide="calendar" class="w-4 h-4"></i>
-                            Tanggal
+                            Tanggal Keluar
                         </div>
                     </th>
 
@@ -262,29 +262,27 @@
                 </thead>
 
 
-                <tbody>
-                    @for ($i = 1; $i <= 7; $i++)
-                    <tr class="border-b border-gray-400">
-                        <td class="py-2 px-3">{{ $i }}</td>
-                        <td class="py-2 px-3">KB0001</td>
-                        <td class="py-2 px-3">Buku</td>
-                        <td class="py-2 px-3">01-01-2025</td>
-                        <td class="py-2 px-3">Baik</td>
-                        <td class="py-2 px-3">1000</td>
-                        <td class="py-2 px-3">Kelas 1A</td>
+               <tbody>
+                @foreach ($inventaris as $item)
+                <tr class="border-b border-gray-400">
+                    <td class="py-2 px-3">{{ $loop->iteration }}</td>
+                    <td class="py-2 px-3">{{ $item->kode }}</td>
+                    <td class="py-2 px-3">{{ $item->nama }}</td>
+                    <td class="py-2 px-3">{{ $item->tanggal_keluar ?? '-' }}</td>
+                    <td class="py-2 px-3">{{ $item->kondisi }}</td>
+                    <td class="py-2 px-3">{{ $item->jumlah }}</td>
+                    <td class="py-2 px-3">{{ $item->lokasi }}</td>
 
-                        <td class="py-2 px-3 flex gap-3">
-                            <button class="text-blue-600 hover:text-blue-800">
-                                <i data-lucide="pencil" class="w-5 h-5"></i>
-                            </button>
-
-                            <button class="text-red-600 hover:text-red-800">
-                                <i data-lucide="trash-2" class="w-5 h-5"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    @endfor
+                    <td class="py-2 px-3 flex gap-3">
+                        <!-- EDIT -->
+                        <a href="#" class="text-blue-600 hover:text-blue-800">
+                            <i data-lucide="pencil" class="w-5 h-5"></i>
+                        </a>
+                    </td>
+                </tr>
+                @endforeach
                 </tbody>
+
 
             </table>
         </div>

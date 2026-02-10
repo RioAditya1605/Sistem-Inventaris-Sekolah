@@ -284,7 +284,7 @@
                 </thead>
 
 
-                <tbody>
+                {{-- <tbody>
                     @for ($i = 1; $i <= 7; $i++)
                     <tr class="border-b border-gray-400">
                         <td class="py-2 px-3">{{ $i }}</td>
@@ -306,6 +306,41 @@
                         </td>
                     </tr>
                     @endfor
+                </tbody> --}}
+                <tbody>
+                @forelse ($inventaris as $item)
+                <tr class="border-b border-gray-400">
+                    <td class="py-2 px-3">{{ $loop->iteration }}</td>
+                    <td class="py-2 px-3">{{ $item->kode }}</td>
+                    <td class="py-2 px-3">{{ $item->nama }}</td>
+                    <td class="py-2 px-3">{{ $item->tanggal_masuk }}</td>
+                    <td class="py-2 px-3">{{ $item->kondisi }}</td>
+                    <td class="py-2 px-3">{{ $item->jumlah }}</td>
+                    <td class="py-2 px-3">{{ $item->lokasi }}</td>
+
+                    <td class="py-2 px-3 flex gap-3">
+                        <!-- Edit -->
+                        <a href="/barangkeluar/{{ $item->id }}" class="text-blue-600 hover:text-blue-800">
+                            <i data-lucide="pencil" class="w-5 h-5"></i>
+                        </a>
+
+                        <!-- Delete -->
+                        <form action="/inventaris/{{ $item->id }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button class="text-red-600 hover:text-red-800">
+                                <i data-lucide="trash-2" class="w-5 h-5"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="8" class="text-center py-4 text-gray-600">
+                        Data barang belum tersedia
+                    </td>
+                </tr>
+                @endforelse
                 </tbody>
 
             </table>
