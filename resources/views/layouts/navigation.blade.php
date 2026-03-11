@@ -291,7 +291,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <!-- Navigation -->
         <nav class="mt-4 space-y-1">
 
-            {{-- DASHBOARD (SEMUA ROLE) --}}
+            {{-- DASHBOARD  DAN DATA BARANG (SEMUA ROLE) --}}
             <a href="{{ url('/dashboard') }}"
                 class="flex items-center px-4 py-2 rounded-md transition
                 {{ request()->is('/')
@@ -304,14 +304,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     <span class="sidebar-text">Dashboard</span>
             </a>
 
+            <a href="{{ url('databarang') }}"
+                class="flex items-center px-4 py-2 rounded-md transition
+                {{ request()->is('databarang') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
+                <i data-lucide="boxes" class="icon-sidebar w-5 h-5 mr-2"></i>
+                <span class="sidebar-text">Data Barang</span>
+            </a>
+
             {{-- ADMIN & STAF --}}
             @if(in_array(auth()->user()->role, ['admin','staf']))
-                <a href="{{ url('databarang') }}"
-                   class="flex items-center px-4 py-2 rounded-md transition
-                   {{ request()->is('databarang') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
-                    <i data-lucide="boxes" class="icon-sidebar w-5 h-5 mr-2"></i>
-                    <span class="sidebar-text">Data Barang</span>
-                </a>
 
                 <a href="{{ url('barangmasuk') }}"
                    class="flex items-center px-4 py-2 rounded-md transition

@@ -174,7 +174,7 @@
             <!-- KODE BARANG -->
             <div>
                 <label class="text-sm font-medium flex items-center gap-1">
-                    <i data-lucide="barcode" class="w-4 h-4"></i>
+                    <i data-lucide="scan-barcode" class="w-4 h-4"></i>
                     Kode Barang
                 </label>
                 <input

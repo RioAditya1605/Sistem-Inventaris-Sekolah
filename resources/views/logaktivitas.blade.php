@@ -128,32 +128,42 @@
 
                     <!-- BODY -->
                     <tbody>
-                        @for ($i = 1; $i <= 7; $i++)
-                        <tr class="border-b border-gray-400">
-                            <td class="py-2 px-3">1</td>
-                            <td class="py-2 px-3">KB0001</td>
-                            <td class="py-2 px-3">Buku</td>
-                            <td class="py-2 px-3">01-01-2025</td>
-                            <td class="py-2 px-3">Baik</td>
-                            <td class="py-2 px-3">Admin 1</td>
-                            <td class="py-2 px-3">Kelas 1A</td>
+                    @foreach ($log as $index => $item)
+                    <tr class="border-b border-gray-400">
 
-                            <!-- Tombol Aksi -->
-                            <td class="py-2 px-3 flex gap-3">
+                    <td class="py-2 px-3">{{ $index + 1 }}</td>
 
-                                <!-- Tipe Aktivitas -->
-                                <span class="flex items-center gap-1 text-gray-800">
-                                    <i data-lucide="plus-circle" class="w-4 h-4"></i> Menambahkan
-                                </span>
+                    <td class="py-2 px-3">{{ $item['kode'] }}</td>
 
-                                <!-- Icon Delete -->
-                                <button class="text-red-600 hover:text-red-800">
-                                    <i data-lucide="trash-2" class="w-5 h-5"></i>
-                                </button>
+                    <td class="py-2 px-3">{{ $item['nama'] }}</td>
 
-                            </td>
-                        </tr>
-                        @endfor
+                    {{-- <td class="py-2 px-3">{{ $item['tanggal'] }}</td> --}}
+                    <td class="py-2 px-3">
+                    {{ \Carbon\Carbon::parse($item['waktu'])->format('d-m-Y H:i') }}
+                    </td>
+
+                    <td class="py-2 px-3">{{ $item['kondisi'] }}</td>
+
+                    <td class="py-2 px-3">{{ $item['user'] }}</td>
+
+                    <td class="py-2 px-3">{{ $item['lokasi'] }}</td>
+
+                    <td class="py-2 px-3 flex gap-3">
+
+                    @if ($item['aksi'] == 'Masuk')
+                    <span class="flex items-center gap-1 text-green-700">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i> Menambahkan
+                    </span>
+                    @else
+                    <span class="flex items-center gap-1 text-red-700">
+                    <i data-lucide="minus-circle" class="w-4 h-4"></i> Mengurangi
+                    </span>
+                    @endif
+
+                    </td>
+
+                    </tr>
+                    @endforeach
                     </tbody>
 
                 </table>

@@ -269,7 +269,8 @@ Route::middleware(['auth', 'role:admin,kepsek'])->group(function () {
     Route::get('/laporanbarangkeluar', [InventarisController::class, 'laporanKeluar'])
         ->name('laporan.keluar');
 
-    Route::get('/logaktivitas', fn () => view('logaktivitas'));
+    Route::get('/logaktivitas', [InventarisController::class, 'logAktivitas']);
+    
 });
 
 /*

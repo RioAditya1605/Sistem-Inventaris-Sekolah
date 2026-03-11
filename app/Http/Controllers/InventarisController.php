@@ -96,6 +96,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventaris;
+use App\Models\BarangMasuk;
+use App\Models\BarangKeluar;
 use Illuminate\Http\Request;
 
 class InventarisController extends Controller
@@ -130,22 +132,31 @@ class InventarisController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kode' => 'required',
-            'nama' => 'required',
-            'jumlah' => 'required|integer',
-            'kondisi' => 'required',
-            'lokasi' => 'required',
-            'tanggal_masuk' => 'required|date',
+        'kode' => 'required',
+        'nama' => 'required',
+        'jumlah' => 'required|integer',
+        'kondisi' => 'required',
+        'lokasi' => 'required',
+        'tanggal_masuk' => 'required|date',
         ]);
 
-        Inventaris::create([
-        'kode' => $request->kode,
-        'nama' => $request->nama,
-        'jumlah' => $request->jumlah,
-        'kondisi' => $request->kondisi,
-        'lokasi' => $request->lokasi,
-        'tanggal_masuk' => $request->tanggal_masuk,
-        'staf_id' => auth()->id(),
+        // Simpan ke inventaris
+        $inventaris = Inventaris::create([
+            'kode' => $request->kode,
+            'nama' => $request->nama,
+            'jumlah' => $request->jumlah,
+            'kondisi' => $request->kondisi,
+            'lokasi' => $request->lokasi,
+            'tanggal_masuk' => $request->tanggal_masuk,
+            'staf_id' => auth()->id(),
+        ]);
+
+        // Simpan riwayat ke barang_masuk
+        BarangMasuk::create([
+            'inventaris_id' => $inventaris->id,
+            'jumlah_masuk' => $request->jumlah,
+            'tanggal_masuk' => $request->tanggal_masuk,
+            'staf_id' => auth()->id(),
         ]);
 
         return redirect('/databarang')->with('success', 'Barang berhasil ditambahkan');
@@ -173,7 +184,8 @@ class InventarisController extends Controller
     // =========================
     public function laporanMasuk(Request $request)
     {
-        $query = Inventaris::whereNotNull('tanggal_masuk');
+        // $query = Inventaris::whereNotNull('tanggal_masuk');
+         $query = BarangMasuk::with('inventaris');
 
         if ($request->tanggal_masuk) {
             $query->whereDate('tanggal_masuk', $request->tanggal_masuk);
@@ -189,7 +201,8 @@ class InventarisController extends Controller
     // =========================
     public function laporanKeluar(Request $request)
     {
-        $query = Inventaris::whereNotNull('tanggal_keluar');
+        // $query = Inventaris::whereNotNull('tanggal_keluar');
+        $query = BarangKeluar::with('inventaris');
 
         if ($request->tanggal_keluar) {
             $query->whereDate('tanggal_keluar', $request->tanggal_keluar);
@@ -215,12 +228,12 @@ class InventarisController extends Controller
     public function barangKeluar(Request $request)
     {
         $request->validate([
-            'kode' => 'required|exists:inventaris,kode',
-            'jumlah_keluar' => 'required|integer|min:1',
-            'tanggal_keluar' => 'required|date',
+        'kode' => 'required|exists:inventaris,kode',
+        'jumlah_keluar' => 'required|integer|min:1',
+        'tanggal_keluar' => 'required|date',
         ]);
 
-        // Cari barang berdasarkan kode
+        // Cari barang
         $inventaris = Inventaris::where('kode', $request->kode)->first();
 
         if (!$inventaris) {
@@ -235,11 +248,51 @@ class InventarisController extends Controller
         // Kurangi stok
         $inventaris->update([
             'jumlah' => $inventaris->jumlah - $request->jumlah_keluar,
+        ]);
+
+        // Simpan riwayat ke barang_keluar
+        BarangKeluar::create([
+            'inventaris_id' => $inventaris->id,
+            'jumlah_keluar' => $request->jumlah_keluar,
             'tanggal_keluar' => $request->tanggal_keluar,
+            'staf_id' => auth()->id(),
         ]);
 
         return redirect('/databarang')
             ->with('success', 'Barang berhasil dikeluarkan');
+    }
+
+    public function logAktivitas()
+    {
+        $masuk = \App\Models\BarangMasuk::with('inventaris')->get()->map(function ($item) {
+            return [
+                'kode' => $item->inventaris->kode,
+                'nama' => $item->inventaris->nama,
+                'tanggal' => $item->tanggal_masuk,
+                'waktu' => $item->created_at,
+                'kondisi' => $item->inventaris->kondisi,
+                'user' => $item->staf_id,
+                'lokasi' => $item->inventaris->lokasi,
+                'aksi' => 'Masuk'
+            ];
+        });
+
+        $keluar = \App\Models\BarangKeluar::with('inventaris')->get()->map(function ($item) {
+            return [
+                'kode' => $item->inventaris->kode,
+                'nama' => $item->inventaris->nama,
+                'tanggal' => $item->tanggal_keluar,
+                'waktu' => $item->created_at,
+                'kondisi' => $item->inventaris->kondisi,
+                'user' => $item->staf_id,
+                'lokasi' => $item->inventaris->lokasi,
+                'aksi' => 'Keluar'
+            ];
+        });
+
+        $log = $masuk->merge($keluar)->sortByDesc('waktu');
+
+        return view('logaktivitas', compact('log'));
     }
 
 }

@@ -32,4 +32,16 @@ class Inventaris extends Model
     public function laporan() {
         return $this->hasMany(Laporan::class);
     }
+
+    // Relasi ke barang masuk (1 barang bisa memiliki banyak riwayat masuk)
+    public function barangMasuk()
+    {
+        return $this->hasMany(BarangMasuk::class);
+    }
+
+    // Relasi ke barang keluar (1 barang bisa memiliki banyak riwayat keluar)
+    public function barangKeluar()
+    {
+        return $this->hasMany(BarangKeluar::class);
+    }
 }
