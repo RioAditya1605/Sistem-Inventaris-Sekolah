@@ -132,34 +132,43 @@ class InventarisController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-        'kode' => 'required',
-        'nama' => 'required',
-        'jumlah' => 'required|integer',
-        'kondisi' => 'required',
-        'lokasi' => 'required',
-        'tanggal_masuk' => 'required|date',
+            'kode' => 'required',
+            'nama' => 'required',
+            'jumlah' => 'required|integer',
+            'kondisi' => 'required',
+            'lokasi' => 'required',
+            'tanggal_masuk' => 'required|date',
         ]);
 
-        // Simpan ke inventaris
-        $inventaris = Inventaris::create([
-            'kode' => $request->kode,
-            'nama' => $request->nama,
-            'jumlah' => $request->jumlah,
-            'kondisi' => $request->kondisi,
-            'lokasi' => $request->lokasi,
-            'tanggal_masuk' => $request->tanggal_masuk,
-            'staf_id' => auth()->id(),
-        ]);
+        try {
 
-        // Simpan riwayat ke barang_masuk
-        BarangMasuk::create([
-            'inventaris_id' => $inventaris->id,
-            'jumlah_masuk' => $request->jumlah,
-            'tanggal_masuk' => $request->tanggal_masuk,
-            'staf_id' => auth()->id(),
-        ]);
+            // Simpan ke inventaris
+            $inventaris = Inventaris::create([
+                'kode' => $request->kode,
+                'nama' => $request->nama,
+                'jumlah' => $request->jumlah,
+                'kondisi' => $request->kondisi,
+                'lokasi' => $request->lokasi,
+                'tanggal_masuk' => $request->tanggal_masuk,
+                'staf_id' => auth()->id(),
+            ]);
 
-        return redirect('/databarang')->with('success', 'Barang berhasil ditambahkan');
+            // Riwayat barang masuk
+            BarangMasuk::create([
+                'inventaris_id' => $inventaris->id,
+                'jumlah_masuk' => $request->jumlah,
+                'tanggal_masuk' => $request->tanggal_masuk,
+                'staf_id' => auth()->id(),
+            ]);
+
+            return redirect('/databarang')
+                ->with('success','Barang berhasil ditambahkan');
+
+        } catch (\Exception $e) {
+
+            return back()->with('error','Barang gagal ditambahkan');
+
+        }
     }
 
     // =========================
@@ -228,38 +237,41 @@ class InventarisController extends Controller
     public function barangKeluar(Request $request)
     {
         $request->validate([
-        'kode' => 'required|exists:inventaris,kode',
-        'jumlah_keluar' => 'required|integer|min:1',
-        'tanggal_keluar' => 'required|date',
+            'kode' => 'required|exists:inventaris,kode',
+            'jumlah_keluar' => 'required|integer|min:1',
+            'tanggal_keluar' => 'required|date',
         ]);
 
-        // Cari barang
-        $inventaris = Inventaris::where('kode', $request->kode)->first();
+        try {
 
-        if (!$inventaris) {
-            return back()->with('error', 'Barang tidak ditemukan');
+            $inventaris = Inventaris::where('kode', $request->kode)->first();
+
+            // cek stok
+            if ($inventaris->jumlah < $request->jumlah_keluar) {
+                return back()->with('error','Stok tidak mencukupi');
+            }
+
+            // kurangi stok
+            $inventaris->update([
+                'jumlah' => $inventaris->jumlah - $request->jumlah_keluar
+            ]);
+
+            // riwayat barang keluar
+            BarangKeluar::create([
+                'inventaris_id' => $inventaris->id,
+                'jumlah_keluar' => $request->jumlah_keluar,
+                'tanggal_keluar' => $request->tanggal_keluar,
+                'staf_id' => auth()->id(),
+            ]);
+
+            return redirect('/databarang')
+                ->with('success','Barang berhasil dikeluarkan');
+
+        } catch (\Exception $e) {
+
+            return back()->with('error','Barang gagal dikeluarkan');
+
         }
-
-        // Cek stok
-        if ($inventaris->jumlah < $request->jumlah_keluar) {
-            return back()->with('error', 'Stok tidak mencukupi');
-        }
-
-        // Kurangi stok
-        $inventaris->update([
-            'jumlah' => $inventaris->jumlah - $request->jumlah_keluar,
-        ]);
-
-        // Simpan riwayat ke barang_keluar
-        BarangKeluar::create([
-            'inventaris_id' => $inventaris->id,
-            'jumlah_keluar' => $request->jumlah_keluar,
-            'tanggal_keluar' => $request->tanggal_keluar,
-            'staf_id' => auth()->id(),
-        ]);
-
-        return redirect('/databarang')
-            ->with('success', 'Barang berhasil dikeluarkan');
     }
 
     public function logAktivitas()

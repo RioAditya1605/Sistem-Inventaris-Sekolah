@@ -30,5 +30,40 @@
             lucide.createIcons();
         </script>
 
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        @if(session('success'))
+        <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil',
+            text: '{{ session('success') }}',
+            timer: 2000,
+            showConfirmButton: false
+        });
+        </script>
+        @endif
+
+        @if(session('error'))
+        <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: '{{ session('error') }}',
+            confirmButtonColor: '#d33'
+        });
+        </script>
+        @endif
+
+        @if($errors->any())
+        <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Input tidak valid',
+            html: `{!! implode('<br>', $errors->all()) !!}`
+        });
+        </script>
+        @endif
+
     </main>
 </html>

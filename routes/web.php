@@ -213,7 +213,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Redirect root
     Route::get('/', fn () => redirect('/dashboard'));
 
-    // Dashboard redirect sesuai role
+    // // Dashboard redirect sesuai role
+    // Route::get('/dashboard', function () {
+    //     return match (Auth::user()->role) {
+    //         'admin'  => redirect('/admin'),
+    //         'kepsek' => redirect('/kepsek'),
+    //         'staf'   => redirect('/staf'),
+    //         default  => abort(403),
+    //     };
+    // })->name('dashboard');
+
+    // dashboard redirect berdasarkan role
     Route::get('/dashboard', function () {
         return match (Auth::user()->role) {
             'admin'  => redirect('/admin'),
@@ -222,6 +232,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             default  => abort(403),
         };
     })->name('dashboard');
+
+    // ROUTE DASHBOARD ROLE
+    Route::get('/admin', [DashboardController::class,'index']);
+    Route::get('/kepsek', [DashboardController::class,'index']);
+    Route::get('/staf', [DashboardController::class,'index']);
 
     // =====================
     // DATA BARANG (READ UTAMA)
@@ -244,7 +259,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 */
 Route::middleware(['auth', 'role:admin'])->group(function () {
 
-    Route::get('/admin', fn () => view('dashboardadmin'))->name('admin.dashboard');
+    Route::get('/admin', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     Route::get('/manajemenuser', fn () => view('manajemenuser'));
 
@@ -260,7 +275,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 */
 Route::middleware(['auth', 'role:admin,kepsek'])->group(function () {
 
-    Route::get('/kepsek', fn () => view('dashboardkepsek'))->name('kepsek.dashboard');
+    Route::get('/kepsek', [DashboardController::class,'index'])->name('kepsek.dashboard');
 
     // LAPORAN (READ + FILTER)
     Route::get('/laporanbarangmasuk', [InventarisController::class, 'laporanMasuk'])
@@ -280,7 +295,7 @@ Route::middleware(['auth', 'role:admin,kepsek'])->group(function () {
 */
 Route::middleware(['auth', 'role:admin,staf'])->group(function () {
 
-    Route::get('/staf', fn () => view('dashboardstaf'))->name('staf.dashboard');
+    Route::get('/staf', [DashboardController::class,'index'])->name('staf.dashboard');
 
     // =====================
     // FORM BARANG

@@ -56,25 +56,21 @@
 
 @section('content')
 
-<!-- Dashboard Content -->
 <section class="space-y-6 mt-16 p-6">
 
-<!-- Top Header Section -->
 <div class="flex items-center justify-between bg-gray-200 p-4 rounded-lg shadow">
 
-    <!-- Kiri: Judul Dashboard -->
     <h1 class="text-3xl font-semibold">
         Dashboard
     </h1>
 
-    <!-- Kanan: Data Ringkas -->
     <div class="flex items-center gap-16 mr-20">
 
         <!-- Data Barang Masuk -->
         <div class="flex items-center gap-4">
             <div class="w-16 h-16 bg-gray-600 rounded
                         text-white flex flex-col items-center justify-center">
-                <span class="text-lg font-bold">125</span>
+                <span class="text-lg font-bold">{{ $barangMasuk }}</span>
                 <i data-lucide="arrow-down-circle" class="w-4 h-4 opacity-80"></i>
             </div>
             <p class="text-base font-medium whitespace-nowrap">
@@ -86,7 +82,7 @@
         <div class="flex items-center gap-4">
             <div class="w-16 h-16 bg-gray-600 rounded
                         text-white flex flex-col items-center justify-center">
-                <span class="text-lg font-bold">87</span>
+                <span class="text-lg font-bold">{{ $barangKeluar }}</span>
                 <i data-lucide="arrow-up-circle" class="w-4 h-4 opacity-80"></i>
             </div>
             <p class="text-base font-medium whitespace-nowrap">
@@ -98,10 +94,9 @@
 </div>
 
 
-<!-- Info Cards -->
 <div class="grid grid-cols-4 gap-4">
 
-    <!-- Card 1: Total Barang -->
+    <!-- Total Barang -->
     <div class="relative overflow-hidden group p-4 rounded-lg shadow bg-gray-300 
                 flex items-center transform transition duration-300 
                 hover:scale-105 hover:shadow-xl">
@@ -112,12 +107,12 @@
         </div>
 
         <div class="ml-4 flex flex-col items-start relative z-10">
-            <span class="text-2xl text-gray-800 group-hover:text-white transition font-bold">100</span>
+            <span class="text-2xl text-gray-800 group-hover:text-white transition font-bold">{{ $totalBarang }}</span>
             <span class="text-sm text-gray-800 group-hover:text-white transition">Total Barang</span>
         </div>
     </div>
 
-    <!-- Card 2 -->
+    <!-- Kondisi Baik -->
     <div class="relative overflow-hidden group p-4 rounded-lg shadow bg-gray-300 
                 flex items-center transform transition duration-300 
                 hover:scale-105 hover:shadow-xl">
@@ -128,12 +123,12 @@
         </div>
 
         <div class="ml-4 flex flex-col items-start relative z-10">
-            <span class="text-2xl text-gray-800 group-hover:text-white transition font-bold">75</span>
+            <span class="text-2xl text-gray-800 group-hover:text-white transition font-bold">{{ $kondisiBaik }}</span>
             <span class="text-sm text-gray-800 group-hover:text-white transition">Kondisi Baik</span>
         </div>
     </div>
 
-    <!-- Card 3 -->
+    <!-- Rusak Ringan -->
     <div class="relative overflow-hidden group p-4 rounded-lg shadow bg-gray-300 
                 flex items-center transform transition duration-300 
                 hover:scale-105 hover:shadow-xl">
@@ -144,12 +139,12 @@
         </div>
 
         <div class="ml-4 flex flex-col items-start relative z-10">
-            <span class="text-2xl text-gray-800 group-hover:text-white transition font-bold">15</span>
+            <span class="text-2xl text-gray-800 group-hover:text-white transition font-bold">{{ $rusakRingan }}</span>
             <span class="text-sm text-gray-800 group-hover:text-white transition">Kondisi Rusak Ringan</span>
         </div>
     </div>
 
-    <!-- Card 4 -->
+    <!-- Rusak Berat -->
     <div class="relative overflow-hidden group p-4 rounded-lg shadow bg-gray-300 
                 flex items-center transform transition duration-300 
                 hover:scale-105 hover:shadow-xl">
@@ -160,15 +155,12 @@
         </div>
 
         <div class="ml-4 flex flex-col items-start relative z-10">
-            <span class="text-2xl text-gray-800 group-hover:text-white transition font-bold">10</span>
+            <span class="text-2xl text-gray-800 group-hover:text-white transition font-bold">{{ $rusakBerat }}</span>
             <span class="text-sm text-gray-800 group-hover:text-white transition">Kondisi Rusak Berat</span>
         </div>
     </div>
 
 </div>
-
-
-
 
 </section>
 @endsection

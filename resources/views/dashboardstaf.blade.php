@@ -22,7 +22,7 @@
         <div class="flex items-center gap-4">
             <div class="w-16 h-16 bg-gray-600 rounded
                         text-white flex flex-col items-center justify-center">
-                <span class="text-lg font-bold">125</span>
+                <span class="text-lg font-bold">{{ $barangMasuk }}</span>
                 <i data-lucide="arrow-down-circle" class="w-4 h-4 opacity-80"></i>
             </div>
             <p class="text-base font-medium whitespace-nowrap">
@@ -34,7 +34,7 @@
         <div class="flex items-center gap-4">
             <div class="w-16 h-16 bg-gray-600 rounded
                         text-white flex flex-col items-center justify-center">
-                <span class="text-lg font-bold">87</span>
+                <span class="text-lg font-bold">{{ $barangKeluar }}</span>
                 <i data-lucide="arrow-up-circle" class="w-4 h-4 opacity-80"></i>
             </div>
             <p class="text-base font-medium whitespace-nowrap">
@@ -61,7 +61,7 @@
         </div>
 
         <div class="ml-4 flex flex-col items-start relative z-10">
-            <span class="text-2xl text-gray-800 group-hover:text-white transition font-bold">100</span>
+            <span class="text-2xl text-gray-800 group-hover:text-white transition font-bold">{{ $totalBarang }}</span>
             <span class="text-sm text-gray-800 group-hover:text-white transition">Total Barang</span>
         </div>
     </div>
@@ -77,7 +77,7 @@
         </div>
 
         <div class="ml-4 flex flex-col items-start relative z-10">
-            <span class="text-2xl text-gray-800 group-hover:text-white transition font-bold">75</span>
+            <span class="text-2xl text-gray-800 group-hover:text-white transition font-bold">{{ $kondisiBaik }}</span>
             <span class="text-sm text-gray-800 group-hover:text-white transition">Kondisi Baik</span>
         </div>
     </div>
@@ -93,7 +93,7 @@
         </div>
 
         <div class="ml-4 flex flex-col items-start relative z-10">
-            <span class="text-2xl text-gray-800 group-hover:text-white transition font-bold">15</span>
+            <span class="text-2xl text-gray-800 group-hover:text-white transition font-bold">{{ $rusakRingan }}</span>
             <span class="text-sm text-gray-800 group-hover:text-white transition">Kondisi Rusak Ringan</span>
         </div>
     </div>
@@ -109,7 +109,7 @@
         </div>
 
         <div class="ml-4 flex flex-col items-start relative z-10">
-            <span class="text-2xl text-gray-800 group-hover:text-white transition font-bold">10</span>
+            <span class="text-2xl text-gray-800 group-hover:text-white transition font-bold">{{ $rusakBerat }}</span>
             <span class="text-sm text-gray-800 group-hover:text-white transition">Kondisi Rusak Berat</span>
         </div>
     </div>

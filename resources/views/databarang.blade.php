@@ -151,7 +151,7 @@
             Filter Pencarian Barang
         </label>
 
-        <div class="grid grid-cols-3 gap-6">
+        {{-- <div class="grid grid-cols-3 gap-6">
 
             <!-- Nama Barang -->
             <div>
@@ -210,7 +210,69 @@
                 <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
                 Reset Filter
             </button>
+        </div> --}}
+
+        <form method="GET" action="{{ url('/databarang') }}">
+
+        <div class="grid grid-cols-3 gap-6">
+
+            <!-- Nama Barang -->
+            <div>
+                <label class="text-sm font-medium">Nama Barang</label>
+                <input 
+                    type="text" 
+                    name="nama"
+                    value="{{ request('nama') }}"
+                    class="w-full border border-gray-300 rounded p-2 text-sm"
+                    placeholder="Nama Barang....."
+                >
+            </div>
+
+            <!-- Kondisi Barang -->
+            <div class="relative w-full">
+                <label class="text-sm font-medium">Kondisi Barang</label>
+
+                <select 
+                    name="kondisi"
+                    class="w-full border border-gray-300 rounded p-2 text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                    <option value="">Pilih Kondisi...</option>
+                    <option value="Baik" {{ request('kondisi') == 'Baik' ? 'selected' : '' }}>Baik</option>
+                    <option value="Rusak Ringan" {{ request('kondisi') == 'Rusak Ringan' ? 'selected' : '' }}>Rusak Ringan</option>
+                    <option value="Rusak Berat" {{ request('kondisi') == 'Rusak Berat' ? 'selected' : '' }}>Rusak Berat</option>
+                </select>
+            </div>
+
+            <!-- Tanggal -->
+            <div>
+                <label class="text-sm font-medium flex items-center gap-1">
+                    <i data-lucide="calendar" class="w-4 h-4"></i>
+                    Tanggal Masuk
+                </label>
+                <input 
+                    type="date"
+                    name="tanggal_masuk"
+                    value="{{ request('tanggal_masuk') }}"
+                    class="w-full border border-gray-300 rounded p-2 text-sm"
+                >
+            </div>
+
         </div>
+
+        <!-- Tombol -->
+        <div class="flex gap-4 mt-4">
+            <button type="submit" class="flex-1 bg-white p-2 rounded-md shadow font-medium hover:bg-gray-300 flex items-center justify-center gap-2">
+                <i data-lucide="search" class="w-4 h-4"></i>
+                Cari
+            </button>
+
+            <a href="{{ url('/databarang') }}" class="flex-1 bg-white p-2 border border-gray-400 rounded-md shadow font-medium hover:bg-gray-300 flex items-center justify-center gap-2">
+                <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                Reset Filter
+            </a>
+        </div>
+
+        </form>
     </div>
 
     <!-- Script Reset -->
@@ -324,14 +386,14 @@
                             <i data-lucide="pencil" class="w-5 h-5"></i>
                         </a>
 
-                        <!-- Delete -->
+                        {{-- <!-- Delete -->
                         <form action="/inventaris/{{ $item->id }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button class="text-red-600 hover:text-red-800">
                                 <i data-lucide="trash-2" class="w-5 h-5"></i>
                             </button>
-                        </form>
+                        </form> --}}
                     </td>
                 </tr>
                 @empty
