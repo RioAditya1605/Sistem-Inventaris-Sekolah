@@ -195,6 +195,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InventarisController;
+use App\Http\Controllers\LaporanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -318,4 +319,14 @@ Route::middleware(['auth', 'role:admin,staf'])->group(function () {
     Route::delete('/inventaris/{id}', [InventarisController::class, 'destroy'])
         ->name('barang.destroy');
 });
+
+// laporan barang masuk
+Route::get('/laporan/barangmasuk', [LaporanController::class, 'barangMasuk']);
+Route::get('/laporan/barangmasuk/excel', [LaporanController::class, 'exportExcelBarangMasuk']);
+Route::get('/laporan/barangmasuk/pdf', [LaporanController::class, 'exportPdfBarangMasuk']);
+
+// laporan barang keluar
+Route::get('/laporan/barangkeluar', [LaporanController::class, 'barangKeluar']);
+Route::get('/laporan/barangkeluar/excel', [LaporanController::class, 'exportExcelBarangKeluar']);
+Route::get('/laporan/barangkeluar/pdf', [LaporanController::class, 'exportPdfBarangKeluar']);
 

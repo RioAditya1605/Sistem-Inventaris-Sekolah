@@ -1,0 +1,121 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Inventaris;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BarangMasukExport;
+use App\Exports\BarangKeluarExport;
+
+class LaporanController extends Controller
+{
+    // =============================
+    // LAPORAN BARANG MASUK
+    // =============================
+    public function barangMasuk(Request $request)
+    {
+        $query = Inventaris::query();
+
+        if ($request->tanggalMasuk) {
+            $query->whereDate('tanggal_masuk', '>=', $request->tanggalMasuk);
+        }
+
+        if ($request->tanggalKeluar) {
+            $query->whereDate('tanggal_masuk', '<=', $request->tanggalKeluar);
+        }
+
+        $inventaris = $query->get();
+
+        return view('laporanbarangmasuk', compact('inventaris'));
+    }
+
+    public function exportExcelBarangMasuk(Request $request)
+    {
+        return Excel::download(
+            new BarangMasukExport($request->tanggalMasuk, $request->tanggalKeluar),
+            'laporan_barang_masuk.xlsx'
+        );
+    }
+
+    public function exportPdfBarangMasuk(Request $request)
+    {
+        $query = Inventaris::query();
+
+        if ($request->tanggalMasuk) {
+            $query->whereDate('tanggal_masuk', '>=', $request->tanggalMasuk);
+        }
+
+        if ($request->tanggalKeluar) {
+            $query->whereDate('tanggal_masuk', '<=', $request->tanggalKeluar);
+        }
+
+        $inventaris = $query->get();
+
+        $pdf = Pdf::loadView('laporan.pdf_barang_masuk', compact('inventaris'));
+
+        return $pdf->download('laporan_barang_masuk.pdf');
+    }
+
+    // =============================
+    // LAPORAN BARANG KELUAR
+    // =============================
+    public function barangKeluar(Request $request)
+    {
+        // // DIUBAH
+        // $query = Inventaris::whereNotNull('tanggal_keluar');
+
+        // // DIUBAH
+        // if ($request->filled('tanggalMasuk')) {
+        //     $query->whereDate('tanggal_keluar', '>=', $request->tanggalMasuk);
+        // }
+
+        // // DIUBAH
+        // if ($request->filled('tanggalKeluar')) {
+        //     $query->whereDate('tanggal_keluar', '<=', $request->tanggalKeluar);
+        // }
+
+        // $inventaris = $query->get();
+        $query = Inventaris::whereNotNull('tanggal_keluar');
+
+        if ($request->filled('tanggalMasuk')) {
+            $query->whereDate('tanggal_keluar', '>=', $request->tanggalMasuk);
+        }
+
+        if ($request->filled('tanggalKeluar')) {
+            $query->whereDate('tanggal_keluar', '<=', $request->tanggalKeluar);
+        }
+
+        $inventaris = $query->get();
+
+        return view('laporanbarangkeluar', compact('inventaris'));
+    }
+
+    public function exportExcelBarangKeluar(Request $request)
+    {
+        return Excel::download(
+            new BarangKeluarExport($request->tanggalMasuk, $request->tanggalKeluar),
+            'laporan_barang_keluar.xlsx'
+        );
+    }
+
+    public function exportPdfBarangKeluar(Request $request)
+    {
+        $query = Inventaris::query();
+
+        if ($request->tanggalMasuk) {
+            $query->whereDate('tanggal_keluar', '>=', $request->tanggalMasuk);
+        }
+
+        if ($request->tanggalKeluar) {
+            $query->whereDate('tanggal_keluar', '<=', $request->tanggalKeluar);
+        }
+
+        $inventaris = $query->get();
+
+        $pdf = Pdf::loadView('laporan.pdf_barang_keluar', compact('inventaris'));
+
+        return $pdf->download('laporan_barang_keluar.pdf');
+    }
+}

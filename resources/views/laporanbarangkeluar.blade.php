@@ -120,66 +120,69 @@
         <h1 class="text-3xl font-semibold">Laporan Barang Keluar</h1>
     </div>
 
-    <!-- FILTER BOX -->
+     <!-- FILTER BOX -->
     <div class="bg-gray-200 rounded-lg shadow p-6 space-y-6 w-full">
 
-        <div class="flex items-center gap-2">
-            <i data-lucide="filter" class="w-6 h-6"></i>
-            <label class="text-xl font-semibold">Filter Barang Keluar</label>
-        </div>
+        <form method="GET" action="/laporan/barangkeluar">
 
-        <div class="grid grid-cols-3 gap-6">
-
-            <!-- Tanggal Masuk -->
-            <div>
-                <label class="text-sm font-medium flex items-center gap-1">
-                    <i data-lucide="calendar-plus" class="w-4 h-4"></i>
-                    Tanggal Masuk
-                </label>
-                <input 
-                    type="date"
-                    id="tanggalMasuk" 
-                    class="w-full border border-gray-300 rounded p-2 text-sm"
-                >
+            <div class="flex items-center gap-2 mb-6">
+                <i data-lucide="filter" class="w-6 h-6"></i>
+                <label class="text-xl font-semibold">Filter Barang Keluar</label>
             </div>
 
-            <!-- Tanggal Keluar -->
-            <div>
-                <label class="text-sm font-medium flex items-center gap-1">
-                    <i data-lucide="calendar-minus" class="w-4 h-4"></i>
-                    Tanggal Keluar
-                </label>
-                <input 
-                    type="date"
-                    id="tanggalKeluar" 
-                    class="w-full border border-gray-300 rounded p-2 text-sm"
-                >
+            <div class="grid grid-cols-3 gap-6">
+
+                <!-- Tanggal Masuk -->
+                <div>
+                    <label class="text-sm font-medium flex items-center gap-1">
+                        <i data-lucide="calendar-plus" class="w-4 h-4"></i>
+                        Tanggal Masuk
+                    </label>
+                    <input 
+                        type="date"
+                        name="tanggalMasuk"
+                        value="{{ request('tanggalMasuk') }}"
+                        class="w-full border border-gray-300 rounded p-2 text-sm"
+                    >
+                </div>
+
+                <!-- Tanggal Keluar -->
+                <div>
+                    <label class="text-sm font-medium flex items-center gap-1">
+                        <i data-lucide="calendar-minus" class="w-4 h-4"></i>
+                        Tanggal Keluar
+                    </label>
+                    <input 
+                        type="date"
+                        name="tanggalKeluar"
+                        value="{{ request('tanggalKeluar') }}"
+                        class="w-full border border-gray-300 rounded p-2 text-sm"
+                    >
+                </div>
+
             </div>
 
-        </div>
+            <div class="flex gap-4 mt-4">
 
-        <div class="flex gap-4 mt-4">
-            <button class="flex-1 bg-white p-2 rounded-md shadow font-medium hover:bg-gray-300 flex items-center justify-center gap-2">
-                <i data-lucide="eye" class="w-5 h-5"></i>
-                Tampilkan
-            </button>
+                <!-- TAMPILKAN -->
+                <button type="submit"
+                class="flex-1 bg-white p-2 rounded-md shadow font-medium hover:bg-gray-300 flex items-center justify-center gap-2">
+                    <i data-lucide="eye" class="w-5 h-5"></i>
+                    Tampilkan
+                </button>
 
-            <button 
-                onclick="resetFilter()"
-                class="flex-1 bg-white p-2 border border-gray-400 rounded-md shadow font-medium hover:bg-gray-300 flex items-center justify-center gap-2">
-                <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
-                Reset Filter
-            </button>
-        </div>
+                <!-- RESET -->
+                <a href="{{ url()->current() }}"
+                    class="flex-1 bg-white p-2 border border-gray-400 rounded-md shadow font-medium hover:bg-gray-300 flex items-center justify-center gap-2">
+                    <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+                    Reset Filter
+                </a>
+
+            </div>
+
+        </form>
+
     </div>
-
-    <!-- RESET SCRIPT -->
-    <script>
-        function resetFilter() {
-            document.getElementById('tanggalMasuk').value = "";
-            document.getElementById('tanggalKeluar').value = "";
-        }
-    </script>
 
     <!-- Card Background -->
     <div class="bg-[#E5E5E5] p-6 rounded-xl shadow-md mt-6">
@@ -187,20 +190,30 @@
         <!-- Tombol Cetak -->
         <div class="flex justify-end gap-3 mb-4">
             <!-- Cetak Excel -->
-            <button
+            {{-- <button
                 class="flex items-center gap-2 bg-green-600 text-white px-4 py-1.5 text-sm rounded-md shadow
                     hover:bg-green-700 transition font-medium">
                 <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
                 Cetak Excel
-            </button>
+            </button> --}}
+            <a href="/laporan/barangkeluar/excel?tanggalMasuk={{ request('tanggalMasuk') }}&tanggalKeluar={{ request('tanggalKeluar') }}"
+                class="flex items-center gap-2 bg-green-600 text-white px-4 py-1.5 text-sm rounded-md shadow hover:bg-green-700 transition font-medium">
+                <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+                Cetak Excel
+            </a>
 
             <!-- Cetak PDF -->
-            <button
+            {{-- <button
                 class="flex items-center gap-2 bg-red-600 text-white px-4 py-1.5 text-sm rounded-md shadow
                     hover:bg-red-700 transition font-medium">
                 <i data-lucide="file-text" class="w-4 h-4"></i>
                 Cetak PDF
-            </button>
+            </button> --}}
+            <a href="/laporan/barangkeluar/pdf?tanggalMasuk={{ request('tanggalMasuk') }}&tanggalKeluar={{ request('tanggalKeluar') }}"
+                class="flex items-center gap-2 bg-red-600 text-white px-4 py-1.5 text-sm rounded-md shadow hover:bg-red-700 transition font-medium">
+                <i data-lucide="file-text" class="w-4 h-4"></i>
+                Cetak PDF
+            </a>
         </div>
 
         <!-- Table -->
