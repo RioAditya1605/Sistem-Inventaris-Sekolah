@@ -8,25 +8,47 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BarangMasukExport;
 use App\Exports\BarangKeluarExport;
+use App\Models\BarangKeluar;
 
 class LaporanController extends Controller
 {
     // =============================
     // LAPORAN BARANG MASUK
     // =============================
+    // public function barangMasuk(Request $request)
+    // {
+    //     $query = Inventaris::query();
+
+    //     if ($request->tanggalMasuk) {
+    //         $query->whereDate('tanggal_masuk', '>=', $request->tanggalMasuk);
+    //     }
+
+    //     if ($request->tanggalKeluar) {
+    //         $query->whereDate('tanggal_masuk', '<=', $request->tanggalKeluar);
+    //     }
+
+    //     $inventaris = $query->get();
+
+    //     return view('laporanbarangmasuk', compact('inventaris'));
+    // }
     public function barangMasuk(Request $request)
     {
-        $query = Inventaris::query();
+        $inventaris = collect(); // default kosong
 
-        if ($request->tanggalMasuk) {
-            $query->whereDate('tanggal_masuk', '>=', $request->tanggalMasuk);
+        if ($request->filled('tanggalMasuk') || $request->filled('tanggalKeluar')) {
+
+            $query = Inventaris::query();
+
+            if ($request->filled('tanggalMasuk')) {
+                $query->whereDate('tanggal_masuk', '>=', $request->tanggalMasuk);
+            }
+
+            if ($request->filled('tanggalKeluar')) {
+                $query->whereDate('tanggal_masuk', '<=', $request->tanggalKeluar);
+            }
+
+            $inventaris = $query->get();
         }
-
-        if ($request->tanggalKeluar) {
-            $query->whereDate('tanggal_masuk', '<=', $request->tanggalKeluar);
-        }
-
-        $inventaris = $query->get();
 
         return view('laporanbarangmasuk', compact('inventaris'));
     }
@@ -63,21 +85,7 @@ class LaporanController extends Controller
     // =============================
     public function barangKeluar(Request $request)
     {
-        // // DIUBAH
-        // $query = Inventaris::whereNotNull('tanggal_keluar');
-
-        // // DIUBAH
-        // if ($request->filled('tanggalMasuk')) {
-        //     $query->whereDate('tanggal_keluar', '>=', $request->tanggalMasuk);
-        // }
-
-        // // DIUBAH
-        // if ($request->filled('tanggalKeluar')) {
-        //     $query->whereDate('tanggal_keluar', '<=', $request->tanggalKeluar);
-        // }
-
-        // $inventaris = $query->get();
-        $query = Inventaris::whereNotNull('tanggal_keluar');
+        $query = BarangKeluar::with('inventaris');
 
         if ($request->filled('tanggalMasuk')) {
             $query->whereDate('tanggal_keluar', '>=', $request->tanggalMasuk);
@@ -102,7 +110,8 @@ class LaporanController extends Controller
 
     public function exportPdfBarangKeluar(Request $request)
     {
-        $query = Inventaris::query();
+        // $query = Inventaris::query();
+        $query = BarangKeluar::with('inventaris');
 
         if ($request->tanggalMasuk) {
             $query->whereDate('tanggal_keluar', '>=', $request->tanggalMasuk);

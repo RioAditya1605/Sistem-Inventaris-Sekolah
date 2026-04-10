@@ -331,16 +331,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
             {{-- ADMIN & KEPSEK --}}
             @if(in_array(auth()->user()->role, ['admin','kepsek']))
-                <a href="{{ url('laporanbarangmasuk') }}"
+                <a href="{{ url('laporan/barangmasuk') }}"
                    class="flex items-center px-4 py-2 rounded-md transition
-                   {{ request()->is('laporanbarangmasuk') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
+                   {{ request()->is('laporan/barangmasuk') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
                     <i data-lucide="file-input" class="icon-sidebar w-5 h-5 mr-2"></i>
                     <span class="sidebar-text">Laporan Barang Masuk</span>
                 </a>
 
-                <a href="{{ url('laporanbarangkeluar') }}"
+                <a href="{{ url('laporan/barangkeluar') }}"
                    class="flex items-center px-4 py-2 rounded-md transition
-                   {{ request()->is('laporanbarangkeluar') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
+                   {{ request()->is('laporan/barangkeluar') ? 'bg-white text-gray-900' : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
                     <i data-lucide="file-output" class="icon-sidebar w-5 h-5 mr-2"></i>
                     <span class="sidebar-text">Laporan Barang Keluar</span>
                 </a>

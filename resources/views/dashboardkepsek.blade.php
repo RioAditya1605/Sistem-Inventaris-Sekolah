@@ -52,8 +52,9 @@
     <!-- Card 1: Total Barang -->
     <div class="relative overflow-hidden group p-4 rounded-lg shadow bg-gray-300 
                 flex items-center transform transition duration-300 
-                hover:scale-105 hover:shadow-xl">
-        <div class="absolute inset-0 bg-[#4A70A9] translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
+                hover:scale-105 hover:shadow-xl
+                hover:bg-[#4A70A9] group">
+        {{-- <div class="absolute inset-0 bg-[#4A70A9] translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div> --}}
 
         <div class="flex-shrink-0 relative z-10">
             <i data-lucide="package" class="w-12 h-12 text-gray-700 group-hover:text-white transition"></i>
@@ -68,8 +69,9 @@
     <!-- Card 2 -->
     <div class="relative overflow-hidden group p-4 rounded-lg shadow bg-gray-300 
                 flex items-center transform transition duration-300 
-                hover:scale-105 hover:shadow-xl">
-        <div class="absolute inset-0 bg-[#4A70A9] translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
+                hover:scale-105 hover:shadow-xl
+                hover:bg-[#4A70A9] group">
+        {{-- <div class="absolute inset-0 bg-[#4A70A9] translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div> --}}
 
         <div class="flex-shrink-0 relative z-10">
             <i data-lucide="check-circle" class="w-12 h-12 text-gray-700 group-hover:text-green-400 transition"></i>
@@ -84,8 +86,9 @@
     <!-- Card 3 -->
     <div class="relative overflow-hidden group p-4 rounded-lg shadow bg-gray-300 
                 flex items-center transform transition duration-300 
-                hover:scale-105 hover:shadow-xl">
-        <div class="absolute inset-0 bg-[#4A70A9] translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
+                hover:scale-105 hover:shadow-xl
+                hover:bg-[#4A70A9] group">
+        {{-- <div class="absolute inset-0 bg-[#4A70A9] translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div> --}}
 
         <div class="flex-shrink-0 relative z-10">
             <i data-lucide="alert-circle" class="w-12 h-12 text-gray-700 group-hover:text-yellow-500 transition"></i>
@@ -100,8 +103,9 @@
     <!-- Card 4 -->
     <div class="relative overflow-hidden group p-4 rounded-lg shadow bg-gray-300 
                 flex items-center transform transition duration-300 
-                hover:scale-105 hover:shadow-xl">
-        <div class="absolute inset-0 bg-[#4A70A9] translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
+                hover:scale-105 hover:shadow-xl
+                hover:bg-[#4A70A9] group">
+        {{-- <div class="absolute inset-0 bg-[#4A70A9] translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div> --}}
 
         <div class="flex-shrink-0 relative z-10">
             <i data-lucide="shield-alert" class="w-12 h-12 text-gray-700 group-hover:text-red-500 transition"></i>

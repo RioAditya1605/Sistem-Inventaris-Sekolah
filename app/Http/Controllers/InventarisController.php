@@ -189,40 +189,6 @@ class InventarisController extends Controller
     }
 
     // =========================
-    // LAPORAN BARANG MASUK
-    // =========================
-    public function laporanMasuk(Request $request)
-    {
-        // $query = Inventaris::whereNotNull('tanggal_masuk');
-         $query = BarangMasuk::with('inventaris');
-
-        if ($request->tanggal_masuk) {
-            $query->whereDate('tanggal_masuk', $request->tanggal_masuk);
-        }
-
-        $inventaris = $query->latest()->get();
-
-        return view('laporanbarangmasuk', compact('inventaris'));
-    }
-
-    // =========================
-    // LAPORAN BARANG KELUAR
-    // =========================
-    public function laporanKeluar(Request $request)
-    {
-        // $query = Inventaris::whereNotNull('tanggal_keluar');
-        $query = BarangKeluar::with('inventaris');
-
-        if ($request->tanggal_keluar) {
-            $query->whereDate('tanggal_keluar', $request->tanggal_keluar);
-        }
-
-        $inventaris = $query->latest()->get();
-
-        return view('laporanbarangkeluar', compact('inventaris'));
-    }
-
-    // =========================
     // DELETE
     // =========================
     public function destroy($id)

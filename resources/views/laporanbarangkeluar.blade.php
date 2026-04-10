@@ -120,7 +120,7 @@
         <h1 class="text-3xl font-semibold">Laporan Barang Keluar</h1>
     </div>
 
-     <!-- FILTER BOX -->
+    <!-- FILTER BOX -->
     <div class="bg-gray-200 rounded-lg shadow p-6 space-y-6 w-full">
 
         <form method="GET" action="/laporan/barangkeluar">
@@ -136,7 +136,7 @@
                 <div>
                     <label class="text-sm font-medium flex items-center gap-1">
                         <i data-lucide="calendar-plus" class="w-4 h-4"></i>
-                        Tanggal Masuk
+                        Tanggal Keluar Dari
                     </label>
                     <input 
                         type="date"
@@ -150,7 +150,7 @@
                 <div>
                     <label class="text-sm font-medium flex items-center gap-1">
                         <i data-lucide="calendar-minus" class="w-4 h-4"></i>
-                        Tanggal Keluar
+                        Tanggal Keluar Sampai
                     </label>
                     <input 
                         type="date"
@@ -188,6 +188,7 @@
     <div class="bg-[#E5E5E5] p-6 rounded-xl shadow-md mt-6">
 
         <!-- Tombol Cetak -->
+        @if(request()->tanggalMasuk || request()->tanggalKeluar)
         <div class="flex justify-end gap-3 mb-4">
             <!-- Cetak Excel -->
             {{-- <button
@@ -215,8 +216,10 @@
                 Cetak PDF
             </a>
         </div>
+        @endif
 
         <!-- Table -->
+        @if(request()->tanggalMasuk || request()->tanggalKeluar)
         <div class="overflow-x-auto rounded-lg">
             <table class="w-full text-sm text-left bg-gray-300 rounded-lg shadow">
 
@@ -276,29 +279,48 @@
 
 
                <tbody>
-                @foreach ($inventaris as $item)
-                <tr class="border-b border-gray-400">
-                    <td class="py-2 px-3">{{ $loop->iteration }}</td>
-                    <td class="py-2 px-3">{{ $item->kode }}</td>
-                    <td class="py-2 px-3">{{ $item->nama }}</td>
-                    <td class="py-2 px-3">{{ $item->tanggal_keluar ?? '-' }}</td>
-                    <td class="py-2 px-3">{{ $item->kondisi }}</td>
-                    <td class="py-2 px-3">{{ $item->jumlah }}</td>
-                    <td class="py-2 px-3">{{ $item->lokasi }}</td>
+                    @if($inventaris->isEmpty())
+                        <tr>
+                            <td colspan="7" class="text-center py-4 text-gray-600">
+                                Data tidak ditemukan
+                            </td>
+                        </tr>
+                    @endif
 
-                    <td class="py-2 px-3 flex gap-3">
-                        <!-- EDIT -->
-                        <a href="#" class="text-blue-600 hover:text-blue-800">
-                            <i data-lucide="pencil" class="w-5 h-5"></i>
-                        </a>
-                    </td>
-                </tr>
-                @endforeach
+                    @foreach ($inventaris as $item)
+                        <tr class="border-b border-gray-400">
+                            <td class="py-2 px-3">{{ $loop->iteration }}</td>
+
+                            <!-- ambil dari relasi inventaris -->
+                            <td class="py-2 px-3">{{ $item->inventaris->kode }}</td>
+                            <td class="py-2 px-3">{{ $item->inventaris->nama }}</td>
+
+                            <!-- ini dari barang_keluar -->
+                            <td class="py-2 px-3">{{ $item->tanggal_keluar }}</td>
+
+                            <td class="py-2 px-3">{{ $item->inventaris->kondisi }}</td>
+                            <td class="py-2 px-3">{{ $item->jumlah_keluar }}</td>
+                            <td class="py-2 px-3">{{ $item->inventaris->lokasi }}</td>
+
+                            <td class="py-2 px-3 flex gap-3">
+                                <!-- EDIT -->
+                                <a href="#" class="text-blue-600 hover:text-blue-800">
+                                    <i data-lucide="pencil" class="w-5 h-5"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
 
 
             </table>
         </div>
+        @else
+            {{-- 🔥 Tampilan awal --}}
+            <div class="text-center text-gray-500 mt-6">
+                Silakan pilih tanggal lalu klik <b>Tampilkan</b>
+            </div>
+        @endif
     </div>
 
 </section>

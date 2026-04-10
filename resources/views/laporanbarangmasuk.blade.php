@@ -136,7 +136,7 @@
                 <div>
                     <label class="text-sm font-medium flex items-center gap-1">
                         <i data-lucide="calendar-plus" class="w-4 h-4"></i>
-                        Tanggal Masuk
+                        Tanggal Masuk Dari
                     </label>
                     <input 
                         type="date"
@@ -150,7 +150,7 @@
                 <div>
                     <label class="text-sm font-medium flex items-center gap-1">
                         <i data-lucide="calendar-minus" class="w-4 h-4"></i>
-                        Tanggal Keluar
+                        Tanggal Masuk Sampai
                     </label>
                     <input 
                         type="date"
@@ -188,6 +188,7 @@
     <div class="bg-[#E5E5E5] p-6 rounded-xl shadow-md mt-6">
 
         <!-- Tombol Cetak -->
+        @if(request()->tanggalMasuk || request()->tanggalKeluar)
         <div class="flex justify-end gap-3 mb-4">
             <!-- Cetak Excel -->
             {{-- <button
@@ -215,8 +216,10 @@
                 Cetak PDF
             </a>
         </div>
+        @endif
 
         <!-- Table -->
+        @if(request()->tanggalMasuk || request()->tanggalKeluar)
         <div class="overflow-x-auto rounded-lg">
             <table class="w-full text-sm text-left bg-gray-300 rounded-lg shadow">
 
@@ -276,6 +279,14 @@
 
 
                 <tbody>
+                    @if($inventaris->isEmpty())
+                        <tr>
+                            <td colspan="7" class="text-center py-4 text-gray-600">
+                                Data tidak ditemukan
+                            </td>
+                        </tr>
+                    @endif
+
                 @foreach ($inventaris as $item)
                 <tr class="border-b border-gray-400">
                     <td class="py-2 px-3">{{ $loop->iteration }}</td>
@@ -298,6 +309,12 @@
 
             </table>
         </div>
+        @else
+            {{-- 🔥 Tampilan awal --}}
+            <div class="text-center text-gray-500 mt-6">
+                Silakan pilih tanggal lalu klik <b>Tampilkan</b>
+            </div>
+        @endif
     </div>
 
 </section>

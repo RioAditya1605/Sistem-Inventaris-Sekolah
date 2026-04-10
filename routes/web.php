@@ -279,11 +279,11 @@ Route::middleware(['auth', 'role:admin,kepsek'])->group(function () {
     Route::get('/kepsek', [DashboardController::class,'index'])->name('kepsek.dashboard');
 
     // LAPORAN (READ + FILTER)
-    Route::get('/laporanbarangmasuk', [InventarisController::class, 'laporanMasuk'])
-        ->name('laporan.masuk');
+    // Route::get('/laporanbarangmasuk', [InventarisController::class, 'laporanMasuk'])
+    //     ->name('laporan.masuk');
 
-    Route::get('/laporanbarangkeluar', [InventarisController::class, 'laporanKeluar'])
-        ->name('laporan.keluar');
+    // Route::get('/laporanbarangkeluar', [InventarisController::class, 'laporanKeluar'])
+    //     ->name('laporan.keluar');
 
     Route::get('/logaktivitas', [InventarisController::class, 'logAktivitas']);
     
