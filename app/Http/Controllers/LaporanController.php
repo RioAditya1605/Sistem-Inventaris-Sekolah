@@ -75,7 +75,12 @@ class LaporanController extends Controller
 
         $inventaris = $query->get();
 
-        $pdf = Pdf::loadView('laporan.pdf_barang_masuk', compact('inventaris'));
+        // $pdf = Pdf::loadView('laporan.pdf_barang_masuk', compact('inventaris'));
+        $pdf = Pdf::loadView('laporan.pdf_barang_masuk', [
+            'inventaris' => $inventaris,
+            'tanggalAwal' => $request->tanggalMasuk,
+            'tanggalAkhir' => $request->tanggalKeluar
+        ]);
 
         return $pdf->download('laporan_barang_masuk.pdf');
     }
@@ -123,7 +128,11 @@ class LaporanController extends Controller
 
         $inventaris = $query->get();
 
-        $pdf = Pdf::loadView('laporan.pdf_barang_keluar', compact('inventaris'));
+        $pdf = Pdf::loadView('laporan.pdf_barang_keluar', [
+            'inventaris' => $inventaris,
+            'tanggalAwal' => $request->tanggalMasuk,
+            'tanggalAkhir' => $request->tanggalKeluar
+        ]);
 
         return $pdf->download('laporan_barang_keluar.pdf');
     }

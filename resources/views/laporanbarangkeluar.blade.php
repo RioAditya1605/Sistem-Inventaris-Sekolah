@@ -183,39 +183,43 @@
         </form>
 
     </div>
-
+    
     <!-- Card Background -->
     <div class="bg-[#E5E5E5] p-6 rounded-xl shadow-md mt-6">
 
         <!-- Tombol Cetak -->
-        @if(request()->tanggalMasuk || request()->tanggalKeluar)
-        <div class="flex justify-end gap-3 mb-4">
-            <!-- Cetak Excel -->
-            {{-- <button
-                class="flex items-center gap-2 bg-green-600 text-white px-4 py-1.5 text-sm rounded-md shadow
-                    hover:bg-green-700 transition font-medium">
-                <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
-                Cetak Excel
-            </button> --}}
-            <a href="/laporan/barangkeluar/excel?tanggalMasuk={{ request('tanggalMasuk') }}&tanggalKeluar={{ request('tanggalKeluar') }}"
-                class="flex items-center gap-2 bg-green-600 text-white px-4 py-1.5 text-sm rounded-md shadow hover:bg-green-700 transition font-medium">
-                <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
-                Cetak Excel
-            </a>
+        @if(request()->filled('tanggalMasuk') || request()->filled('tanggalKeluar'))
+            <div class="flex justify-between items-center mb-4">
 
-            <!-- Cetak PDF -->
-            {{-- <button
-                class="flex items-center gap-2 bg-red-600 text-white px-4 py-1.5 text-sm rounded-md shadow
-                    hover:bg-red-700 transition font-medium">
-                <i data-lucide="file-text" class="w-4 h-4"></i>
-                Cetak PDF
-            </button> --}}
-            <a href="/laporan/barangkeluar/pdf?tanggalMasuk={{ request('tanggalMasuk') }}&tanggalKeluar={{ request('tanggalKeluar') }}"
-                class="flex items-center gap-2 bg-red-600 text-white px-4 py-1.5 text-sm rounded-md shadow hover:bg-red-700 transition font-medium">
-                <i data-lucide="file-text" class="w-4 h-4"></i>
-                Cetak PDF
-            </a>
-        </div>
+                <!-- KIRI: PERIODE & TOTAL -->
+                <div>
+                    <p class="text-sm text-gray-700">
+                        <strong>Periode:</strong>
+                        {{ request('tanggalMasuk') ?? '-' }} 
+                        s/d 
+                        {{ request('tanggalKeluar') ?? '-' }}
+                    </p>
+
+                    <p class="text-sm text-gray-700">
+                        <strong>Total Barang Keluar:</strong> 
+                        {{ $inventaris->sum('jumlah_keluar') }} unit
+                    </p>
+                </div>
+
+                <!-- KANAN: TOMBOL -->
+                <div class="flex gap-3">
+                    <a href="/laporan/barangkeluar/excel?tanggalMasuk={{ request('tanggalMasuk') }}&tanggalKeluar={{ request('tanggalKeluar') }}"
+                        class="flex items-center gap-2 bg-green-600 text-white px-4 py-1.5 text-sm rounded-md shadow hover:bg-green-700 transition font-medium">
+                        Cetak Excel
+                    </a>
+
+                    <a href="/laporan/barangkeluar/pdf?tanggalMasuk={{ request('tanggalMasuk') }}&tanggalKeluar={{ request('tanggalKeluar') }}"
+                        class="flex items-center gap-2 bg-red-600 text-white px-4 py-1.5 text-sm rounded-md shadow hover:bg-red-700 transition font-medium">
+                        Cetak PDF
+                    </a>
+                </div>
+
+            </div>
         @endif
 
         <!-- Table -->
@@ -316,8 +320,7 @@
             </table>
         </div>
         @else
-            {{-- 🔥 Tampilan awal --}}
-            <div class="text-center text-gray-500 mt-6">
+            <div class="flex justify-center items-center h-8 text-gray-500">
                 Silakan pilih tanggal lalu klik <b>Tampilkan</b>
             </div>
         @endif

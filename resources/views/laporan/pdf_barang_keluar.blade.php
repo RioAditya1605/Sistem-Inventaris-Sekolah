@@ -1,33 +1,3 @@
-{{-- <h2 style="text-align:center;">Laporan Barang Masuk</h2>
-
-<table border="1" width="100%" cellspacing="0" cellpadding="5">
-<thead>
-<tr>
-<th>No</th>
-<th>Kode</th>
-<th>Nama</th>
-<th>Tanggal Masuk</th>
-<th>Kondisi</th>
-<th>Jumlah</th>
-<th>Lokasi</th>
-</tr>
-</thead>
-
-<tbody>
-@foreach ($inventaris as $item)
-<tr>
-<td>{{ $loop->iteration }}</td>
-<td>{{ $item->kode }}</td>
-<td>{{ $item->nama }}</td>
-<td>{{ $item->tanggal_masuk }}</td>
-<td>{{ $item->kondisi }}</td>
-<td>{{ $item->jumlah }}</td>
-<td>{{ $item->lokasi }}</td>
-</tr>
-@endforeach
-</tbody>
-</table> --}}
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,7 +46,7 @@
 <body>
 
     <!-- JUDUL -->
-    <h3 class="center"><b>BERITA ACARA SERAH TERIMA BARANG</b></h3>
+    <h3 class="center"><b>BERITA ACARA PENGELUARAN BARANG</b></h3>
 
     <!-- PEMBUKA -->
     <p>
@@ -122,12 +92,17 @@
 
     <!-- ISI -->
     <p>
-        PIHAK PERTAMA menyerahkan barang kepada PIHAK KEDUA, dan PIHAK KEDUA menyatakan telah menerima barang dari PIHAK PERTAMA dengan baik sesuai dengan informasi yang tercantum di dalam daftar terlampir:
+        PIHAK PERTAMA menyerahkan barang keluar kepada PIHAK KEDUA, dan PIHAK KEDUA 
+        menyatakan telah menerima barang dari PIHAK PERTAMA dengan baik sesuai 
+        dengan informasi yang tercantum di dalam daftar terlampir:
     </p>
 
     <!-- PENUTUP -->
     <p>
-        Demikian berita acara serah terima barang ini telah dibuat oleh kedua belah pihak, adapun barang-barang tersebut diserahkan dalam keadaan baik dan lengkap, sejak penandatanganan berita acara ini, maka barang tersebut, menjadi tanggung jawab dari PIHAK KEDUA, wajib untuk memelihara/ merawat dengan baik serta dipergunakan untuk keperluan sebagaimana mestinya.
+        Demikian berita acara pengeluaran barang ini telah dibuat oleh kedua belah pihak, 
+        adapun barang-barang tersebut diserahkan dalam keadaan baik dan lengkap, sejak 
+        penandatanganan berita acara ini, maka barang tersebut menjadi tanggung jawab 
+        dari PIHAK KEDUA.
     </p>
 
     <!-- TTD ATAS -->
@@ -156,20 +131,15 @@
             <tr>
                 <th style="width: 40px;">NO</th>
                 <th>NAMA BARANG</th>
-                <th>JUMLAH</th>
+                <th style="width: 80px;">JUMLAH</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($inventaris as $item)
             <tr>
                 <td style="width: 40px;">{{ $loop->iteration }}</td>
-                <td>
-                    {{ $item->nama }} 
-                    @if($item->harga ?? false)
-                        @Rp.{{ number_format($item->harga,0,',','.') }}
-                    @endif
-                </td>
-                <td>{{ $item->jumlah }} buah</td>
+                <td>{{ $item->inventaris->nama }}</td>
+                <td>{{ $item->jumlah_keluar ?? '0' }} buah</td>
             </tr>
             @endforeach
         </tbody>
