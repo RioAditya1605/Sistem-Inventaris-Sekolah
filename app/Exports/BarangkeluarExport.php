@@ -74,15 +74,15 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
 
         $data = [];
 
-        // 🔥 JUDUL
+        //JUDUL
         $data[] = ['LAPORAN BARANG KELUAR'];
         $data[] = ['Periode: ' . ($this->tanggalAwal ?? '-') . ' s/d ' . ($this->tanggalAkhir ?? '-')];
-        $data[] = []; // kosong
+        $data[] = [' ']; // kosong
 
-        // 🔥 HEADER TABEL
+        //HEADER TABEL
         $data[] = ['No', 'Kode Barang', 'Nama Barang', 'Tanggal Keluar', 'Kondisi', 'Jumlah', 'Lokasi'];
 
-        // 🔥 DATA
+        //DATA
         foreach ($query->get() as $index => $item) {
             $data[] = [
                 $index + 1,
@@ -108,8 +108,8 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
             // Periode
             2 => ['font' => ['italic' => true]],
 
-            // Header tabel (baris ke 3)
-            3 => ['font' => ['bold' => true]],
+            // Header tabel (baris ke 4)
+            4 => ['font' => ['bold' => true]],
         ];
     }
 
@@ -138,7 +138,7 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
                 $totalRows = $sheet->getHighestRow();
 
                 // 🔥 Border dari header sampai data terakhir
-                $sheet->getStyle('A3:G' . $totalRows)->applyFromArray([
+                $sheet->getStyle('A4:G' . $totalRows)->applyFromArray([
                     'borders' => [
                         'allBorders' => [
                             'borderStyle' => 'thin',
@@ -147,26 +147,89 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
                 ]);
 
                 // 🔥 Rata tengah kolom No & Jumlah
-                $sheet->getStyle('A3:G3')
+                $sheet->getStyle('A4:G4')
                     ->getAlignment()
                     ->setHorizontal('center');
                 // Tengah
-                $sheet->getStyle('A4:A' . $totalRows)->getAlignment()->setHorizontal('center'); // No
-                $sheet->getStyle('B4:B' . $totalRows)->getAlignment()->setHorizontal('center'); // Kode
-                $sheet->getStyle('D4:D' . $totalRows)->getAlignment()->setHorizontal('center'); // Tanggal
-                $sheet->getStyle('F4:F' . $totalRows)->getAlignment()->setHorizontal('center'); // Jumlah
+                $sheet->getStyle('A5:A' . $totalRows)->getAlignment()->setHorizontal('center'); // No
+                $sheet->getStyle('B5:B' . $totalRows)->getAlignment()->setHorizontal('center'); // Kode
+                $sheet->getStyle('D5:D' . $totalRows)->getAlignment()->setHorizontal('center'); // Tanggal
+                $sheet->getStyle('F5:F' . $totalRows)->getAlignment()->setHorizontal('center'); // Jumlah
 
                 // 🔥 Kiri (mepet kiri tabel)
-                $sheet->getStyle('C4:C' . $totalRows)->getAlignment()->setHorizontal('left'); // Nama Barang
-                $sheet->getStyle('E4:E' . $totalRows)->getAlignment()->setHorizontal('left'); // Kondisi
-                $sheet->getStyle('G4:G' . $totalRows)->getAlignment()->setHorizontal('left'); // Lokasi
+                $sheet->getStyle('C5:C' . $totalRows)->getAlignment()->setHorizontal('left'); // Nama Barang
+                $sheet->getStyle('E5:E' . $totalRows)->getAlignment()->setHorizontal('left'); // Kondisi
+                $sheet->getStyle('G5:G' . $totalRows)->getAlignment()->setHorizontal('left'); // Lokasi
 
-                $sheet->getStyle('C4:C' . $totalRows)->getAlignment()->setIndent(1);
-                $sheet->getStyle('E4:E' . $totalRows)->getAlignment()->setIndent(1);
-                $sheet->getStyle('G4:G' . $totalRows)->getAlignment()->setIndent(1);
+                $sheet->getStyle('C5:C' . $totalRows)->getAlignment()->setIndent(1);
+                $sheet->getStyle('E5:E' . $totalRows)->getAlignment()->setIndent(1);
+                $sheet->getStyle('G5:G' . $totalRows)->getAlignment()->setIndent(1);
 
                 $sheet->mergeCells('A1:G1');
                 $sheet->getStyle('A1')->getAlignment()->setHorizontal('center');
+
+                // =====================================
+                // 🔥 TANDA TANGAN (AMAN & TIDAK MASUK TABEL)
+                // =====================================
+
+                $lastTableRow = $sheet->getHighestRow();
+                $ttdStart = $lastTableRow + 2;
+
+                // ======================
+                // 🔥 KOLOM B (KEPSEK)
+                // ======================
+                $sheet->setCellValue('B' . $ttdStart, 'MENGETAHUI');
+                $sheet->setCellValue('B' . ($ttdStart + 1), 'KEPALA SDN 1 KESUMADADI');
+
+                // Spasi tanda tangan
+                $sheet->setCellValue('B' . ($ttdStart + 2), '');
+                $sheet->setCellValue('B' . ($ttdStart + 3), '');
+                $sheet->setCellValue('B' . ($ttdStart + 4), '');
+
+                // Nama
+                $sheet->setCellValue('B' . ($ttdStart + 5), 'SUMARTI, S.Pd');
+
+                // NIP
+                $sheet->setCellValue('B' . ($ttdStart + 6), 'NIP. 19711216 202221 2 005');
+
+
+                // ======================
+                // 🔥 KOLOM G (PENGURUS)
+                // ======================
+                $sheet->setCellValue('G' . $ttdStart, 'Kesumadadi, ' . date('d F Y'));
+                $sheet->setCellValue('G' . ($ttdStart + 1), 'PENGURUS BARANG');
+
+                // Spasi tanda tangan
+                $sheet->setCellValue('G' . ($ttdStart + 2), '');
+                $sheet->setCellValue('G' . ($ttdStart + 3), '');
+                $sheet->setCellValue('G' . ($ttdStart + 4), '');
+
+                // Nama
+                $sheet->setCellValue('G' . ($ttdStart + 5), 'SRI INDARTI, S.Pd');
+
+                // NIP
+                $sheet->setCellValue('G' . ($ttdStart + 6), 'NIP. 19670502 201410 2 003');
+
+
+                // ======================
+                // 🔥 ALIGNMENT
+                // ======================
+
+                // Kepsek (kolom B) rata kiri
+                $sheet->getStyle('B' . $ttdStart . ':B' . ($ttdStart + 6))
+                    ->getAlignment()->setHorizontal('left');
+
+                // Pengurus (kolom G) tetap di kanan area tapi teks rata kiri
+                $sheet->getStyle('G' . $ttdStart . ':G' . ($ttdStart + 6))
+                    ->getAlignment()->setHorizontal('left');
+
+                // Nama bold
+                $sheet->getStyle('B' . ($ttdStart + 5))->getFont()->setBold(true);
+                $sheet->getStyle('G' . ($ttdStart + 5))->getFont()->setBold(true);
+
+                // 🔥 HILANGKAN GARIS DEFAULT EXCEL
+                $event->sheet->getDelegate()->setShowGridlines(false);
+                
             }
         ];
     }
