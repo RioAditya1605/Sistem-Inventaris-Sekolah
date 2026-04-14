@@ -196,6 +196,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InventarisController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -262,7 +263,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/admin', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-    Route::get('/manajemenuser', fn () => view('manajemenuser'));
+    //Route::get('/manajemenuser', fn () => view('manajemenuser'));
 
     Route::get('/laporan/download', fn () => view('laporandownload'));
 
@@ -330,3 +331,13 @@ Route::get('/laporan/barangkeluar', [LaporanController::class, 'barangKeluar']);
 Route::get('/laporan/barangkeluar/excel', [LaporanController::class, 'exportExcelBarangKeluar']);
 Route::get('/laporan/barangkeluar/pdf', [LaporanController::class, 'exportPdfBarangKeluar']);
 
+Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
+
+Route::get('/manajemenuser', [UserController::class, 'index']);
+
+// button edit dan hapus manajemen user
+Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.delete');
+Route::post('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
+
+Route::post('/user/update/{id}', [UserController::class, 'update']);
+Route::delete('/user/{id}', [UserController::class, 'destroy']);

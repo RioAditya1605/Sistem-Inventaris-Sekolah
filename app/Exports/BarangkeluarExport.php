@@ -187,10 +187,10 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
                 $sheet->setCellValue('B' . ($ttdStart + 4), '');
 
                 // Nama
-                $sheet->setCellValue('B' . ($ttdStart + 5), 'SUMARTI, S.Pd');
+                $sheet->setCellValue('B' . ($ttdStart + 5), '__________________');
 
                 // NIP
-                $sheet->setCellValue('B' . ($ttdStart + 6), 'NIP. 19711216 202221 2 005');
+                $sheet->setCellValue('B' . ($ttdStart + 6), 'NIP.                   ');
 
 
                 // ======================
@@ -205,10 +205,10 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
                 $sheet->setCellValue('G' . ($ttdStart + 4), '');
 
                 // Nama
-                $sheet->setCellValue('G' . ($ttdStart + 5), 'SRI INDARTI, S.Pd');
+                $sheet->setCellValue('G' . ($ttdStart + 5), '__________________');
 
                 // NIP
-                $sheet->setCellValue('G' . ($ttdStart + 6), 'NIP. 19670502 201410 2 003');
+                $sheet->setCellValue('G' . ($ttdStart + 6), 'NIP.                   ');
 
 
                 // ======================

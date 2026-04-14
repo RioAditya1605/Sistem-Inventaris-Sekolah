@@ -58,7 +58,7 @@
     <table class="no-border">
         <tr>
             <td width="20%">Nama</td>
-            <td>: HARI JATMIKO, S.Pd.</td>
+            <td>: __________________</td>
         </tr>
         <tr>
             <td>Jabatan</td>
@@ -76,7 +76,7 @@
     <table class="no-border">
         <tr>
             <td width="20%">Nama</td>
-            <td>: SRI INDARTI, S.Pd</td>
+            <td>: __________________</td>
         </tr>
         <tr>
             <td>Jabatan</td>
