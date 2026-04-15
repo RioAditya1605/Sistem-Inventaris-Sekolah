@@ -141,38 +141,6 @@
             </div>
         </div>
 
-        @if(session('success'))
-        <div id="successPopup"
-            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-
-            <div class="bg-white p-6 rounded-lg shadow-lg text-center w-80">
-                <h2 class="text-lg font-semibold text-green-600 mb-2">Berhasil</h2>
-                <p class="text-gray-700 mb-4">{{ session('success') }}</p>
-
-                <button onclick="closePopup('successPopup')"
-                    class="px-4 py-2 bg-green-500 text-white rounded">
-                    OK
-                </button>
-            </div>
-        </div>
-        @endif
-
-        @if(session('error'))
-        <div id="errorPopup"
-            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-
-            <div class="bg-white p-6 rounded-lg shadow-lg text-center w-80">
-                <h2 class="text-lg font-semibold text-red-600 mb-2">Gagal</h2>
-                <p class="text-gray-700 mb-4">{{ session('error') }}</p>
-
-                <button onclick="closePopup('errorPopup')"
-                    class="px-4 py-2 bg-red-500 text-white rounded">
-                    OK
-                </button>
-            </div>
-        </div>
-        @endif
-
         <!-- Card Background -->
         <div class="bg-[#E5E5E5] p-6 rounded-xl shadow-md mt-6">
 
@@ -360,7 +328,7 @@
                             class="border p-2 rounded w-full">
                             <option value="admin">Admin</option>
                             <option value="kepsek">Kepsek</option>
-                            <option value="staff">Staff</option>
+                            <option value="staf">Staf</option>
                         </select>
 
                     </div>
@@ -427,13 +395,13 @@
         }
 
         // auto close 3 detik
-        setTimeout(() => {
-            let success = document.getElementById('successPopup');
-            let error = document.getElementById('errorPopup');
+        // setTimeout(() => {
+        //     let success = document.getElementById('successPopup');
+        //     let error = document.getElementById('errorPopup');
 
-            if (success) success.style.display = 'none';
-            if (error) error.style.display = 'none';
-        }, 3000);
+        //     if (success) success.style.display = 'none';
+        //     if (error) error.style.display = 'none';
+        // }, 3000);
 
         // ===== EDIT MODAL EDIT & DELET =====
         function openEditModal(id, name, username, email, role) {

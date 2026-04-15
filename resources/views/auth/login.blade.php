@@ -144,6 +144,10 @@
                 LOGIN
             </button>
         </div>
+        
+        <a href="{{ route('password.request') }}" class="text-blue-500">
+            Lupa Password?
+        </a>
     </form>
 </div>
 
