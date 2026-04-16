@@ -125,12 +125,19 @@
             <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
 
             <div class="relative">
+                <!-- ICON KUNCI -->
                 <i data-lucide="lock"
                     class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600"></i>
 
+                <!-- INPUT -->
                 <input id="password" type="password" name="password" required
-                    class="w-full pl-10 mt-1 px-3 py-2 border border-gray-300 rounded-md
+                    class="w-full pl-10 pr-10 mt-1 px-3 py-2 border border-gray-300 rounded-md
                     focus:ring-[#4A70A9] focus:border-[#4A70A9]">
+
+                <!-- ICON MATA -->
+                <i data-lucide="eye"
+                    onclick="togglePassword('password', this)"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600 cursor-pointer"></i>
             </div>
 
             <x-input-error :messages="$errors->get('password')" class="mt-1" />
@@ -155,6 +162,21 @@
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script>
     lucide.createIcons();
+</script>
+<script>
+function togglePassword(id, icon) {
+    const input = document.getElementById(id);
+
+    if (input.type === "password") {
+        input.type = "text";
+        icon.setAttribute("data-lucide", "eye-off");
+    } else {
+        input.type = "password";
+        icon.setAttribute("data-lucide", "eye");
+    }
+
+    lucide.createIcons(); // refresh icon
+}
 </script>
 
 @endsection

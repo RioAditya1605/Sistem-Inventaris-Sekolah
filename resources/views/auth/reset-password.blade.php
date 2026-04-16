@@ -1,39 +1,157 @@
-<x-guest-layout>
+@extends('layouts.auth')
+
+@section('title', 'Reset Password')
+
+@section('content')
+<div class="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
+
+    <h2 class="text-center text-xl font-semibold mb-4">
+        Reset Password
+    </h2>
+
+    <p class="text-sm text-gray-600 text-center mb-5">
+        Masukkan password baru Anda
+    </p>
+
     <form method="POST" action="{{ route('password.store') }}">
         @csrf
 
-        <!-- Password Reset Token -->
-        <input type="hidden" name="token" value="{{ $request->route('token') }}">
+        <!-- TOKEN -->
+        <input type="hidden" name="token" value="{{ request()->route('token') }}">
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <!-- EMAIL -->
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Email</label>
+
+            <div class="relative">
+                <i data-lucide="mail"
+                    class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600"></i>
+
+                <input type="email" name="email"
+                    value="{{ old('email', request()->email) }}"
+                    class="w-full pl-10 mt-1 px-3 py-2 border border-gray-300 rounded-md
+                    focus:ring-[#4A70A9] focus:border-[#4A70A9]"
+                    required>
+            </div>
+
+            @error('email')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <!-- PASSWORD -->
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Password Baru</label>
+
+            <div class="relative">
+                <!-- ICON KUNCI -->
+                <i data-lucide="lock"
+                    class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600"></i>
+
+                <!-- INPUT -->
+                <input type="password" id="password" name="password"
+                    class="w-full pl-10 pr-10 mt-1 px-3 py-2 border border-gray-300 rounded-md
+                    focus:ring-[#4A70A9] focus:border-[#4A70A9]"
+                    required>
+
+                <!-- ICON MATA -->
+                <i data-lucide="eye"
+                    onclick="togglePassword('password', this)"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600 cursor-pointer"></i>
+            </div>
         </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+        <!-- KONFIRMASI -->
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Konfirmasi Password</label>
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required autocomplete="new-password" />
+            <div class="relative">
+                <i data-lucide="lock"
+                    class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600"></i>
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                <input type="password" id="password_confirmation" name="password_confirmation"
+                    class="w-full pl-10 pr-10 mt-1 px-3 py-2 border border-gray-300 rounded-md"
+                    required>
+
+                <i data-lucide="eye"
+                    onclick="togglePassword('password_confirmation', this)"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600 cursor-pointer"></i>
+            </div>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
+        <p id="passwordError" class="text-red-500 text-sm mt-1 hidden">
+            Password tidak sama!
+        </p>
+
+        <!-- BUTTON -->
+        <div class="flex justify-center mt-6">
+            <button type="submit"
+                class="bg-[#4A70A9] text-white font-medium py-2 px-6 rounded-full shadow hover:bg-[#8FABD4] transition flex items-center gap-2">
+                <i data-lucide="key" class="w-5 h-5"></i>
+                Reset Password
+            </button>
         </div>
+
     </form>
-</x-guest-layout>
+</div>
+
+<!-- Lucide -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script>
+    lucide.createIcons();
+</script>
+
+<script>
+function togglePassword(id, icon) {
+    const input = document.getElementById(id);
+
+    if (input.type === "password") {
+        input.type = "text";
+        icon.setAttribute("data-lucide", "eye-off");
+    } else {
+        input.type = "password";
+        icon.setAttribute("data-lucide", "eye");
+    }
+
+    lucide.createIcons(); // refresh icon
+}
+</script>
+
+<script>
+let timer;
+
+const password = document.getElementById('password');
+const confirmPassword = document.getElementById('password_confirmation');
+const errorText = document.getElementById('passwordError');
+
+function validatePassword() {
+    if (confirmPassword.value === "") {
+        errorText.classList.add('hidden');
+        return;
+    }
+
+    if (password.value !== confirmPassword.value) {
+        errorText.classList.remove('hidden');
+
+        password.classList.add('border-red-500');
+        confirmPassword.classList.add('border-red-500');
+    } else {
+        errorText.classList.add('hidden');
+
+        password.classList.remove('border-red-500');
+        confirmPassword.classList.remove('border-red-500');
+    }
+}
+
+// delay 1 detik setelah berhenti ngetik
+function delayedCheck() {
+    clearTimeout(timer);
+    timer = setTimeout(validatePassword, 1000); // 1000ms = 1 detik
+}
+
+// trigger saat user ngetik
+password.addEventListener('keyup', delayedCheck);
+confirmPassword.addEventListener('keyup', delayedCheck);
+</script>
+
+@endsection
