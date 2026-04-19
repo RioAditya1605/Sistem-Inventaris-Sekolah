@@ -20,4 +20,9 @@ class BarangMasuk extends Model
     {
         return $this->belongsTo(Inventaris::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'staf_id');
+    }
 }

@@ -131,7 +131,7 @@
                     @foreach ($log as $index => $item)
                     <tr class="border-b border-gray-400">
 
-                    <td class="py-2 px-3">{{ $index + 1 }}</td>
+                    <td class="py-2 px-3">{{ $loop->iteration }}</td>
 
                     <td class="py-2 px-3">{{ $item['kode'] }}</td>
 

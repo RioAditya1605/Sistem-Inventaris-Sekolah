@@ -68,7 +68,7 @@
 
         <!-- Data Barang Masuk -->
         <div class="flex items-center gap-4">
-            <div class="w-16 h-16 bg-gray-600 rounded
+            <div class="w-16 h-16 bg-green-600 rounded
                         text-white flex flex-col items-center justify-center">
                 <span class="text-lg font-bold">{{ $barangMasuk }}</span>
                 <i data-lucide="arrow-down-circle" class="w-4 h-4 opacity-80"></i>
@@ -80,7 +80,7 @@
 
         <!-- Data Barang Keluar -->
         <div class="flex items-center gap-4">
-            <div class="w-16 h-16 bg-gray-600 rounded
+            <div class="w-16 h-16 bg-red-600 rounded
                         text-white flex flex-col items-center justify-center">
                 <span class="text-lg font-bold">{{ $barangKeluar }}</span>
                 <i data-lucide="arrow-up-circle" class="w-4 h-4 opacity-80"></i>

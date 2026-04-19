@@ -40,16 +40,25 @@ class UserController extends Controller
     {
         $users = User::latest()->get(); // ambil semua user terbaru
 
-        return view('manajemenuser', compact('users'));
+        $totalAdmin = User::where('role', 'admin')->count();
+        $totalStaff = User::where('role', 'staf')->count();
+        $totalKepsek = User::where('role', 'kepsek')->count();
+
+        return view('manajemenuser', compact(
+            'users',
+            'totalAdmin',
+            'totalStaff',
+            'totalKepsek'
+        ));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
             'name' => 'required',
-            'username' => 'required',
+            'username' => 'required|unique:users',
             'email' => 'required|email',
-            'role' => 'required'
+            'role' => 'required|in:admin,kepsek,staf'
         ]);
 
         $user = User::findOrFail($id);

@@ -118,7 +118,7 @@
                 <div class="flex items-center gap-4">
                     <div class="w-16 h-16 bg-blue-600 rounded
                                 flex flex-col items-center justify-center text-white">
-                        <span class="text-lg font-bold">3</span>
+                        <span class="text-lg font-bold">{{ $totalAdmin }}</span>
                         <i data-lucide="user-cog" class="w-4 h-4 opacity-80"></i>
                     </div>
                     <p class="text-base font-medium whitespace-nowrap">
@@ -130,7 +130,7 @@
                 <div class="flex items-center gap-4">
                     <div class="w-16 h-16 bg-green-600 rounded
                                 flex flex-col items-center justify-center text-white">
-                        <span class="text-lg font-bold">12</span>
+                        <span class="text-lg font-bold">{{ $totalStaff }}</span>
                         <i data-lucide="user" class="w-4 h-4 opacity-80"></i>
                     </div>
                     <p class="text-base font-medium whitespace-nowrap">
@@ -172,7 +172,7 @@
 
                             <th class="py-2 px-3">
                                 <div class="flex items-center gap-2">
-                                    <i data-lucide="shield" class="w-4 h-4"></i> Peran
+                                    <i data-lucide="shield" class="w-4 h-4"></i> Role
                                 </div>
                             </th>
 

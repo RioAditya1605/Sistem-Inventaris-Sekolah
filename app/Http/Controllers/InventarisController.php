@@ -242,33 +242,36 @@ class InventarisController extends Controller
 
     public function logAktivitas()
     {
-        $masuk = \App\Models\BarangMasuk::with('inventaris')->get()->map(function ($item) {
+        $masuk = \App\Models\BarangMasuk::with('inventaris','user')->get()->map(function ($item) {
             return [
                 'kode' => $item->inventaris->kode,
                 'nama' => $item->inventaris->nama,
                 'tanggal' => $item->tanggal_masuk,
-                'waktu' => $item->created_at,
+                'waktu' => \Carbon\Carbon::parse($item->created_at),
                 'kondisi' => $item->inventaris->kondisi,
-                'user' => $item->staf_id,
+                'user' => $item->user->name ?? '-',
                 'lokasi' => $item->inventaris->lokasi,
                 'aksi' => 'Masuk'
             ];
         });
 
-        $keluar = \App\Models\BarangKeluar::with('inventaris')->get()->map(function ($item) {
+        $keluar = \App\Models\BarangKeluar::with('inventaris','user')->get()->map(function ($item) {
             return [
                 'kode' => $item->inventaris->kode,
                 'nama' => $item->inventaris->nama,
                 'tanggal' => $item->tanggal_keluar,
-                'waktu' => $item->created_at,
+                'waktu' => \Carbon\Carbon::parse($item->created_at),
                 'kondisi' => $item->inventaris->kondisi,
-                'user' => $item->staf_id,
+                'user' => $item->user->name ?? '-',
                 'lokasi' => $item->inventaris->lokasi,
                 'aksi' => 'Keluar'
             ];
         });
 
-        $log = $masuk->merge($keluar)->sortByDesc('waktu');
+        // $log = $masuk->merge($keluar)->sortByDesc('waktu');
+        $log = $masuk->merge($keluar)->sortByDesc(function ($item) {
+            return $item['waktu'];
+        })->values();
 
         return view('logaktivitas', compact('log'));
     }

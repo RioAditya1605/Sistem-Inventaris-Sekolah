@@ -39,12 +39,17 @@ class LaporanController extends Controller
 
             $query = Inventaris::query();
 
-            if ($request->filled('tanggalMasuk')) {
-                $query->whereDate('tanggal_masuk', '>=', $request->tanggalMasuk);
+            // VALIDASI: harus isi kedua tanggal
+            if ($request->filled('tanggalMasuk') != $request->filled('tanggalKeluar')) {
+                return back()->with('error', 'Harus isi kedua tanggal!');
             }
 
-            if ($request->filled('tanggalKeluar')) {
-                $query->whereDate('tanggal_masuk', '<=', $request->tanggalKeluar);
+            // FILTER
+            if ($request->filled('tanggalMasuk') && $request->filled('tanggalKeluar')) {
+                $query->whereBetween('tanggal_masuk', [
+                    $request->tanggalMasuk,
+                    $request->tanggalKeluar
+                ]);
             }
 
             $inventaris = $query->get();
@@ -92,12 +97,25 @@ class LaporanController extends Controller
     {
         $query = BarangKeluar::with('inventaris');
 
-        if ($request->filled('tanggalMasuk')) {
-            $query->whereDate('tanggal_keluar', '>=', $request->tanggalMasuk);
+        // if ($request->filled('tanggalMasuk')) {
+        //     $query->whereDate('tanggal_keluar', '>=', $request->tanggalMasuk);
+        // }
+
+        // if ($request->filled('tanggalKeluar')) {
+        //     $query->whereDate('tanggal_keluar', '<=', $request->tanggalKeluar);
+        // }
+
+        // VALIDASI: harus isi kedua tanggal
+        if ($request->filled('tanggalMasuk') != $request->filled('tanggalKeluar')) {
+            return back()->with('error', 'Harus isi kedua tanggal!');
         }
 
-        if ($request->filled('tanggalKeluar')) {
-            $query->whereDate('tanggal_keluar', '<=', $request->tanggalKeluar);
+        // FILTER
+        if ($request->filled('tanggalMasuk') && $request->filled('tanggalKeluar')) {
+            $query->whereBetween('tanggal_keluar', [
+                $request->tanggalMasuk,
+                $request->tanggalKeluar
+            ]);
         }
 
         $inventaris = $query->get();
