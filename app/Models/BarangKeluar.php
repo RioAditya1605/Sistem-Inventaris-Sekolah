@@ -18,7 +18,8 @@ class BarangKeluar extends Model
     // relasi ke inventaris
     public function inventaris()
     {
-        return $this->belongsTo(Inventaris::class);
+        // return $this->belongsTo(Inventaris::class);
+        return $this->belongsTo(\App\Models\Inventaris::class, 'inventaris_id');
     }
 
     public function user()

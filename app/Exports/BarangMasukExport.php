@@ -81,7 +81,8 @@ class BarangMasukExport implements FromArray, WithStyles, WithColumnWidths, With
 
     public function array(): array
     {
-        $query = Inventaris::query();
+        // $query = Inventaris::query();
+        $query = Inventaris::where('jumlah', '>', 0);
 
         if ($this->tanggalAwal) {
             $query->whereDate('tanggal_masuk', '>=', $this->tanggalAwal);

@@ -107,7 +107,14 @@ class InventarisController extends Controller
     // =========================
     public function dataBarang(Request $request)
     {
-        $query = Inventaris::query();
+        if ($request->filled('nama') || $request->filled('kondisi') || $request->filled('tanggal_masuk')) {
+
+            if (!$request->filled('nama') || !$request->filled('kondisi') || !$request->filled('tanggal_masuk')) {
+                return back()->with('error', 'Semua filter harus diisi!');
+            }
+        }
+        
+        $query = Inventaris::where('jumlah', '>', 0);
 
         if ($request->nama) {
             $query->where('nama', 'like', '%' . $request->nama . '%');

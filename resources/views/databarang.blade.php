@@ -151,67 +151,6 @@
             Filter Pencarian Barang
         </label>
 
-        {{-- <div class="grid grid-cols-3 gap-6">
-
-            <!-- Nama Barang -->
-            <div>
-                <label class="text-sm font-medium">Nama Barang</label>
-                <input 
-                    type="text" 
-                    id="namaBarang"
-                    class="w-full border border-gray-300 rounded p-2 text-sm"
-                    placeholder="Nama Barang....."
-                >
-            </div>
-
-            <!-- Kondisi Barang -->
-            <div class="relative w-full">
-                <label class="text-sm font-medium">Kondisi Barang</label>
-
-                <select 
-                    id="kondisiBarang"
-                    class="w-full border border-gray-300 rounded p-2 text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                    <option value="">Pilih Kondisi...</option>
-                    <option>Baik</option>
-                    <option>Rusak Ringan</option>
-                    <option>Rusak Berat</option>
-                </select>
-
-                <!-- Custom Arrow -->
-                <div class="absolute top-9 right-3 flex items-center pointer-events-none">
-                    <i data-lucide="chevron-down" class="w-4 h-4 text-gray-500"></i>
-                </div>
-            </div>
-
-            <!-- Tanggal -->
-            <div>
-                <label class="text-sm font-medium flex items-center gap-1">
-                    <i data-lucide="calendar" class="w-4 h-4"></i>
-                    Tanggal Masuk
-                </label>
-                <input 
-                    type="date"
-                    id="tanggalMasuk" 
-                    class="w-full border border-gray-300 rounded p-2 text-sm"
-                >
-            </div>
-
-        </div>
-
-        <!-- Tombol -->
-        <div class="flex gap-4 mt-4">
-            <button class="flex-1 bg-white p-2 rounded-md shadow font-medium hover:bg-gray-300 flex items-center justify-center gap-2">
-                <i data-lucide="search" class="w-4 h-4"></i>
-                Cari
-            </button>
-
-            <button onclick="resetFilter()" class="flex-1 bg-white p-2 border border-gray-400 rounded-md shadow font-medium hover:bg-gray-300 flex items-center justify-center gap-2">
-                <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
-                Reset Filter
-            </button>
-        </div> --}}
-
         <form method="GET" action="{{ url('/databarang') }}">
 
         <div class="grid grid-cols-3 gap-6">
@@ -222,6 +161,7 @@
                 <input 
                     type="text" 
                     name="nama"
+                    required
                     value="{{ request('nama') }}"
                     class="w-full border border-gray-300 rounded p-2 text-sm"
                     placeholder="Nama Barang....."
@@ -234,6 +174,7 @@
 
                 <select 
                     name="kondisi"
+                    required
                     class="w-full border border-gray-300 rounded p-2 text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                     <option value="">Pilih Kondisi...</option>
@@ -253,6 +194,7 @@
                     type="date"
                     name="tanggal_masuk"
                     value="{{ request('tanggal_masuk') }}"
+                    required
                     class="w-full border border-gray-300 rounded p-2 text-sm"
                 >
             </div>

@@ -62,7 +62,10 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
 
     public function array(): array
     {
-        $query = BarangKeluar::with('inventaris');
+        $query = BarangKeluar::with('inventaris')
+            ->whereHas('inventaris', function ($q) {
+                $q->where('jumlah', '>', 0);
+            });
 
         if ($this->tanggalAwal) {
             $query->whereDate('tanggal_keluar', '>=', $this->tanggalAwal);
