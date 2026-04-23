@@ -296,15 +296,15 @@
                             <td class="py-2 px-3">{{ $loop->iteration }}</td>
 
                             <!-- ambil dari relasi inventaris -->
-                            <td class="py-2 px-3">{{ $item->inventaris->kode }}</td>
-                            <td class="py-2 px-3">{{ $item->inventaris->nama }}</td>
+                            <td class="py-2 px-3">{{ $item->inventaris->kode ?? '-' }}</td>
+                            <td class="py-2 px-3">{{ $item->inventaris->nama ?? '-' }}</td>
 
                             <!-- ini dari barang_keluar -->
                             <td class="py-2 px-3">{{ $item->tanggal_keluar }}</td>
 
-                            <td class="py-2 px-3">{{ $item->inventaris->kondisi }}</td>
+                            <td class="py-2 px-3">{{ $item->inventaris->kondisi ?? '-' }}</td>
                             <td class="py-2 px-3">{{ $item->jumlah_keluar }}</td>
-                            <td class="py-2 px-3">{{ $item->inventaris->lokasi }}</td>
+                            <td class="py-2 px-3">{{ $item->inventaris->lokasi ?? '-' }}</td>
 
                             <td class="py-2 px-3 flex gap-3">
                                 <!-- EDIT -->

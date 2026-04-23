@@ -60,7 +60,7 @@
 
 namespace App\Exports;
 
-use App\Models\Inventaris;
+use App\Models\BarangMasuk;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
@@ -82,7 +82,8 @@ class BarangMasukExport implements FromArray, WithStyles, WithColumnWidths, With
     public function array(): array
     {
         // $query = Inventaris::query();
-        $query = Inventaris::where('jumlah', '>', 0);
+        // $query = Inventaris::where('jumlah', '>', 0);
+        $query = BarangMasuk::with('inventaris');
 
         if ($this->tanggalAwal) {
             $query->whereDate('tanggal_masuk', '>=', $this->tanggalAwal);
@@ -103,15 +104,28 @@ class BarangMasukExport implements FromArray, WithStyles, WithColumnWidths, With
         $data[] = ['No', 'Kode Barang', 'Nama Barang', 'Tanggal Masuk', 'Kondisi', 'Jumlah', 'Lokasi'];
 
         // DATA
+        // foreach ($query->get() as $index => $item) {
+        //     $data[] = [
+        //         $index + 1,
+        //         $item->kode ?? '-',
+        //         $item->nama ?? '-',
+        //         $item->tanggal_masuk,
+        //         $item->kondisi ?? '-',
+        //         $item->jumlah_masuk,
+        //         $item->lokasi ?? '-',
+        //     ];
+        // }
+
         foreach ($query->get() as $index => $item) {
+            $inv = $item->inventaris;
             $data[] = [
                 $index + 1,
-                $item->kode,
-                $item->nama,
+                $inv->kode ?? '-',
+                $inv->nama ?? '-',
                 $item->tanggal_masuk,
-                $item->kondisi,
-                $item->jumlah,
-                $item->lokasi,
+                $inv->kondisi ?? '-',
+                $item->jumlah_masuk,
+                $inv->lokasi ?? '-',
             ];
         }
 

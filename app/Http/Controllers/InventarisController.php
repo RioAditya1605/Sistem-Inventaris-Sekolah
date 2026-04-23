@@ -128,7 +128,12 @@ class InventarisController extends Controller
             $query->whereDate('tanggal_masuk', $request->tanggal_masuk);
         }
 
-        $inventaris = $query->latest()->get();
+        // $inventaris = $query->latest()->get();
+        // $inventaris = $query->orderBy('tanggal_masuk', 'desc')->get();
+        $inventaris = $query
+            ->orderBy('tanggal_masuk', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return view('databarang', compact('inventaris'));
     }
@@ -136,12 +141,54 @@ class InventarisController extends Controller
     // =========================
     // CREATE BARANG MASUK
     // =========================
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'kode' => 'required',
+    //         'nama' => 'required',
+    //         'jumlah' => 'required|integer',
+    //         'kondisi' => 'required',
+    //         'lokasi' => 'required',
+    //         'tanggal_masuk' => 'required|date',
+    //     ]);
+
+    //     try {
+
+    //         // Simpan ke inventaris
+    //         $inventaris = Inventaris::create([
+    //             'kode' => $request->kode,
+    //             'nama' => $request->nama,
+    //             'jumlah' => $request->jumlah,
+    //             'kondisi' => $request->kondisi,
+    //             'lokasi' => $request->lokasi,
+    //             'tanggal_masuk' => $request->tanggal_masuk,
+    //             'staf_id' => auth()->id(),
+    //         ]);
+
+    //         // Riwayat barang masuk
+    //         BarangMasuk::create([
+    //             'inventaris_id' => $inventaris->id,
+    //             'jumlah_masuk' => $request->jumlah,
+    //             'tanggal_masuk' => $request->tanggal_masuk,
+    //             'staf_id' => auth()->id(),
+    //         ]);
+
+    //         return redirect('/databarang')
+    //             ->with('success','Barang berhasil ditambahkan');
+
+    //     } catch (\Exception $e) {
+
+    //         return back()->with('error','Barang gagal ditambahkan');
+
+    //     }
+    // }
+
     public function store(Request $request)
     {
         $request->validate([
             'kode' => 'required',
             'nama' => 'required',
-            'jumlah' => 'required|integer',
+            'jumlah' => 'required|integer|min:1',
             'kondisi' => 'required',
             'lokasi' => 'required',
             'tanggal_masuk' => 'required|date',
@@ -149,7 +196,39 @@ class InventarisController extends Controller
 
         try {
 
-            // Simpan ke inventaris
+            // 🔍 CEK BERDASARKAN KODE
+            // $barang = Inventaris::where('kode', $request->kode)->first();
+            $barang = Inventaris::where('kode', $request->kode)
+                ->where('nama', $request->nama)
+                ->where('kondisi', $request->kondisi)
+                ->where('lokasi', $request->lokasi)
+                ->first();
+
+            $kodeSudahAda = Inventaris::where('kode', $request->kode)->exists();
+
+            if ($barang) {
+
+                $barang->update([
+                    'jumlah' => $barang->jumlah + $request->jumlah,
+                    'tanggal_masuk' => $request->tanggal_masuk
+                ]);
+
+                BarangMasuk::create([
+                    'inventaris_id' => $barang->id,
+                    'jumlah_masuk' => $request->jumlah,
+                    'tanggal_masuk' => $request->tanggal_masuk,
+                    'staf_id' => auth()->id(),
+                ]);
+
+                return redirect('/databarang')
+                    ->with('success','Jumlah barang berhasil ditambahkan');
+            }
+
+            if ($kodeSudahAda) {
+                return back()->with('error','Kode barang sudah dipakai untuk barang lain!');
+            }
+
+            // ✅ JIKA BELUM ADA → INSERT BARU
             $inventaris = Inventaris::create([
                 'kode' => $request->kode,
                 'nama' => $request->nama,
@@ -160,7 +239,7 @@ class InventarisController extends Controller
                 'staf_id' => auth()->id(),
             ]);
 
-            // Riwayat barang masuk
+            // riwayat barang masuk
             BarangMasuk::create([
                 'inventaris_id' => $inventaris->id,
                 'jumlah_masuk' => $request->jumlah,
@@ -218,6 +297,10 @@ class InventarisController extends Controller
         try {
 
             $inventaris = Inventaris::where('kode', $request->kode)->first();
+
+            if (!$inventaris) {
+                return back()->with('error', 'Kode barang tidak ditemukan');
+            }
 
             // cek stok
             if ($inventaris->jumlah < $request->jumlah_keluar) {

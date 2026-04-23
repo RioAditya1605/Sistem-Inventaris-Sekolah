@@ -294,12 +294,12 @@
                 @foreach ($inventaris as $item)
                 <tr class="border-b border-gray-400">
                     <td class="py-2 px-3">{{ $loop->iteration }}</td>
-                    <td class="py-2 px-3">{{ $item->kode }}</td>
-                    <td class="py-2 px-3">{{ $item->nama }}</td>
+                    <td class="py-2 px-3">{{ $item->inventaris->kode ?? '-' }}</td>
+                    <td class="py-2 px-3">{{ $item->inventaris->nama ?? '-' }}</td>
                     <td class="py-2 px-3">{{ $item->tanggal_masuk ?? '-' }}</td>
-                    <td class="py-2 px-3">{{ $item->kondisi }}</td>
-                    <td class="py-2 px-3">{{ $item->jumlah }}</td>
-                    <td class="py-2 px-3">{{ $item->lokasi }}</td>
+                    <td class="py-2 px-3">{{ $item->inventaris->kondisi ?? '-' }}</td>
+                    <td class="py-2 px-3">{{ $item->jumlah_masuk }}</td>
+                    <td class="py-2 px-3">{{ $item->inventaris->lokasi ?? '-' }}</td>
 
                     <td class="py-2 px-3 flex gap-3">
                         <!-- EDIT -->
