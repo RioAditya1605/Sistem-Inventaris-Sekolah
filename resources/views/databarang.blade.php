@@ -157,7 +157,9 @@
 
             <!-- Nama Barang -->
             <div>
-                <label class="text-sm font-medium">Nama Barang</label>
+                <label class="text-sm font-medium flex items-center gap-1">
+                    <i data-lucide="package" class="w-4 h-4"></i> Nama Barang
+                </label>
                 <input 
                     type="text" 
                     name="nama"
@@ -170,7 +172,9 @@
 
             <!-- Kondisi Barang -->
             <div class="relative w-full">
-                <label class="text-sm font-medium">Kondisi Barang</label>
+                <label class="text-sm font-medium flex items-center gap-1">
+                    <i data-lucide="shield-check" class="w-4 h-4"></i> Kondisi Barang
+                </label>
 
                 <select 
                     name="kondisi"

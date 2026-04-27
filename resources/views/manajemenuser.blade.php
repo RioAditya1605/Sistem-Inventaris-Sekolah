@@ -122,7 +122,7 @@
                         <i data-lucide="user-cog" class="w-4 h-4 opacity-80"></i>
                     </div>
                     <p class="text-base font-medium whitespace-nowrap">
-                        Total Administrator
+                        Total Admin
                     </p>
                 </div>
 
@@ -153,9 +153,7 @@
                         <tr>
 
                             <th class="py-2 px-3">
-                                <div class="flex items-center gap-2">
-                                    <i data-lucide="hash" class="w-4 h-4"></i> No
-                                </div>
+                                <div class="flex items-center gap-2"> No </div>
                             </th>
 
                             <th class="py-2 px-3">
@@ -166,7 +164,7 @@
 
                             <th class="py-2 px-3">
                                 <div class="flex items-center gap-2">
-                                    <i data-lucide="badge" class="w-4 h-4"></i> Username
+                                    <i data-lucide="at-sign" class="w-4 h-4"></i> Username
                                 </div>
                             </th>
 

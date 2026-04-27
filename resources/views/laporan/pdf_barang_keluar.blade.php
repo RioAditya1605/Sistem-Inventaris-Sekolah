@@ -66,7 +66,7 @@
         </tr>
         <tr>
             <td>Alamat</td>
-            <td>: Kesuma Dadi</td>
+            <td>: __________________</td>
         </tr>
     </table>
 
@@ -84,7 +84,7 @@
         </tr>
         <tr>
             <td>Alamat</td>
-            <td>: Sukajawa</td>
+            <td>: __________________</td>
         </tr>
     </table>
 

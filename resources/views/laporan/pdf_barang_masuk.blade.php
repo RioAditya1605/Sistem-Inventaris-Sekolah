@@ -96,7 +96,7 @@
         </tr>
         <tr>
             <td>Alamat</td>
-            <td>: Kesuma Dadi</td>
+            <td>: __________________</td>
         </tr>
     </table>
 
@@ -114,7 +114,7 @@
         </tr>
         <tr>
             <td>Alamat</td>
-            <td>: Sukajawa</td>
+            <td>: __________________</td>
         </tr>
     </table>
 
@@ -169,7 +169,7 @@
                         @Rp.{{ number_format($item->harga,0,',','.') }}
                     @endif
                 </td>
-                <td>{{ $item->jumlah }} buah</td>
+                <td>{{ $item->total_masuk }} Buah</td>
             </tr>
             @endforeach
         </tbody>

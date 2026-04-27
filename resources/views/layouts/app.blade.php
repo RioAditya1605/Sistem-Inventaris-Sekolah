@@ -18,8 +18,10 @@
     <header id="header-bar"class="bg-[#4A70A9] fixed top-0 right-0 z-50 w-[calc(100%-16rem)] transition-all duration-300 flex justify-end items-center px-6 py-3 shadow-sm">
 
             <div class="flex items-center space-x-3">
-                <div class="w-8 h-8 bg-white rounded-full"></div>
-                <span class="text-sm font-medium text-white hover:text-black">{{ auth()->user()->role }}</span>
+                {{-- <div class="w-8 h-8 bg-white rounded-full"></div> --}}
+                <span class="text-sm font-medium text-white hover:text-black">
+                    {{ auth()->user()->name }} - {{ ucfirst(auth()->user()->role) }}
+                </span>
             </div>
     </header>
 

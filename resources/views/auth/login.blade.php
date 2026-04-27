@@ -104,9 +104,9 @@
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
-        <!-- Username -->
+        <!-- Email -->
         <div class="mb-4">
-            <label for="email" class="block text-sm font-medium text-gray-700">Username</label>
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
 
             <div class="relative">
                 <i data-lucide="user"

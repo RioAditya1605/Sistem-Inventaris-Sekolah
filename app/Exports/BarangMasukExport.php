@@ -116,16 +116,36 @@ class BarangMasukExport implements FromArray, WithStyles, WithColumnWidths, With
         //     ];
         // }
 
-        foreach ($query->get() as $index => $item) {
-            $inv = $item->inventaris;
+        // foreach ($query->get() as $index => $item) {
+        //     $inv = $item->inventaris;
+        //     $data[] = [
+        //         $index + 1,
+        //         $inv->kode ?? '-',
+        //         $inv->nama ?? '-',
+        //         $item->tanggal_masuk,
+        //         $inv->kondisi ?? '-',
+        //         $item->jumlah_masuk,
+        //         $inv->lokasi ?? '-',
+        //     ];
+        // }
+
+        // return $data;
+        $grouped = $query->get()->groupBy('inventaris_id');
+
+        $no = 1;
+
+        foreach ($grouped as $items) {
+
+            $first = $items->first();
+
             $data[] = [
-                $index + 1,
-                $inv->kode ?? '-',
-                $inv->nama ?? '-',
-                $item->tanggal_masuk,
-                $inv->kondisi ?? '-',
-                $item->jumlah_masuk,
-                $inv->lokasi ?? '-',
+                $no++,
+                $first->inventaris->kode ?? '-',
+                $first->inventaris->nama ?? '-',
+                $first->tanggal_masuk,
+                $first->inventaris->kondisi ?? '-',
+                $items->sum('jumlah_masuk'),
+                $first->inventaris->lokasi ?? '-',
             ];
         }
 

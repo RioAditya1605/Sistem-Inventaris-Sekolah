@@ -361,7 +361,7 @@
 
         <div class="flex items-center gap-2">
             <i data-lucide="plus-circle" class="w-6 h-6"></i>
-            <label class="text-xl font-semibold">Tambah Barang</label>
+            <label class="text-xl font-semibold">Form Barang Masuk</label>
         </div>
 
         <!-- INPUT BARIS 1 -->
@@ -389,9 +389,7 @@
 
                 <select
                     name="kondisi"
-                    class="w-full border border-gray-300 rounded p-2 text-sm
-                           focus:outline-none focus:ring-2 focus:ring-blue-500
-                           appearance-none bg-no-repeat bg-[right_0.75rem_center] pr-8"
+                    class="w-full border border-gray-300 rounded p-2 text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                 >
                     <option value="">Pilih Kondisi...</option>
@@ -400,8 +398,8 @@
                     <option value="Rusak Berat">Rusak Berat</option>
                 </select>
 
-                <i data-lucide="chevron-down"
-                   class="absolute top-9 right-3 w-4 h-4 text-gray-500 pointer-events-none"></i>
+                {{-- <i data-lucide="chevron-down"
+                   class="absolute top-9 right-3 w-4 h-4 text-gray-500 pointer-events-none"></i> --}}
             </div>
 
             <!-- Tanggal Masuk -->
@@ -438,7 +436,7 @@
             <!-- Jumlah -->
             <div>
                 <label class="text-sm font-medium flex items-center gap-1">
-                    <i data-lucide="hash" class="w-4 h-4"></i> Jumlah Barang
+                    <i data-lucide="layers" class="w-4 h-4"></i> Jumlah Barang
                 </label>
                 <input
                     type="number"

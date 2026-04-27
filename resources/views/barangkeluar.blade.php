@@ -189,7 +189,7 @@
             <!-- JUMLAH KELUAR -->
             <div>
                 <label class="text-sm font-medium flex items-center gap-1">
-                    <i data-lucide="hash" class="w-4 h-4"></i>
+                    <i data-lucide="layers" class="w-4 h-4"></i>
                     Jumlah Keluar
                 </label>
                 <input

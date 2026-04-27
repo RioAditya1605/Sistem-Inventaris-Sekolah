@@ -87,15 +87,33 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
         $data[] = ['No', 'Kode Barang', 'Nama Barang', 'Tanggal Keluar', 'Kondisi', 'Jumlah', 'Lokasi'];
 
         //DATA
-        foreach ($query->get() as $index => $item) {
+        // foreach ($query->get() as $index => $item) {
+        //     $data[] = [
+        //         $index + 1,
+        //         $item->inventaris->kode ?? '-',
+        //         $item->inventaris->nama ?? '-',
+        //         $item->tanggal_keluar,
+        //         $item->inventaris->kondisi ?? '-',
+        //         $item->jumlah_keluar,
+        //         $item->inventaris->lokasi ?? '-',
+        //     ];
+        // }
+
+        // return $data;
+        $grouped = $query->get()->groupBy('inventaris_id');
+
+        foreach ($grouped as $items) {
+
+            $first = $items->first();
+
             $data[] = [
-                $index + 1,
-                $item->inventaris->kode ?? '-',
-                $item->inventaris->nama ?? '-',
-                $item->tanggal_keluar,
-                $item->inventaris->kondisi ?? '-',
-                $item->jumlah_keluar,
-                $item->inventaris->lokasi ?? '-',
+                count($data) - 3,
+                $first->inventaris->kode ?? '-',
+                $first->inventaris->nama ?? '-',
+                $first->tanggal_keluar,
+                $first->inventaris->kondisi ?? '-',
+                $items->sum('jumlah_keluar'),
+                $first->inventaris->lokasi ?? '-',
             ];
         }
 

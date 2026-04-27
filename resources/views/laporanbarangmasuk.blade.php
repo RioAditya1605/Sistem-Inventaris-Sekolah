@@ -202,7 +202,7 @@
 
                     <p class="text-sm text-gray-700">
                         <strong>Total Barang Masuk:</strong> 
-                        {{ $inventaris->sum('jumlah') }} unit
+                        {{ $inventaris->sum('Total_Masuk') }} unit
                     </p>
                 </div>
 
@@ -298,7 +298,8 @@
                     <td class="py-2 px-3">{{ $item->inventaris->nama ?? '-' }}</td>
                     <td class="py-2 px-3">{{ $item->tanggal_masuk ?? '-' }}</td>
                     <td class="py-2 px-3">{{ $item->inventaris->kondisi ?? '-' }}</td>
-                    <td class="py-2 px-3">{{ $item->jumlah_masuk }}</td>
+                    {{-- <td class="py-2 px-3">{{ $item->jumlah_masuk }}</td> --}}
+                    <td class="py-2 px-3">{{ $item->total_masuk }}</td>
                     <td class="py-2 px-3">{{ $item->inventaris->lokasi ?? '-' }}</td>
 
                     <td class="py-2 px-3 flex gap-3">
