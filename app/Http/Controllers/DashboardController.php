@@ -36,12 +36,33 @@ class DashboardController extends Controller {
         $role = Auth::user()->role;
 
         // DATA DASHBOARD
-        $barangMasuk = BarangMasuk::sum('jumlah_masuk');
-        $barangKeluar = BarangKeluar::sum('jumlah_keluar');
-        $totalBarang = Inventaris::count();
-        $kondisiBaik = Inventaris::where('kondisi','Baik')->count();
-        $rusakRingan = Inventaris::where('kondisi','Rusak Ringan')->count();
-        $rusakBerat = Inventaris::where('kondisi','Rusak Berat')->count();
+        // $barangMasuk = BarangMasuk::sum('jumlah_masuk');
+        // $barangKeluar = BarangKeluar::sum('jumlah_keluar');
+        // $totalBarang = Inventaris::count();
+        // $kondisiBaik = Inventaris::where('kondisi','Baik')->count();
+        // $rusakRingan = Inventaris::where('kondisi','Rusak Ringan')->count();
+        // $rusakBerat = Inventaris::where('kondisi','Rusak Berat')->count();
+        $barangMasuk = BarangMasuk::whereHas('inventaris', function ($q) {
+            $q->where('jumlah', '>', 0);
+        })->sum('jumlah_masuk');
+
+        $barangKeluar = BarangKeluar::whereHas('inventaris', function ($q) {
+            $q->where('jumlah', '>', 0);
+        })->sum('jumlah_keluar');
+        
+        $totalBarang = Inventaris::where('jumlah', '>', 0)->count();
+
+        $kondisiBaik = Inventaris::where('kondisi','Baik')
+            ->where('jumlah', '>', 0)
+            ->count();
+
+        $rusakRingan = Inventaris::where('kondisi','Rusak Ringan')
+            ->where('jumlah', '>', 0)
+            ->count();
+
+        $rusakBerat = Inventaris::where('kondisi','Rusak Berat')
+            ->where('jumlah', '>', 0)
+            ->count();
 
         if ($role === 'admin') {
             return view('dashboardadmin', compact(

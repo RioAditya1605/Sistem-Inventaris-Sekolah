@@ -318,7 +318,7 @@
                 <tbody>
                 @forelse ($inventaris as $item)
                 <tr class="border-b border-gray-400">
-                    <td class="py-2 px-3">{{ $loop->iteration }}</td>
+                    <td class="py-2 px-3">{{ ($inventaris->currentPage() - 1) * $inventaris->perPage() + $loop->iteration }}</td>
                     <td class="py-2 px-3">{{ $item->kode }}</td>
                     <td class="py-2 px-3">{{ $item->nama }}</td>
                     <td class="py-2 px-3">{{ $item->tanggal_masuk }}</td>
@@ -352,6 +352,76 @@
                 </tbody>
 
             </table>
+        </div>
+
+        @php
+            $current = $inventaris->currentPage();
+            $last = $inventaris->lastPage();
+
+            // Tentukan range (3 angka)
+            $start = max($current - 1, 1);
+            $end = min($start + 2, $last);
+
+            // Biar tetap 3 angka kalau di akhir
+            if ($end - $start < 2) {
+                $start = max($end - 2, 1);
+            }
+        @endphp
+
+        <div class="flex flex-wrap justify-between items-center gap-3 mt-4 text-sm text-gray-700">
+
+            <!-- INFO -->
+            <div>
+                <!-- KIRI (GANTI INI) -->
+                <div class="text-md text-gray-500">
+                    Menampilkan {{ $inventaris->firstItem() }} sampai {{ $inventaris->lastItem() }} 
+                    dari {{ $inventaris->total() }} data
+                </div>
+
+                <!-- KANAN (PAGINATION) -->
+                <div class="flex items-center gap-1">
+                    {{-- pagination kamu di sini --}}
+                </div>
+            </div>
+
+            <!-- PAGINATION -->
+            <div class="flex items-center gap-1">
+
+                {{-- PREV --}}
+                @if ($inventaris->onFirstPage())
+                    <span class="px-3 py-2 text-xs bg-gray-300 text-gray-500 rounded-md">‹</span>
+                @else
+                    <a href="{{ $inventaris->previousPageUrl() }}"
+                    class="px-3 py-2 text-sm bg-white border rounded-md shadow-md hover:bg-gray-200">
+                        ‹
+                    </a>
+                @endif
+
+                {{-- PAGE NUMBERS (MAX 3) --}}
+                @for ($i = $start; $i <= $end; $i++)
+                    @if ($i == $current)
+                        <span class="px-3 py-2 text-xs bg-[#4A70A9] text-white rounded-md shadow-sm font-semibold">
+                            {{ $i }}
+                        </span>
+                    @else
+                        <a href="{{ $inventaris->url($i) }}"
+                        class="px-3 py-2 text-xs bg-white border rounded-md shadow-sm hover:bg-gray-200">
+                            {{ $i }}
+                        </a>
+                    @endif
+                @endfor
+
+                {{-- NEXT --}}
+                @if ($inventaris->hasMorePages())
+                    <a href="{{ $inventaris->nextPageUrl() }}"
+                    class="px-3 py-2 text-xs bg-white border rounded-md shadow-md hover:bg-gray-200">
+                        ›
+                    </a>
+                @else
+                    <span class="px-3 py-2 text-xs bg-gray-300 text-gray-500 rounded-md">›</span>
+                @endif
+
+            </div>
         </div>
     </div>
 

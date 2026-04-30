@@ -133,7 +133,8 @@ class InventarisController extends Controller
         $inventaris = $query
             ->orderBy('tanggal_masuk', 'desc')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10) // jumlah per halaman
+            ->withQueryString();
 
         return view('databarang', compact('inventaris'));
     }
