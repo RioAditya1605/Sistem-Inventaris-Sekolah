@@ -131,7 +131,9 @@
                     @foreach ($log as $index => $item)
                     <tr class="border-b border-gray-400">
 
-                    <td class="py-2 px-3">{{ $loop->iteration }}</td>
+                    <td class="py-2 px-3">
+                        {{ ($log->currentPage() - 1) * $log->perPage() + $loop->iteration }}
+                    </td>
 
                     <td class="py-2 px-3">{{ $item['kode'] }}</td>
 
@@ -167,6 +169,67 @@
                     </tbody>
 
                 </table>
+            </div>
+
+            @php
+                $current = $log->currentPage();
+                $last = $log->lastPage();
+
+                $start = max($current - 1, 1);
+                $end = min($start + 2, $last);
+
+                if ($end - $start < 2) {
+                    $start = max($end - 2, 1);
+                }
+            @endphp
+
+            <div class="flex items-center justify-between mt-4 text-sm text-gray-700">
+
+                <!-- KIRI -->
+                <div class="flex items-center gap-3">
+
+                    <div class="text-gray-600 whitespace-nowrap">
+                        Menampilkan {{ $log->firstItem() }} sampai {{ $log->lastItem() }} 
+                        dari {{ $log->total() }} data
+                    </div>
+
+                </div>
+
+                <!-- KANAN -->
+                <div class="flex items-center gap-1">
+
+                    {{-- PREV --}}
+                    @if ($log->onFirstPage())
+                        <span class="px-3 py-1 bg-gray-300 text-gray-500 rounded-md">‹</span>
+                    @else
+                        <a href="{{ $log->previousPageUrl() }}"
+                        class="px-3 py-1 bg-white border rounded-md hover:bg-gray-200">‹</a>
+                    @endif
+
+                    {{-- ANGKA --}}
+                    @for ($i = $start; $i <= $end; $i++)
+                        @if ($i == $current)
+                            <span class="px-3 py-1 bg-[#4A70A9] text-white rounded-md font-semibold">
+                                {{ $i }}
+                            </span>
+                        @else
+                            <a href="{{ $log->url($i) }}"
+                            class="px-3 py-1 bg-white border rounded-md hover:bg-gray-200">
+                                {{ $i }}
+                            </a>
+                        @endif
+                    @endfor
+
+                    {{-- NEXT --}}
+                    @if ($log->hasMorePages())
+                        <a href="{{ $log->nextPageUrl() }}"
+                        class="px-3 py-1 bg-white border rounded-md hover:bg-gray-200">›</a>
+                    @else
+                        <span class="px-3 py-1 bg-gray-300 text-gray-500 rounded-md">›</span>
+                    @endif
+
+                </div>
+
             </div>
         </div>
     </section>

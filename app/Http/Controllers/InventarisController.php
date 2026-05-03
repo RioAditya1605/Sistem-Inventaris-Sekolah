@@ -99,6 +99,8 @@ use App\Models\Inventaris;
 use App\Models\BarangMasuk;
 use App\Models\BarangKeluar;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection; 
 
 class InventarisController extends Controller
 {
@@ -331,7 +333,52 @@ class InventarisController extends Controller
         }
     }
 
-    public function logAktivitas()
+    // public function logAktivitas(Request $request)
+    // {
+    //     $masuk = \App\Models\BarangMasuk::with('inventaris','user')->get()->map(function ($item) {
+    //         return [
+    //             'kode' => $item->inventaris->kode,
+    //             'nama' => $item->inventaris->nama,
+    //             'tanggal' => $item->tanggal_masuk,
+    //             'waktu' => \Carbon\Carbon::parse($item->created_at),
+    //             'kondisi' => $item->inventaris->kondisi,
+    //             'user' => $item->user->name ?? '-',
+    //             'lokasi' => $item->inventaris->lokasi,
+    //             'aksi' => 'Masuk'
+    //         ];
+
+        
+    //     });
+
+    //     $keluar = \App\Models\BarangKeluar::with('inventaris','user')->get()->map(function ($item) {
+    //         return [
+    //             'kode' => $item->inventaris->kode,
+    //             'nama' => $item->inventaris->nama,
+    //             'tanggal' => $item->tanggal_keluar,
+    //             'waktu' => \Carbon\Carbon::parse($item->created_at),
+    //             'kondisi' => $item->inventaris->kondisi,
+    //             'user' => $item->user->name ?? '-',
+    //             'lokasi' => $item->inventaris->lokasi,
+    //             'aksi' => 'Keluar'
+    //         ];
+    //     });
+
+    //     // $log = $masuk->merge($keluar)->sortByDesc('waktu');
+    //     $log = $masuk->merge($keluar)->sortByDesc(function ($item) {
+    //         return $item['waktu'];
+    //     })->values();
+
+    //     $perPage = $request->get('perPage', 10);
+
+    //     $log = \App\Models\LogAktivitas::with('user')
+    //         ->orderBy('created_at', 'desc')
+    //         ->paginate($perPage)
+    //         ->withQueryString();
+
+    //     return view('logaktivitas', compact('log'));
+    // }
+
+    public function logAktivitas(Request $request)
     {
         $masuk = \App\Models\BarangMasuk::with('inventaris','user')->get()->map(function ($item) {
             return [
@@ -359,10 +406,27 @@ class InventarisController extends Controller
             ];
         });
 
-        // $log = $masuk->merge($keluar)->sortByDesc('waktu');
-        $log = $masuk->merge($keluar)->sortByDesc(function ($item) {
-            return $item['waktu'];
-        })->values();
+        // ✅ MERGE + SORT
+        $log = $masuk->merge($keluar)
+            ->sortByDesc('waktu')
+            ->values();
+
+        // ✅ PAGINATION MANUAL (INI BAGIAN PENTING)
+        $perPage = $request->get('perPage', 10);
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        $currentItems = $log->slice(($currentPage - 1) * $perPage, $perPage)->values();
+
+        $log = new LengthAwarePaginator(
+            $currentItems,
+            $log->count(),
+            $perPage,
+            $currentPage,
+            [
+                'path' => request()->url(),
+                'query' => request()->query()
+            ]
+        );
 
         return view('logaktivitas', compact('log'));
     }
