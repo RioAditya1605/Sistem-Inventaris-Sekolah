@@ -182,9 +182,16 @@
 
         </form>
 
+        @if(session('error'))
+            <div class="bg-red-500 text-white p-3 rounded-md shadow">
+                {{ session('error') }}
+            </div>
+        @endif
+
     </div>
 
     <!-- Card Background -->
+    @if(!session('error'))
     <div class="bg-[#E5E5E5] p-6 rounded-xl shadow-md mt-6">
 
         <!-- Tombol Cetak -->
@@ -223,7 +230,8 @@
         @endif
 
         <!-- Table -->
-        @if(request()->tanggalMasuk || request()->tanggalKeluar)
+        {{-- @if(request()->tanggalMasuk || request()->tanggalKeluar) --}}
+        @if(request()->filled('tanggalMasuk') && request()->filled('tanggalKeluar') && !session('error'))
         <div class="overflow-x-auto rounded-lg">
             <table class="w-full text-sm text-left bg-gray-300 rounded-lg shadow">
 
@@ -315,10 +323,13 @@
             </table>
         </div>
         @else
-            <div class="flex justify-center items-center h-8 text-gray-500">
-                Silakan pilih tanggal lalu klik <b>Tampilkan</b>
-            </div>
+            @if(!session('error'))
+                <div class="flex justify-center items-center h-8 text-gray-500">
+                    Silakan pilih tanggal lalu klik <b>Tampilkan</b>
+                </div>
+            @endif
         @endif
+    @endif
     </div>
 
 </section>

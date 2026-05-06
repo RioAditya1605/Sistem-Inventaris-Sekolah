@@ -76,6 +76,12 @@ class LaporanController extends Controller
             return back()->with('error', 'Harus isi kedua tanggal!');
         }
 
+        if ($request->filled('tanggalMasuk') && $request->filled('tanggalKeluar')) {
+            if ($request->tanggalMasuk > $request->tanggalKeluar) {
+                return back()->with('error', 'Tanggal awal tidak boleh lebih besar dari tanggal akhir!');
+            }
+        }
+
         // FILTER TANGGAL
         if ($request->filled('tanggalMasuk') && $request->filled('tanggalKeluar')) {
             $query->whereBetween('tanggal_masuk', [
@@ -169,6 +175,12 @@ class LaporanController extends Controller
         // VALIDASI
         if ($request->filled('tanggalMasuk') != $request->filled('tanggalKeluar')) {
             return back()->with('error', 'Harus isi kedua tanggal!');
+        }
+
+        if ($request->filled('tanggalMasuk') && $request->filled('tanggalKeluar')) {
+            if ($request->tanggalMasuk > $request->tanggalKeluar) {
+                return back()->with('error', 'Tanggal awal tidak boleh lebih besar dari tanggal akhir!');
+            }
         }
 
         // FILTER

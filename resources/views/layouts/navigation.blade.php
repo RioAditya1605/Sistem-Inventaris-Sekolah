@@ -300,7 +300,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 || request()->is('staf')
                     ? 'bg-white text-gray-900'
                     : 'text-white hover:text-gray-900 hover:bg-gray-200' }}">
-                    <i data-lucide="layout-dashboard" class="icon-sidebar w-5 h-5 mr-2"></i>
+                    <i data-lucide="gauge" class="icon-sidebar w-5 h-5 mr-2"></i>
                     <span class="sidebar-text">Dashboard</span>
             </a>
 

@@ -283,11 +283,11 @@
                         </div>
                     </th>
 
-                    <th class="py-2 px-3">
+                    {{-- <th class="py-2 px-3">
                         <div class="flex items-center gap-1">
                             Aksi
                         </div>
-                    </th>
+                    </th> --}}
                 </tr>
                 </thead>
 
@@ -326,11 +326,11 @@
                     <td class="py-2 px-3">{{ $item->jumlah }}</td>
                     <td class="py-2 px-3">{{ $item->lokasi }}</td>
 
-                    <td class="py-2 px-3 flex gap-3">
+                    {{-- <td class="py-2 px-3 flex gap-3"> --}}
                         <!-- Edit -->
-                        <a href="/barangkeluar/{{ $item->id }}" class="text-blue-600 hover:text-blue-800">
+                        {{-- <a href="/barangkeluar/{{ $item->id }}" class="text-blue-600 hover:text-blue-800">
                             <i data-lucide="pencil" class="w-5 h-5"></i>
-                        </a>
+                        </a> --}}
 
                         {{-- <!-- Delete -->
                         <form action="/inventaris/{{ $item->id }}" method="POST">
@@ -340,7 +340,7 @@
                                 <i data-lucide="trash-2" class="w-5 h-5"></i>
                             </button>
                         </form> --}}
-                    </td>
+                    {{-- </td> --}}
                 </tr>
                 @empty
                 <tr>

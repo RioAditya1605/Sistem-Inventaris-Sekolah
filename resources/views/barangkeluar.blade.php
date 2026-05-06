@@ -169,7 +169,8 @@
         </div>
 
         <!-- BARIS 1 -->
-        <div class="grid grid-cols-3 gap-6">
+        {{-- <div class="grid grid-cols-3 gap-6"> --}}
+        <div class="grid grid-cols-2 gap-6">
 
             <!-- KODE BARANG -->
             <div>
@@ -202,7 +203,7 @@
                 >
             </div>
 
-            <!-- TANGGAL KELUAR -->
+            {{-- <!-- TANGGAL KELUAR -->
             <div>
                 <label class="text-sm font-medium flex items-center gap-1">
                     <i data-lucide="calendar" class="w-4 h-4"></i>
@@ -214,7 +215,7 @@
                     class="w-full border border-gray-300 rounded p-2 text-sm"
                     required
                 >
-            </div>
+            </div> --}}
         </div>
 
         <!-- BUTTON -->
@@ -237,5 +238,3 @@
     lucide.createIcons();
 </script>
 @endsection
-
-

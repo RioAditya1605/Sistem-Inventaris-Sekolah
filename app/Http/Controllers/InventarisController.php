@@ -294,7 +294,6 @@ class InventarisController extends Controller
         $request->validate([
             'kode' => 'required|exists:inventaris,kode',
             'jumlah_keluar' => 'required|integer|min:1',
-            'tanggal_keluar' => 'required|date',
         ]);
 
         try {
@@ -319,7 +318,7 @@ class InventarisController extends Controller
             BarangKeluar::create([
                 'inventaris_id' => $inventaris->id,
                 'jumlah_keluar' => $request->jumlah_keluar,
-                'tanggal_keluar' => $request->tanggal_keluar,
+                'tanggal_keluar' => now(),
                 'staf_id' => auth()->id(),
             ]);
 
