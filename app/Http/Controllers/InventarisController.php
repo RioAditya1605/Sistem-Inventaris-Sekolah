@@ -194,7 +194,7 @@ class InventarisController extends Controller
             'jumlah' => 'required|integer|min:1',
             'kondisi' => 'required',
             'lokasi' => 'required',
-            'tanggal_masuk' => 'required|date',
+            // 'tanggal_masuk' => 'required|date',
         ]);
 
         try {
@@ -213,13 +213,13 @@ class InventarisController extends Controller
 
                 $barang->update([
                     'jumlah' => $barang->jumlah + $request->jumlah,
-                    'tanggal_masuk' => $request->tanggal_masuk
+                    'tanggal_masuk' => now()
                 ]);
 
                 BarangMasuk::create([
                     'inventaris_id' => $barang->id,
                     'jumlah_masuk' => $request->jumlah,
-                    'tanggal_masuk' => $request->tanggal_masuk,
+                    'tanggal_masuk' => now(),
                     'staf_id' => auth()->id(),
                 ]);
 
@@ -238,7 +238,7 @@ class InventarisController extends Controller
                 'jumlah' => $request->jumlah,
                 'kondisi' => $request->kondisi,
                 'lokasi' => $request->lokasi,
-                'tanggal_masuk' => $request->tanggal_masuk,
+                'tanggal_masuk' => now(),
                 'staf_id' => auth()->id(),
             ]);
 
@@ -246,7 +246,7 @@ class InventarisController extends Controller
             BarangMasuk::create([
                 'inventaris_id' => $inventaris->id,
                 'jumlah_masuk' => $request->jumlah,
-                'tanggal_masuk' => $request->tanggal_masuk,
+                'tanggal_masuk' => now(),
                 'staf_id' => auth()->id(),
             ]);
 

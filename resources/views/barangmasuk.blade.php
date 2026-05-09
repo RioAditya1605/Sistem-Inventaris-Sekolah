@@ -403,7 +403,7 @@
             </div>
 
             <!-- Tanggal Masuk -->
-            <div>
+            {{-- <div>
                 <label class="text-sm font-medium flex items-center gap-1">
                     <i data-lucide="calendar" class="w-4 h-4"></i> Tanggal Masuk
                 </label>
@@ -411,6 +411,19 @@
                     type="date"
                     name="tanggal_masuk"
                     class="w-full border border-gray-300 rounded p-2 text-sm"
+                    required
+                >
+            </div> --}}
+            <!-- Lokasi -->
+            <div>
+                <label class="text-sm font-medium flex items-center gap-1">
+                    <i data-lucide="map-pin" class="w-4 h-4"></i> Lokasi Barang
+                </label>
+                <input
+                    type="text"
+                    name="lokasi"
+                    class="w-full border border-gray-300 rounded p-2 text-sm"
+                    placeholder="Lokasi Barang..."
                     required
                 >
             </div>
@@ -449,7 +462,7 @@
             </div>
 
             <!-- Lokasi -->
-            <div>
+            {{-- <div>
                 <label class="text-sm font-medium flex items-center gap-1">
                     <i data-lucide="map-pin" class="w-4 h-4"></i> Lokasi Barang
                 </label>
@@ -460,7 +473,7 @@
                     placeholder="Lokasi Barang..."
                     required
                 >
-            </div>
+            </div> --}}
         </div>
 
         <!-- BUTTON SIMPAN -->
