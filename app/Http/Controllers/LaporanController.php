@@ -7,7 +7,7 @@ use App\Models\Inventaris;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BarangMasukExport;
-use App\Exports\BarangKeluarExport;
+use App\Exports\BarangkeluarExport;
 use App\Models\BarangKeluar;
 use App\Models\BarangMasuk;     
 
