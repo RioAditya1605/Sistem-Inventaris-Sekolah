@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('lokasi', 100);
             $table->date('tanggal_masuk');
             $table->date('tanggal_keluar')->nullable();
-            $table->foreignId('staf_id')->constrained('stafs')->onDelete('cascade');
+            $table->foreignId('staf_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
 
