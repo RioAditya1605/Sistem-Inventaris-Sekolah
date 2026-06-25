@@ -70,6 +70,9 @@ class UserSeeder extends Seeder
             ]
         );
 
+        //edit admin
+        
+
         // KEPSEK
         User::updateOrCreate(
             ['username' => 'kepsek'],
