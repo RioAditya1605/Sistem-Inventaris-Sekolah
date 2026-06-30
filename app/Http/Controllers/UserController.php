@@ -58,10 +58,14 @@ class UserController extends Controller
             'name' => 'required',
             'username' => 'required|unique:users',
             'email' => 'required|email',
-            'role' => 'required|in:admin,kepsek,staf'
+            'role' => 'required|in:kepsek,staf'
         ]);
 
         $user = User::findOrFail($id);
+
+        if ($user->role === 'admin') {
+            return back()->with('error', 'User admin tidak dapat diubah.');
+        }
 
         $user->update([
             'name' => $request->name,
@@ -75,7 +79,13 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        User::findOrFail($id)->delete();
+        $user = User::findOrFail($id);
+
+        if ($user->role === 'admin') {
+            return back()->with('error', 'User admin tidak dapat dihapus.');
+        }
+
+        $user->delete();
 
         return back()->with('success', 'User berhasil dihapus');
     }

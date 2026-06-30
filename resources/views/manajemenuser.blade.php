@@ -586,7 +586,7 @@
                         </td>
 
                         <!-- AKSI -->
-                        <td class="py-3 px-3">
+                        {{-- <td class="py-3 px-3">
 
                             <div class="flex justify-center gap-3">
 
@@ -611,6 +611,46 @@
                                     <i data-lucide="trash-2" class="w-5 h-5"></i>
 
                                 </button>
+
+                            </div>
+
+                        </td> --}}
+
+                        <td class="py-3 px-3">
+
+                            <div class="flex justify-center gap-3">
+
+                                @if($user->role !== 'admin')
+
+                                    <!-- EDIT -->
+                                    <button onclick="openEditModal(
+                                        '{{ $user->id }}',
+                                        '{{ $user->name }}',
+                                        '{{ $user->username }}',
+                                        '{{ $user->email }}',
+                                        '{{ $user->role }}'
+                                    )"
+                                    class="text-blue-600 hover:text-blue-800">
+
+                                        <i data-lucide="edit" class="w-5 h-5"></i>
+
+                                    </button>
+
+                                    <!-- DELETE -->
+                                    <button onclick="openDeleteModal('{{ $user->id }}')"
+                                        class="text-red-600 hover:text-red-800">
+
+                                        <i data-lucide="trash-2" class="w-5 h-5"></i>
+
+                                    </button>
+
+                                @else
+
+                                    <span class="text-gray-400 text-sm">
+                                        Tidak dapat diubah
+                                    </span>
+
+                                @endif
 
                             </div>
 
@@ -694,7 +734,6 @@
                     <select name="role"
                         class="border p-2 rounded w-full text-sm md:text-base">
 
-                        <option value="admin">Admin</option>
                         <option value="kepsek">Kepala Sekolah</option>
                         <option value="staf">Staf</option>
 
@@ -770,7 +809,6 @@
                         name="role"
                         class="border p-2 rounded w-full text-sm md:text-base">
 
-                        <option value="admin">Admin</option>
                         <option value="kepsek">Kepsek</option>
                         <option value="staf">Staf</option>
 
