@@ -31,7 +31,11 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
             'role' => $request->role
         ]);
-        Mail::to($user->email)->send(new UserCreatedMail($user));
+        try {
+            Mail::to($user->email)->send(new UserCreatedMail($user));
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
 
         return back()->with('success', 'User berhasil ditambahkan');
     }
@@ -56,9 +60,10 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'username' => 'required|unique:users',
-            'email' => 'required|email',
-            'role' => 'required|in:kepsek,staf'
+            'username' => 'required|unique:users,username,' . $id,
+            'email' => 'required|email|unique:users,email,' . $id,
+            'role' => 'required|in:kepsek,staf',
+            'password' => 'nullable|min:6'
         ]);
 
         $user = User::findOrFail($id);
@@ -73,6 +78,12 @@ class UserController extends Controller
             'email' => $request->email,
             'role' => $request->role
         ]);
+
+        if ($request->filled('password')) {
+            $user->update([
+                'password' => Hash::make($request->password)
+            ]);
+        }
 
         return back()->with('success', 'User berhasil diupdate');
     }

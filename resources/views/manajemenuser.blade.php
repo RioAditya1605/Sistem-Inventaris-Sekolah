@@ -813,6 +813,12 @@
                         <option value="staf">Staf</option>
 
                     </select>
+                    
+                    <input type="password"
+                    id="edit_password"
+                    name="password"
+                    placeholder="Password baru (kosongkan jika tidak diubah)"
+                    class="border p-2 rounded w-full text-sm md:text-base">
 
                 </div>
 
