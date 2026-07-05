@@ -187,6 +187,7 @@
                     <input
                         type="email"
                         name="email"
+                        value="{{ old('email') }}"
                         required
                         placeholder="Masukkan email..."
                         class="w-full pl-10 pr-4 py-2.5 text-sm sm:text-base
@@ -197,6 +198,12 @@
                     >
 
                 </div>
+
+                @error('email')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                @enderror
 
             </div>
 
