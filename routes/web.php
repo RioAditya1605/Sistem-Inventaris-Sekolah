@@ -268,6 +268,17 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/laporan/download', fn () => view('laporandownload'));
 
     Route::get('/notifikasi', fn () => view('notifikasi'));
+
+    Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
+
+    Route::get('/manajemenuser', [UserController::class, 'index']);
+
+    // button edit dan hapus manajemen user
+    Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.delete');
+    Route::post('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
+
+    Route::post('/user/update/{id}', [UserController::class, 'update']);
+    Route::delete('/user/{id}', [UserController::class, 'destroy']);
 });
 
 /*
@@ -287,6 +298,16 @@ Route::middleware(['auth', 'role:admin,kepsek'])->group(function () {
     //     ->name('laporan.keluar');
 
     Route::get('/logaktivitas', [InventarisController::class, 'logAktivitas']);
+
+    // laporan barang masuk
+    Route::get('/laporan/barangmasuk', [LaporanController::class, 'barangMasuk']);
+    Route::get('/laporan/barangmasuk/excel', [LaporanController::class, 'exportExcelBarangMasuk']);
+    Route::get('/laporan/barangmasuk/pdf', [LaporanController::class, 'exportPdfBarangMasuk']);
+
+    // laporan barang keluar
+    Route::get('/laporan/barangkeluar', [LaporanController::class, 'barangKeluar']);
+    Route::get('/laporan/barangkeluar/excel', [LaporanController::class, 'exportExcelBarangKeluar']);
+    Route::get('/laporan/barangkeluar/pdf', [LaporanController::class, 'exportPdfBarangKeluar']);
     
 });
 
@@ -320,24 +341,3 @@ Route::middleware(['auth', 'role:admin,staf'])->group(function () {
     Route::delete('/inventaris/{id}', [InventarisController::class, 'destroy'])
         ->name('barang.destroy');
 });
-
-// laporan barang masuk
-Route::get('/laporan/barangmasuk', [LaporanController::class, 'barangMasuk']);
-Route::get('/laporan/barangmasuk/excel', [LaporanController::class, 'exportExcelBarangMasuk']);
-Route::get('/laporan/barangmasuk/pdf', [LaporanController::class, 'exportPdfBarangMasuk']);
-
-// laporan barang keluar
-Route::get('/laporan/barangkeluar', [LaporanController::class, 'barangKeluar']);
-Route::get('/laporan/barangkeluar/excel', [LaporanController::class, 'exportExcelBarangKeluar']);
-Route::get('/laporan/barangkeluar/pdf', [LaporanController::class, 'exportPdfBarangKeluar']);
-
-Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
-
-Route::get('/manajemenuser', [UserController::class, 'index']);
-
-// button edit dan hapus manajemen user
-Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.delete');
-Route::post('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
-
-Route::post('/user/update/{id}', [UserController::class, 'update']);
-Route::delete('/user/{id}', [UserController::class, 'destroy']);
