@@ -1,63 +1,5 @@
 <?php
 
-// namespace App\Exports;
-
-// use App\Models\Inventaris;
-// use Maatwebsite\Excel\Concerns\FromCollection;
-
-// class BarangMasukExport implements FromCollection
-// {
-    // /**
-    // * @return \Illuminate\Support\Collection
-    // */
-    // public function collection()
-    // {
-    //     return Inventaris::all();
-    // }
-    // public function collection()
-    // {
-    //     return Inventaris::select(
-    //         'kode',
-    //         'nama',
-    //         'tanggal_masuk',
-    //         'kondisi',
-    //         'jumlah',
-    //         'lokasi'
-    //     )->get();
-    // }
-
-//     protected $tanggalMasuk;
-//     protected $tanggalKeluar;
-
-//     public function __construct($tanggalMasuk, $tanggalKeluar)
-//     {
-//         $this->tanggalMasuk = $tanggalMasuk;
-//         $this->tanggalKeluar = $tanggalKeluar;
-//     }
-
-//     public function collection()
-//     {
-//         $query = Inventaris::query();
-
-//         if ($this->tanggalMasuk) {
-//             $query->whereDate('tanggal_masuk', '>=', $this->tanggalMasuk);
-//         }
-
-//         if ($this->tanggalKeluar) {
-//             $query->whereDate('tanggal_masuk', '<=', $this->tanggalKeluar);
-//         }
-
-//         return $query->select(
-//             'kode',
-//             'nama',
-//             'tanggal_masuk',
-//             'kondisi',
-//             'jumlah',
-//             'lokasi'
-//         )->get();
-//     }
-// }
-
 namespace App\Exports;
 
 use App\Models\BarangMasuk;
@@ -81,8 +23,6 @@ class BarangMasukExport implements FromArray, WithStyles, WithColumnWidths, With
 
     public function array(): array
     {
-        // $query = Inventaris::query();
-        // $query = Inventaris::where('jumlah', '>', 0);
         $query = BarangMasuk::with('inventaris');
 
         if ($this->tanggalAwal) {
@@ -102,32 +42,6 @@ class BarangMasukExport implements FromArray, WithStyles, WithColumnWidths, With
 
         // HEADER
         $data[] = ['No', 'Kode Barang', 'Nama Barang', 'Tanggal Masuk', 'Kondisi', 'Jumlah', 'Lokasi'];
-
-        // DATA
-        // foreach ($query->get() as $index => $item) {
-        //     $data[] = [
-        //         $index + 1,
-        //         $item->kode ?? '-',
-        //         $item->nama ?? '-',
-        //         $item->tanggal_masuk,
-        //         $item->kondisi ?? '-',
-        //         $item->jumlah_masuk,
-        //         $item->lokasi ?? '-',
-        //     ];
-        // }
-
-        // foreach ($query->get() as $index => $item) {
-        //     $inv = $item->inventaris;
-        //     $data[] = [
-        //         $index + 1,
-        //         $inv->kode ?? '-',
-        //         $inv->nama ?? '-',
-        //         $item->tanggal_masuk,
-        //         $inv->kondisi ?? '-',
-        //         $item->jumlah_masuk,
-        //         $inv->lokasi ?? '-',
-        //     ];
-        // }
 
         // return $data;
         $grouped = $query->get()->groupBy('inventaris_id');
@@ -214,16 +128,11 @@ class BarangMasukExport implements FromArray, WithStyles, WithColumnWidths, With
                 $sheet->mergeCells('A1:G1');
                 $sheet->getStyle('A1')->getAlignment()->setHorizontal('center');
 
-                // ======================
-                // 🔥 TTD
-                // ======================
-
+                // TTD
                 $lastTableRow = $sheet->getHighestRow();
                 $ttdStart = $lastTableRow + 2;
 
-                // ======================
-                // 🔥 KOLOM B (KEPSEK)
-                // ======================
+                // KOLOM B (KEPSEK)
                 $sheet->setCellValue('B' . $ttdStart, 'MENGETAHUI');
                 $sheet->setCellValue('B' . ($ttdStart + 1), 'KEPALA SDN 1 KESUMADADI');
 
@@ -238,10 +147,7 @@ class BarangMasukExport implements FromArray, WithStyles, WithColumnWidths, With
                 // NIP
                 $sheet->setCellValue('B' . ($ttdStart + 6), 'NIP.                   ');
 
-
-                // ======================
-                // 🔥 KOLOM G (PENGURUS)
-                // ======================
+                // KOLOM G (PENGURUS)
                 $sheet->setCellValue('G' . $ttdStart, 'Kesumadadi, ' . date('d F Y'));
                 $sheet->setCellValue('G' . ($ttdStart + 1), 'PENGURUS BARANG');
 
@@ -256,11 +162,7 @@ class BarangMasukExport implements FromArray, WithStyles, WithColumnWidths, With
                 // NIP
                 $sheet->setCellValue('G' . ($ttdStart + 6), 'NIP.                   ');
 
-
-                // ======================
-                // 🔥 ALIGNMENT
-                // ======================
-
+                // ALIGNMENT
                 // Kepsek (kolom B) rata kiri
                 $sheet->getStyle('B' . $ttdStart . ':B' . ($ttdStart + 6))
                     ->getAlignment()->setHorizontal('left');

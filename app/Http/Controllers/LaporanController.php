@@ -13,56 +13,9 @@ use App\Models\BarangMasuk;
 
 class LaporanController extends Controller
 {
-    // =============================
-    // LAPORAN BARANG MASUK
-    // =============================
-    // public function barangMasuk(Request $request)
-    // {
-    //     $query = Inventaris::query();
-
-    //     if ($request->tanggalMasuk) {
-    //         $query->whereDate('tanggal_masuk', '>=', $request->tanggalMasuk);
-    //     }
-
-    //     if ($request->tanggalKeluar) {
-    //         $query->whereDate('tanggal_masuk', '<=', $request->tanggalKeluar);
-    //     }
-
-    //     $inventaris = $query->get();
-
-    //     return view('laporanbarangmasuk', compact('inventaris'));
-    // }
-    // public function barangMasuk(Request $request)
-    // {
-    //     $inventaris = collect(); // default kosong
-
-    //     if ($request->filled('tanggalMasuk') || $request->filled('tanggalKeluar')) {
-
-    //         // $query = Inventaris::query();
-    //         $query = Inventaris::where('jumlah', '>', 0);
-
-    //         // VALIDASI: harus isi kedua tanggal
-    //         if ($request->filled('tanggalMasuk') != $request->filled('tanggalKeluar')) {
-    //             return back()->with('error', 'Harus isi kedua tanggal!');
-    //         }
-
-    //         // FILTER
-    //         if ($request->filled('tanggalMasuk') && $request->filled('tanggalKeluar')) {
-    //             $query->whereBetween('tanggal_masuk', [
-    //                 $request->tanggalMasuk,
-    //                 $request->tanggalKeluar
-    //             ]);
-    //         }
-
-    //         $inventaris = $query->get();
-    //     }
-
-    //     return view('laporanbarangmasuk', compact('inventaris'));
-    // }
 
     public function barangMasuk(Request $request)
     {
-        // $query = BarangMasuk::with('inventaris');
         $query = BarangMasuk::selectRaw('
             inventaris_id,
             SUM(jumlah_masuk) as total_masuk,
@@ -90,7 +43,6 @@ class LaporanController extends Controller
             ]);
         }
 
-        // $inventaris = $query->orderBy('tanggal_masuk', 'desc')->get();
         $inventaris = $query->orderByDesc('tanggal_masuk')->get();
 
         return view('laporanbarangmasuk', compact('inventaris'));
@@ -106,11 +58,6 @@ class LaporanController extends Controller
 
     public function exportPdfBarangMasuk(Request $request)
     {
-        // $query = Inventaris::query();
-        // $query = Inventaris::where('jumlah', '>', 0);
-        // $query = BarangMasuk::with('inventaris')
-        //     ->selectRaw('inventaris_id, SUM(jumlah_masuk) as total_masuk')
-        //     ->groupBy('inventaris_id');
         $query = BarangMasuk::join('inventaris', 'barang_masuk.inventaris_id', '=', 'inventaris.id')
             ->selectRaw('
                 inventaris.nama,
@@ -119,18 +66,17 @@ class LaporanController extends Controller
             ->groupBy('inventaris.id', 'inventaris.nama');
 
         if ($request->tanggalMasuk) {
-            // $query->whereDate('tanggal_masuk', '>=', $request->tanggalMasuk);
+
             $query->whereDate('barang_masuk.tanggal_masuk', '>=', $request->tanggalMasuk);
         }
 
         if ($request->tanggalKeluar) {
-            // $query->whereDate('tanggal_masuk', '<=', $request->tanggalKeluar);
+
             $query->whereDate('barang_masuk.tanggal_masuk', '<=', $request->tanggalKeluar);
         }
 
         $inventaris = $query->get();
 
-        // $pdf = Pdf::loadView('laporan.pdf_barang_masuk', compact('inventaris'));
         $pdf = Pdf::loadView('laporan.pdf_barang_masuk', [
             'inventaris' => $inventaris,
             'tanggalAwal' => $request->tanggalMasuk,
@@ -140,33 +86,6 @@ class LaporanController extends Controller
         return $pdf->download('laporan_barang_masuk.pdf');
     }
 
-    // =============================
-    // LAPORAN BARANG KELUAR
-    // =============================
-    // public function barangKeluar(Request $request)
-    // {
-    //     $query = BarangKeluar::with('inventaris')
-    //         ->whereHas('inventaris', function ($q) {
-    //             $q->where('jumlah', '>', 0);
-    //         });
-
-    //     // VALIDASI: harus isi kedua tanggal
-    //     if ($request->filled('tanggalMasuk') != $request->filled('tanggalKeluar')) {
-    //         return back()->with('error', 'Harus isi kedua tanggal!');
-    //     }
-
-    //     // FILTER
-    //     if ($request->filled('tanggalMasuk') && $request->filled('tanggalKeluar')) {
-    //         $query->whereBetween('tanggal_keluar', [
-    //             $request->tanggalMasuk,
-    //             $request->tanggalKeluar
-    //         ]);
-    //     }
-
-    //     $inventaris = $query->get();
-
-    //     return view('laporanbarangkeluar', compact('inventaris'));
-    // }
 
     public function barangKeluar(Request $request)
     {
@@ -191,10 +110,9 @@ class LaporanController extends Controller
             ]);
         }
 
-        // $inventaris = $query->orderBy('tanggal_keluar', 'desc')->get();
         $data = $query->get();
 
-        // 🔥 GROUPING (INI KUNCI UTAMA)
+        // GROUPING
         $inventaris = $data->groupBy('inventaris_id')->map(function ($items) {
 
             $first = $items->first();
@@ -219,11 +137,6 @@ class LaporanController extends Controller
 
     public function exportPdfBarangKeluar(Request $request)
     {
-        // $query = Inventaris::query();
-        // $query = BarangKeluar::with('inventaris')
-        //     ->whereHas('inventaris', function ($q) {
-        //         $q->where('jumlah', '>', 0);
-        //     });
         $query = BarangKeluar::with('inventaris');
 
         if ($request->tanggalMasuk) {
@@ -236,11 +149,6 @@ class LaporanController extends Controller
 
         $data = $query->get();
 
-        // $pdf = Pdf::loadView('laporan.pdf_barang_keluar', [
-        //     'inventaris' => $inventaris,
-        //     'tanggalAwal' => $request->tanggalMasuk,
-        //     'tanggalAkhir' => $request->tanggalKeluar
-        // ]);
         $inventaris = $data->groupBy('inventaris_id')->map(function ($items) {
 
             $first = $items->first();
