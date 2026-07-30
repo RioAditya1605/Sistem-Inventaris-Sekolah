@@ -104,9 +104,7 @@ use Illuminate\Support\Collection;
 
 class InventarisController extends Controller
 {
-    // =========================
     // DATA BARANG (READ UTAMA)
-    // =========================
     public function dataBarang(Request $request)
     {
         if ($request->filled('nama') || $request->filled('kondisi') || $request->filled('tanggal_masuk')) {
@@ -130,8 +128,6 @@ class InventarisController extends Controller
             $query->whereDate('tanggal_masuk', $request->tanggal_masuk);
         }
 
-        // $inventaris = $query->latest()->get();
-        // $inventaris = $query->orderBy('tanggal_masuk', 'desc')->get();
         $inventaris = $query
             ->orderBy('tanggal_masuk', 'desc')
             ->orderBy('created_at', 'desc')
@@ -141,50 +137,6 @@ class InventarisController extends Controller
         return view('databarang', compact('inventaris'));
     }
 
-    // =========================
-    // CREATE BARANG MASUK
-    // =========================
-    // public function store(Request $request)
-    // {
-    //     $request->validate([
-    //         'kode' => 'required',
-    //         'nama' => 'required',
-    //         'jumlah' => 'required|integer',
-    //         'kondisi' => 'required',
-    //         'lokasi' => 'required',
-    //         'tanggal_masuk' => 'required|date',
-    //     ]);
-
-    //     try {
-
-    //         // Simpan ke inventaris
-    //         $inventaris = Inventaris::create([
-    //             'kode' => $request->kode,
-    //             'nama' => $request->nama,
-    //             'jumlah' => $request->jumlah,
-    //             'kondisi' => $request->kondisi,
-    //             'lokasi' => $request->lokasi,
-    //             'tanggal_masuk' => $request->tanggal_masuk,
-    //             'staf_id' => auth()->id(),
-    //         ]);
-
-    //         // Riwayat barang masuk
-    //         BarangMasuk::create([
-    //             'inventaris_id' => $inventaris->id,
-    //             'jumlah_masuk' => $request->jumlah,
-    //             'tanggal_masuk' => $request->tanggal_masuk,
-    //             'staf_id' => auth()->id(),
-    //         ]);
-
-    //         return redirect('/databarang')
-    //             ->with('success','Barang berhasil ditambahkan');
-
-    //     } catch (\Exception $e) {
-
-    //         return back()->with('error','Barang gagal ditambahkan');
-
-    //     }
-    // }
 
     public function store(Request $request)
     {
@@ -194,13 +146,11 @@ class InventarisController extends Controller
             'jumlah' => 'required|integer|min:1',
             'kondisi' => 'required',
             'lokasi' => 'required',
-            // 'tanggal_masuk' => 'required|date',
         ]);
 
         try {
 
-            // 🔍 CEK BERDASARKAN KODE
-            // $barang = Inventaris::where('kode', $request->kode)->first();
+            // CEK BERDASARKAN KODE
             $barang = Inventaris::where('kode', $request->kode)
                 ->where('nama', $request->nama)
                 ->where('kondisi', $request->kondisi)
@@ -231,7 +181,7 @@ class InventarisController extends Controller
                 return back()->with('error','Kode barang sudah dipakai untuk barang lain!');
             }
 
-            // ✅ JIKA BELUM ADA → INSERT BARU
+            // JIKA BELUM ADA = INSERT BARU
             $inventaris = Inventaris::create([
                 'kode' => $request->kode,
                 'nama' => $request->nama,
@@ -260,35 +210,27 @@ class InventarisController extends Controller
         }
     }
 
-    // =========================
     // UPDATE BARANG (KELUAR / EDIT)
-    // =========================
     public function update(Request $request, $id)
     {
         $inventaris = Inventaris::findOrFail($id);
         $inventaris->update($request->only([
             'kondisi',
             'lokasi'
-            // 'jumlah',
-            // 'tanggal_keluar'
         ]));
 
         return redirect('/databarang')
             ->with('success', 'Data barang berhasil diperbarui');
     }
 
-    // =========================
     // DELETE
-    // =========================
     public function destroy($id)
     {
         Inventaris::findOrFail($id)->delete();
         return redirect()->back()->with('success', 'Data berhasil dihapus');
     }
 
-    // =========================
     // PROSES BARANG KELUAR
-    // =========================
     public function barangKeluar(Request $request)
     {
         $request->validate([
@@ -332,50 +274,6 @@ class InventarisController extends Controller
         }
     }
 
-    // public function logAktivitas(Request $request)
-    // {
-    //     $masuk = \App\Models\BarangMasuk::with('inventaris','user')->get()->map(function ($item) {
-    //         return [
-    //             'kode' => $item->inventaris->kode,
-    //             'nama' => $item->inventaris->nama,
-    //             'tanggal' => $item->tanggal_masuk,
-    //             'waktu' => \Carbon\Carbon::parse($item->created_at),
-    //             'kondisi' => $item->inventaris->kondisi,
-    //             'user' => $item->user->name ?? '-',
-    //             'lokasi' => $item->inventaris->lokasi,
-    //             'aksi' => 'Masuk'
-    //         ];
-
-        
-    //     });
-
-    //     $keluar = \App\Models\BarangKeluar::with('inventaris','user')->get()->map(function ($item) {
-    //         return [
-    //             'kode' => $item->inventaris->kode,
-    //             'nama' => $item->inventaris->nama,
-    //             'tanggal' => $item->tanggal_keluar,
-    //             'waktu' => \Carbon\Carbon::parse($item->created_at),
-    //             'kondisi' => $item->inventaris->kondisi,
-    //             'user' => $item->user->name ?? '-',
-    //             'lokasi' => $item->inventaris->lokasi,
-    //             'aksi' => 'Keluar'
-    //         ];
-    //     });
-
-    //     // $log = $masuk->merge($keluar)->sortByDesc('waktu');
-    //     $log = $masuk->merge($keluar)->sortByDesc(function ($item) {
-    //         return $item['waktu'];
-    //     })->values();
-
-    //     $perPage = $request->get('perPage', 10);
-
-    //     $log = \App\Models\LogAktivitas::with('user')
-    //         ->orderBy('created_at', 'desc')
-    //         ->paginate($perPage)
-    //         ->withQueryString();
-
-    //     return view('logaktivitas', compact('log'));
-    // }
 
     public function logAktivitas(Request $request)
     {
@@ -405,12 +303,12 @@ class InventarisController extends Controller
             ];
         });
 
-        // ✅ MERGE + SORT
+        // MERGE + SORT
         $log = $masuk->merge($keluar)
             ->sortByDesc('waktu')
             ->values();
 
-        // ✅ PAGINATION MANUAL (INI BAGIAN PENTING)
+        // PAGINATION MANUAL
         $perPage = $request->get('perPage', 10);
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 

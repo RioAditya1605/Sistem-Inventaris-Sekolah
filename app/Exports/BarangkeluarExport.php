@@ -23,10 +23,6 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
 
     public function array(): array
     {
-        // $query = BarangKeluar::with('inventaris')
-        //     ->whereHas('inventaris', function ($q) {
-        //         $q->where('jumlah', '>', 0);
-        //     });
         $query = BarangKeluar::with('inventaris');
 
         if ($this->tanggalAwal) {
@@ -46,19 +42,6 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
 
         //HEADER TABEL
         $data[] = ['No', 'Kode Barang', 'Nama Barang', 'Tanggal Keluar', 'Kondisi', 'Jumlah', 'Lokasi'];
-
-        //DATA
-        // foreach ($query->get() as $index => $item) {
-        //     $data[] = [
-        //         $index + 1,
-        //         $item->inventaris->kode ?? '-',
-        //         $item->inventaris->nama ?? '-',
-        //         $item->tanggal_keluar,
-        //         $item->inventaris->kondisi ?? '-',
-        //         $item->jumlah_keluar,
-        //         $item->inventaris->lokasi ?? '-',
-        //     ];
-        // }
 
         // return $data;
         $grouped = $query->get()->groupBy('inventaris_id');
@@ -81,7 +64,7 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
         return $data;
     }
 
-    // 🔥 STYLE
+    // STYLE
     public function styles(Worksheet $sheet)
     {
         return [
@@ -96,7 +79,7 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
         ];
     }
 
-    // 🔥 LEBAR KOLOM
+    // LEBAR KOLOM
     public function columnWidths(): array
     {
         return [
@@ -117,10 +100,10 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
 
                 $sheet = $event->sheet;
 
-                // 🔥 Hitung jumlah baris
+                // Hitung jumlah baris
                 $totalRows = $sheet->getHighestRow();
 
-                // 🔥 Border dari header sampai data terakhir
+                // Border dari header sampai data terakhir
                 $sheet->getStyle('A4:G' . $totalRows)->applyFromArray([
                     'borders' => [
                         'allBorders' => [
@@ -129,7 +112,7 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
                     ],
                 ]);
 
-                // 🔥 Rata tengah kolom No & Jumlah
+                // Rata tengah kolom No & Jumlah
                 $sheet->getStyle('A4:G4')
                     ->getAlignment()
                     ->setHorizontal('center');
@@ -139,7 +122,7 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
                 $sheet->getStyle('D5:D' . $totalRows)->getAlignment()->setHorizontal('center'); // Tanggal
                 $sheet->getStyle('F5:F' . $totalRows)->getAlignment()->setHorizontal('center'); // Jumlah
 
-                // 🔥 Kiri (mepet kiri tabel)
+                // Kiri (mepet kiri tabel)
                 $sheet->getStyle('C5:C' . $totalRows)->getAlignment()->setHorizontal('left'); // Nama Barang
                 $sheet->getStyle('E5:E' . $totalRows)->getAlignment()->setHorizontal('left'); // Kondisi
                 $sheet->getStyle('G5:G' . $totalRows)->getAlignment()->setHorizontal('left'); // Lokasi
@@ -151,16 +134,11 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
                 $sheet->mergeCells('A1:G1');
                 $sheet->getStyle('A1')->getAlignment()->setHorizontal('center');
 
-                // =====================================
-                // 🔥 TANDA TANGAN (AMAN & TIDAK MASUK TABEL)
-                // =====================================
-
+                // TANDA TANGAN (AMAN & TIDAK MASUK TABEL)
                 $lastTableRow = $sheet->getHighestRow();
                 $ttdStart = $lastTableRow + 2;
 
-                // ======================
-                // 🔥 KOLOM B (KEPSEK)
-                // ======================
+                // KOLOM B (KEPSEK)
                 $sheet->setCellValue('B' . $ttdStart, 'MENGETAHUI');
                 $sheet->setCellValue('B' . ($ttdStart + 1), 'KEPALA SDN 1 KESUMADADI');
 
@@ -175,10 +153,7 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
                 // NIP
                 $sheet->setCellValue('B' . ($ttdStart + 6), 'NIP.                   ');
 
-
-                // ======================
-                // 🔥 KOLOM G (PENGURUS)
-                // ======================
+                // KOLOM G (PENGURUS)
                 $sheet->setCellValue('G' . $ttdStart, 'Kesumadadi, ' . date('d F Y'));
                 $sheet->setCellValue('G' . ($ttdStart + 1), 'PENGURUS BARANG');
 
@@ -193,11 +168,7 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
                 // NIP
                 $sheet->setCellValue('G' . ($ttdStart + 6), 'NIP.                   ');
 
-
-                // ======================
-                // 🔥 ALIGNMENT
-                // ======================
-
+                // ALIGNMENT
                 // Kepsek (kolom B) rata kiri
                 $sheet->getStyle('B' . $ttdStart . ':B' . ($ttdStart + 6))
                     ->getAlignment()->setHorizontal('left');
@@ -210,7 +181,7 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
                 $sheet->getStyle('B' . ($ttdStart + 5))->getFont()->setBold(true);
                 $sheet->getStyle('G' . ($ttdStart + 5))->getFont()->setBold(true);
 
-                // 🔥 HILANGKAN GARIS DEFAULT EXCEL
+                // HILANGKAN GARIS DEFAULT EXCEL
                 $event->sheet->getDelegate()->setShowGridlines(false);
                 
             }
