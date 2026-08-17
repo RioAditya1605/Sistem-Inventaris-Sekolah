@@ -41,6 +41,17 @@
         .no-border td {
             border: none;
         }
+
+        .footer-sistem {
+                position: absolute;
+                bottom: 10px;
+                left: 0;
+                right: 0;
+                text-align: center;
+                font-size: 9px;
+                color: #666;
+                font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -160,6 +171,10 @@
             </td>
         </tr>
     </table>
+
+    <div class="footer-sistem">
+        *Laporan ini generate menggunakan Sistem Inventaris Sekolah SDN 1 Kesumadadi
+    </div>
 
 </body>
 </html>

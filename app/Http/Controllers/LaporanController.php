@@ -24,6 +24,14 @@ class LaporanController extends Controller
         ->with('inventaris')
         ->groupBy('inventaris_id');
 
+        // AMBIL DAFTAR LOKASI
+        $lokasi = Inventaris::select('lokasi')
+            ->whereNotNull('lokasi')
+            ->where('lokasi', '!=', '')
+            ->distinct()
+            ->orderBy('lokasi')
+            ->pluck('lokasi');
+
         // VALIDASI
         if ($request->filled('tanggalMasuk') != $request->filled('tanggalKeluar')) {
             return back()->with('error', 'Harus isi kedua tanggal!');
@@ -43,15 +51,22 @@ class LaporanController extends Controller
             ]);
         }
 
+        // FILTER LOKASI
+        if ($request->filled('lokasi')) {
+            $query->whereHas('inventaris', function ($q) use ($request) {
+                $q->where('lokasi', $request->lokasi);
+            });
+        }
+
         $inventaris = $query->orderByDesc('tanggal_masuk')->get();
 
-        return view('laporanbarangmasuk', compact('inventaris'));
+        return view('laporanbarangmasuk', compact('inventaris', 'lokasi'));
     }
 
     public function exportExcelBarangMasuk(Request $request)
     {
         return Excel::download(
-            new BarangMasukExport($request->tanggalMasuk, $request->tanggalKeluar),
+            new BarangMasukExport($request->tanggalMasuk, $request->tanggalKeluar, $request->lokasi),
             'laporan_barang_masuk.xlsx'
         );
     }
@@ -75,12 +90,18 @@ class LaporanController extends Controller
             $query->whereDate('barang_masuk.tanggal_masuk', '<=', $request->tanggalKeluar);
         }
 
+        // FILTER LOKASI
+        if ($request->filled('lokasi')) {
+            $query->where('inventaris.lokasi', $request->lokasi);
+        }
+
         $inventaris = $query->get();
 
         $pdf = Pdf::loadView('laporan.pdf_barang_masuk', [
             'inventaris' => $inventaris,
             'tanggalAwal' => $request->tanggalMasuk,
-            'tanggalAkhir' => $request->tanggalKeluar
+            'tanggalAkhir' => $request->tanggalKeluar,
+            'lokasi' => $request->lokasi
         ]);
 
         return $pdf->download('laporan_barang_masuk.pdf');
@@ -90,6 +111,14 @@ class LaporanController extends Controller
     public function barangKeluar(Request $request)
     {
         $query = BarangKeluar::with('inventaris');
+
+        // AMBIL DAFTAR LOKASI
+        $lokasi = Inventaris::select('lokasi')
+            ->whereNotNull('lokasi')
+            ->where('lokasi', '!=', '')
+            ->distinct()
+            ->orderBy('lokasi')
+            ->pluck('lokasi');
 
         // VALIDASI
         if ($request->filled('tanggalMasuk') != $request->filled('tanggalKeluar')) {
@@ -110,6 +139,13 @@ class LaporanController extends Controller
             ]);
         }
 
+        // FILTER LOKASI
+        if ($request->filled('lokasi')) {
+            $query->whereHas('inventaris', function ($q) use ($request) {
+                $q->where('lokasi', $request->lokasi);
+            });
+        }
+
         $data = $query->get();
 
         // GROUPING
@@ -124,13 +160,13 @@ class LaporanController extends Controller
             ];
         })->values();
 
-        return view('laporanbarangkeluar', compact('inventaris'));
+        return view('laporanbarangkeluar', compact('inventaris', 'lokasi'));
     }
 
     public function exportExcelBarangKeluar(Request $request)
     {
         return Excel::download(
-            new BarangKeluarExport($request->tanggalMasuk, $request->tanggalKeluar),
+            new BarangKeluarExport($request->tanggalMasuk, $request->tanggalKeluar, $request->lokasi),
             'laporan_barang_keluar.xlsx'
         );
     }
@@ -145,6 +181,13 @@ class LaporanController extends Controller
 
         if ($request->tanggalKeluar) {
             $query->whereDate('tanggal_keluar', '<=', $request->tanggalKeluar);
+        }
+
+        // FILTER LOKASI
+        if ($request->filled('lokasi')) {
+            $query->whereHas('inventaris', function ($q) use ($request) {
+                $q->where('lokasi', $request->lokasi);
+            });
         }
 
         $data = $query->get();
@@ -163,7 +206,8 @@ class LaporanController extends Controller
         $pdf = Pdf::loadView('laporan.pdf_barang_keluar', [
             'inventaris' => $inventaris,
             'tanggalAwal' => $request->tanggalMasuk,
-            'tanggalAkhir' => $request->tanggalKeluar
+            'tanggalAkhir' => $request->tanggalKeluar,
+            'lokasi' => $request->lokasi
         ]);
 
         return $pdf->download('laporan_barang_keluar.pdf');

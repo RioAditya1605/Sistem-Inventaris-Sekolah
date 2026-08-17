@@ -14,11 +14,13 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
 {
     protected $tanggalAwal;
     protected $tanggalAkhir;
+    protected $lokasi;
 
-    public function __construct($tanggalAwal, $tanggalAkhir)
+    public function __construct($tanggalAwal, $tanggalAkhir, $lokasi = null)
     {
         $this->tanggalAwal = $tanggalAwal;
         $this->tanggalAkhir = $tanggalAkhir;
+        $this->lokasi = $lokasi;
     }
 
     public function array(): array
@@ -33,11 +35,17 @@ class BarangKeluarExport implements FromArray, WithStyles, WithColumnWidths, Wit
             $query->whereDate('tanggal_keluar', '<=', $this->tanggalAkhir);
         }
 
+        if ($this->lokasi) {
+            $query->whereHas('inventaris', function ($q) {
+                $q->where('lokasi', $this->lokasi);
+            });
+        }
+
         $data = [];
 
         //JUDUL
         $data[] = ['LAPORAN BARANG KELUAR'];
-        $data[] = ['Periode: ' . ($this->tanggalAwal ?? '-') . ' s/d ' . ($this->tanggalAkhir ?? '-')];
+        $data[] = ['Periode: ' . ($this->tanggalAwal ?? '-') . ' s/d ' . ($this->tanggalAkhir ?? '-'). ' | Lokasi: ' . ($this->lokasi ?? 'Semua Lokasi')];
         $data[] = [' ']; // kosong
 
         //HEADER TABEL
