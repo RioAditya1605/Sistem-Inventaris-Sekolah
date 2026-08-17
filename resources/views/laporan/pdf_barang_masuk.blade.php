@@ -1,33 +1,3 @@
-{{-- <h2 style="text-align:center;">Laporan Barang Masuk</h2>
-
-<table border="1" width="100%" cellspacing="0" cellpadding="5">
-<thead>
-<tr>
-<th>No</th>
-<th>Kode</th>
-<th>Nama</th>
-<th>Tanggal Masuk</th>
-<th>Kondisi</th>
-<th>Jumlah</th>
-<th>Lokasi</th>
-</tr>
-</thead>
-
-<tbody>
-@foreach ($inventaris as $item)
-<tr>
-<td>{{ $loop->iteration }}</td>
-<td>{{ $item->kode }}</td>
-<td>{{ $item->nama }}</td>
-<td>{{ $item->tanggal_masuk }}</td>
-<td>{{ $item->kondisi }}</td>
-<td>{{ $item->jumlah }}</td>
-<td>{{ $item->lokasi }}</td>
-</tr>
-@endforeach
-</tbody>
-</table> --}}
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,6 +40,17 @@
 
         .no-border td {
             border: none;
+        }
+
+        .footer-sistem {
+                position: absolute;
+                bottom: 10px;
+                left: 0;
+                right: 0;
+                text-align: center;
+                font-size: 9px;
+                color: #666;
+                font-style: italic;
         }
     </style>
 </head>
@@ -190,6 +171,10 @@
             </td>
         </tr>
     </table>
+
+    <div class="footer-sistem">
+        *Laporan ini generate menggunakan Sistem Inventaris Sekolah SDN 1 Kesumadadi
+    </div>
 
 </body>
 </html>

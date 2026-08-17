@@ -68,6 +68,31 @@
                     >
                 </div>
 
+                <!-- Lokasi -->
+                <div>
+                    <label class="text-sm font-medium flex items-center gap-1 mb-1">
+
+                        <i data-lucide="map-pin" class="w-4 h-4"></i>
+                        Lokasi (Opsional)
+
+                    </label>
+
+                    <input
+                        type="text"
+                        name="lokasi"
+                        list="daftar-lokasi"
+                        value="{{ request('lokasi') }}"
+                        placeholder="Pilih lokasi..."
+                        class="w-full border border-gray-300 rounded p-2 text-sm"
+                    >
+
+                    <datalist id="daftar-lokasi">
+                        @foreach($lokasi as $loc)
+                            <option value="{{ $loc }}">
+                        @endforeach
+                    </datalist>
+                </div>
+
             </div>
 
             <!-- BUTTON -->
@@ -136,7 +161,7 @@
                 <!-- BUTTON -->
                 <div class="flex flex-col sm:flex-row gap-3">
 
-                    <a href="/laporan/barangkeluar/excel?tanggalMasuk={{ request('tanggalMasuk') }}&tanggalKeluar={{ request('tanggalKeluar') }}"
+                    <a href="/laporan/barangkeluar/excel?tanggalMasuk={{ request('tanggalMasuk') }}&tanggalKeluar={{ request('tanggalKeluar') }}&lokasi={{ request('lokasi') }}"
                         class="flex items-center justify-center gap-2
                                bg-green-600 text-white px-4 py-2 text-sm
                                rounded-md shadow hover:bg-green-700
@@ -145,7 +170,7 @@
                         Cetak Excel
                     </a>
 
-                    <a href="/laporan/barangkeluar/pdf?tanggalMasuk={{ request('tanggalMasuk') }}&tanggalKeluar={{ request('tanggalKeluar') }}"
+                    <a href="/laporan/barangkeluar/pdf?tanggalMasuk={{ request('tanggalMasuk') }}&tanggalKeluar={{ request('tanggalKeluar') }}&lokasi={{ request('lokasi') }}"
                         class="flex items-center justify-center gap-2
                                bg-red-600 text-white px-4 py-2 text-sm
                                rounded-md shadow hover:bg-red-700
