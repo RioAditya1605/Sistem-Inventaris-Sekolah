@@ -6,7 +6,7 @@
 <section class="space-y-6 p-4 md:p-6">
 
     <!-- HEADER -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between bg-gray-200 p-4 rounded-lg shadow gap-4">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between bg-white p-4 rounded-lg shadow gap-4">
 
         <!-- JUDUL -->
         <h1 class="text-2xl md:text-3xl font-semibold flex items-center gap-2">
@@ -64,53 +64,53 @@
     </div>
 
     <!-- CARD TABLE -->
-    <div class="bg-[#E5E5E5] p-4 md:p-6 rounded-xl shadow-md">
+    <div class="bg-white p-4 md:p-6 rounded-xl shadow-md">
 
         <!-- TABLE -->
         <div class="overflow-x-auto rounded-lg">
 
-            <table class="min-w-full text-sm text-left bg-gray-300 rounded-lg shadow">
+            <table class="min-w-full text-sm text-left bg-gray-300 rounded-lg shadow border-collapse">
 
                 <!-- HEADER -->
                 <thead class="bg-gray-500 text-white whitespace-nowrap">
 
                     <tr>
 
-                        <th class="py-3 px-3">
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">
                             <div class="flex items-center gap-2">
                                 No
                             </div>
                         </th>
 
-                        <th class="py-3 px-3">
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">
                             <div class="flex items-center gap-2">
                                 <i data-lucide="user" class="w-4 h-4"></i>
                                 Nama Lengkap
                             </div>
                         </th>
 
-                        <th class="py-3 px-3">
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">
                             <div class="flex items-center gap-2">
                                 <i data-lucide="at-sign" class="w-4 h-4"></i>
                                 Username
                             </div>
                         </th>
 
-                        <th class="py-3 px-3">
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">
                             <div class="flex items-center gap-2">
                                 <i data-lucide="shield" class="w-4 h-4"></i>
                                 Role
                             </div>
                         </th>
 
-                        <th class="py-3 px-3 whitespace-nowrap">
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">
                             <div class="flex items-center gap-2">
                                 <i data-lucide="calendar" class="w-4 h-4"></i>
                                 Tanggal Ditambahkan
                             </div>
                         </th>
 
-                        <th class="py-3 px-3 text-center">
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">
                             <div class="flex items-center justify-center gap-2">
                                 <i data-lucide="settings" class="w-4 h-4"></i>
                                 Aksi
@@ -128,27 +128,27 @@
 
                     <tr class="border-b border-gray-400 whitespace-nowrap">
 
-                        <td class="py-3 px-3">
+                        <td class="border border-slate-300 bg-slate-50 px-3 py-3">
                             {{ $index + 1 }}
                         </td>
 
-                        <td class="py-3 px-3">
+                        <td class="border border-slate-300 bg-slate-50 px-3 py-3">
                             {{ $user->name }}
                         </td>
 
-                        <td class="py-3 px-3">
+                        <td class="border border-slate-300 bg-slate-50 px-3 py-3">
                             {{ $user->username }}
                         </td>
 
-                        <td class="py-3 px-3 capitalize">
+                        <td class="border border-slate-300 bg-slate-50 px-3 py-3 capitalize">
                             {{ $user->role }}
                         </td>
 
-                        <td class="py-3 px-3">
+                        <td class="border border-slate-300 bg-slate-50 px-3 py-3">
                             {{ $user->created_at->format('d-m-Y') }}
                         </td>
 
-                        <td class="py-3 px-3">
+                        <td class="border border-slate-300 bg-slate-50 px-3 py-3">
 
                             <div class="flex justify-center gap-3">
 
@@ -215,9 +215,9 @@
         <div class="flex justify-end mt-4">
 
             <button onclick="openModal()"
-                class="bg-white text-[#4A70A9] font-medium
+                class="bg-white border-2 border-[#4A70A9] text-[#4A70A9] font-medium
                        px-4 py-2 rounded-full shadow
-                       hover:bg-[#8FABD4] hover:text-white
+                       hover:bg-[#4A70A9] hover:text-white
                        flex items-center gap-2 transition text-sm md:text-base">
 
                 <i data-lucide="user-plus" class="w-5 h-5"></i>

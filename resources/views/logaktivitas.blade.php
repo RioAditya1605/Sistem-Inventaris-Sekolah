@@ -6,7 +6,7 @@
 <section class="p-4 md:p-6 space-y-6">
 
     <!-- HEADER -->
-    <div class="flex items-center gap-3 bg-gray-200 p-4 rounded-lg shadow">
+    <div class="flex items-center gap-3 bg-white p-4 rounded-lg shadow">
 
         <i data-lucide="list" class="w-6 h-6 md:w-7 md:h-7"></i>
 
@@ -17,68 +17,68 @@
     </div>
 
     <!-- CARD -->
-    <div class="bg-[#E5E5E5] p-4 md:p-6 rounded-xl shadow-md">
+    <div class="bg-white p-4 md:p-6 rounded-xl shadow-md">
 
         <!-- TABLE -->
         <div class="overflow-x-auto rounded-lg">
 
-            <table class="min-w-full text-sm text-left bg-gray-300 rounded-lg shadow">
+            <table class="min-w-full text-sm text-left bg-gray-300 rounded-lg shadow border-collapse">
 
                 <!-- HEADER -->
                 <thead class="bg-gray-500 text-white whitespace-nowrap">
 
                     <tr>
 
-                        <th class="py-3 px-3">
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">
                             <div class="flex items-center gap-2">
                                 <i data-lucide="hash" class="w-4 h-4"></i>
                                 No
                             </div>
                         </th>
 
-                        <th class="py-3 px-3">
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">
                             <div class="flex items-center gap-2">
                                 <i data-lucide="barcode" class="w-4 h-4"></i>
                                 Kode Barang
                             </div>
                         </th>
 
-                        <th class="py-3 px-3">
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">
                             <div class="flex items-center gap-2">
                                 <i data-lucide="box" class="w-4 h-4"></i>
                                 Nama Barang
                             </div>
                         </th>
 
-                        <th class="py-3 px-3">
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">
                             <div class="flex items-center gap-2">
                                 <i data-lucide="calendar" class="w-4 h-4"></i>
                                 Tanggal
                             </div>
                         </th>
 
-                        <th class="py-3 px-3">
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">
                             <div class="flex items-center gap-2">
                                 <i data-lucide="badge-check" class="w-4 h-4"></i>
                                 Kondisi
                             </div>
                         </th>
 
-                        <th class="py-3 px-3">
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">
                             <div class="flex items-center gap-2">
                                 <i data-lucide="user" class="w-4 h-4"></i>
                                 User
                             </div>
                         </th>
 
-                        <th class="py-3 px-3">
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">
                             <div class="flex items-center gap-2">
                                 <i data-lucide="map-pin" class="w-4 h-4"></i>
                                 Lokasi
                             </div>
                         </th>
 
-                        <th class="py-3 px-3">
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">
                             <div class="flex items-center gap-2">
                                 <i data-lucide="settings" class="w-4 h-4"></i>
                                 Aksi
@@ -97,42 +97,42 @@
                     <tr class="border-b border-gray-400 whitespace-nowrap">
 
                         <!-- NO -->
-                        <td class="py-3 px-3">
+                        <td class="border border-slate-300 bg-slate-50 px-3 py-3">
                             {{ ($log->currentPage() - 1) * $log->perPage() + $loop->iteration }}
                         </td>
 
                         <!-- KODE -->
-                        <td class="py-3 px-3">
+                        <td class="border border-slate-300 bg-slate-50 px-3 py-3">
                             {{ $item['kode'] }}
                         </td>
 
                         <!-- NAMA -->
-                        <td class="py-3 px-3">
+                        <td class="border border-slate-300 bg-slate-50 px-3 py-3">
                             {{ $item['nama'] }}
                         </td>
 
                         <!-- TANGGAL -->
-                        <td class="py-3 px-3">
+                        <td class="border border-slate-300 bg-slate-50 px-3 py-3">
                             {{ \Carbon\Carbon::parse($item['waktu'])->format('d-m-Y H:i') }}
                         </td>
 
                         <!-- KONDISI -->
-                        <td class="py-3 px-3">
+                        <td class="border border-slate-300 bg-slate-50 px-3 py-3">
                             {{ $item['kondisi'] }}
                         </td>
 
                         <!-- USER -->
-                        <td class="py-3 px-3">
+                        <td class="border border-slate-300 bg-slate-50 px-3 py-3">
                             {{ $item['user'] }}
                         </td>
 
                         <!-- LOKASI -->
-                        <td class="py-3 px-3">
+                        <td class="border border-slate-300 bg-slate-50 px-3 py-3">
                             {{ $item['lokasi'] }}
                         </td>
 
                         <!-- AKSI -->
-                        <td class="py-3 px-3">
+                        <td class="border border-slate-300 bg-slate-50 px-3 py-3">
 
                             @if ($item['aksi'] == 'Masuk')
 

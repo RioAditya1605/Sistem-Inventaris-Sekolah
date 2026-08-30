@@ -6,7 +6,7 @@
 <section class="p-4 md:p-6 space-y-6">
 
     <!-- HEADER -->
-    <div class="flex items-center gap-3 bg-gray-200 p-4 rounded-lg shadow">
+    <div class="flex items-center gap-3 bg-white p-4 rounded-lg shadow">
 
         <i data-lucide="upload" class="w-6 h-6 md:w-7 md:h-7"></i>
 
@@ -31,7 +31,7 @@
     <!-- FORM BARANG KELUAR -->
     <form method="POST"
           action="{{ route('barang.keluar') }}"
-          class="bg-gray-200 rounded-lg shadow p-4 md:p-6 w-full">
+          class="bg-white rounded-lg shadow p-4 md:p-6 w-full">
 
         @csrf
         @method('PUT')
@@ -93,8 +93,8 @@
         <div class="flex flex-col sm:flex-row gap-3 mt-4">
 
             <button type="submit"
-                class="w-full sm:flex-1 bg-white p-2 rounded-md shadow
-                       font-medium hover:bg-gray-300
+                class="w-full sm:flex-1 bg-white p-2 border-2 border-[#4A70A9] rounded-md shadow
+                       font-medium hover:bg-[#4A70A9] hover:text-white
                        flex items-center justify-center gap-2">
 
                 <i data-lucide="log-out" class="w-5 h-5"></i>
