@@ -8,7 +8,7 @@
 
     {{-- HEADER CARD --}}
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between
-                bg-gray-200 p-4 rounded-lg shadow gap-4">
+                bg-white p-4 rounded-lg shadow gap-4">
 
         <h1 class="text-2xl md:text-3xl font-semibold">Dashboard</h1>
 
@@ -43,7 +43,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
         <!-- Total Barang -->
-        <div class="relative overflow-hidden group p-4 rounded-lg shadow bg-gray-300
+        <div class="relative overflow-hidden group p-4 rounded-lg shadow bg-white
                     flex items-center transform transition duration-300
                     hover:scale-105 hover:shadow-xl hover:bg-[#4A70A9]">
             <div class="flex-shrink-0 relative z-10">
@@ -64,7 +64,7 @@
         </div>
 
         <!-- Kondisi Baik -->
-        <div class="relative overflow-hidden group p-4 rounded-lg shadow bg-gray-300
+        <div class="relative overflow-hidden group p-4 rounded-lg shadow bg-white
                     flex items-center transform transition duration-300
                     hover:scale-105 hover:shadow-xl hover:bg-[#4A70A9]">
             <div class="flex-shrink-0 relative z-10">
@@ -85,7 +85,7 @@
         </div>
 
         <!-- Rusak Ringan -->
-        <div class="relative overflow-hidden group p-4 rounded-lg shadow bg-gray-300
+        <div class="relative overflow-hidden group p-4 rounded-lg shadow bg-white
                     flex items-center transform transition duration-300
                     hover:scale-105 hover:shadow-xl hover:bg-[#4A70A9]">
             <div class="flex-shrink-0 relative z-10">
@@ -106,7 +106,7 @@
         </div>
 
         <!-- Rusak Berat -->
-        <div class="relative overflow-hidden group p-4 rounded-lg shadow bg-gray-300
+        <div class="relative overflow-hidden group p-4 rounded-lg shadow bg-white
                     flex items-center transform transition duration-300
                     hover:scale-105 hover:shadow-xl hover:bg-[#4A70A9]">
             <div class="flex-shrink-0 relative z-10">

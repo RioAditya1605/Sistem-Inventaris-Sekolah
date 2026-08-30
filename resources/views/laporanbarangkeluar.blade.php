@@ -6,7 +6,7 @@
 <section class="p-4 md:p-6 space-y-6">
 
     <!-- HEADER -->
-    <div class="flex items-center gap-3 bg-gray-200 p-4 rounded-lg shadow">
+    <div class="flex items-center gap-3 bg-white p-4 rounded-lg shadow">
 
         <i data-lucide="file-text" class="w-6 h-6 md:w-7 md:h-7"></i>
 
@@ -16,7 +16,7 @@
     </div>
 
     <!-- FILTER BOX -->
-    <div class="bg-gray-200 rounded-lg shadow p-4 md:p-6 w-full">
+    <div class="bg-white rounded-lg shadow p-4 md:p-6 w-full">
 
         <form method="GET" action="/laporan/barangkeluar">
 
@@ -100,8 +100,8 @@
 
                 <!-- TAMPILKAN -->
                 <button type="submit"
-                    class="w-full sm:flex-1 bg-white p-2 rounded-md shadow
-                           font-medium hover:bg-gray-300
+                    class="w-full sm:flex-[4] h-10 bg-white p-2 border-2 border-[#4A70A9] rounded-md shadow
+                           font-medium hover:bg-[#4A70A9] hover:text-white
                            flex items-center justify-center gap-2">
 
                     <i data-lucide="eye" class="w-5 h-5"></i>
@@ -110,9 +110,9 @@
 
                 <!-- RESET -->
                 <a href="{{ url()->current() }}"
-                    class="w-full sm:flex-1 bg-white p-2 border border-gray-400
-                           rounded-md shadow font-medium hover:bg-gray-300
-                           flex items-center justify-center gap-2">
+                    class="w-full sm:flex-1 h-10 bg-white border-2 border-[#9CA3AF]
+                          rounded-md shadow font-medium hover:bg-[#6B7280] hover:text-white
+                          flex items-center justify-center gap-2">
 
                     <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
                     Reset Filter
@@ -133,7 +133,7 @@
     
     <!-- CARD TABLE -->
     @if(!session('error'))
-    <div class="bg-[#E5E5E5] p-4 md:p-6 rounded-xl shadow-md">
+    <div class="bg-white p-4 md:p-6 rounded-xl shadow-md">
 
         <!-- INFO & BUTTON -->
         @if(request()->filled('tanggalMasuk') || request()->filled('tanggalKeluar'))
@@ -189,49 +189,49 @@
 
         <div class="overflow-x-auto rounded-lg">
 
-            <table class="min-w-full text-sm text-left bg-gray-300 rounded-lg shadow">
+            <table class="min-w-full text-sm text-left bg-gray-300 rounded-lg shadow border-collapse">
 
                 <thead class="bg-gray-500 text-white whitespace-nowrap">
                     <tr>
 
-                        <th class="py-3 px-3">No</th>
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">No</th>
 
-                        <th class="py-3 px-3">
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">
                             <div class="flex items-center gap-1">
                                 <i data-lucide="barcode" class="w-4 h-4"></i>
                                 Kode Barang
                             </div>
                         </th>
 
-                        <th class="py-3 px-3">
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">
                             <div class="flex items-center gap-1">
                                 <i data-lucide="box" class="w-4 h-4"></i>
                                 Nama Barang
                             </div>
                         </th>
 
-                        <th class="py-3 px-3">
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">
                             <div class="flex items-center gap-1">
                                 <i data-lucide="calendar" class="w-4 h-4"></i>
                                 Tanggal Keluar
                             </div>
                         </th>
 
-                        <th class="py-3 px-3">
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">
                             <div class="flex items-center gap-1">
                                 <i data-lucide="tag" class="w-4 h-4"></i>
                                 Kondisi
                             </div>
                         </th>
 
-                        <th class="py-3 px-3">
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">
                             <div class="flex items-center gap-1">
                                 <i data-lucide="hash" class="w-4 h-4"></i>
                                 Jumlah
                             </div>
                         </th>
 
-                        <th class="py-3 px-3">
+                        <th class="border border-slate-300 bg-gray-500 px-3 py-3 text-left text-white">
                             <div class="flex items-center gap-1">
                                 <i data-lucide="map-pin" class="w-4 h-4"></i>
                                 Lokasi
@@ -256,31 +256,31 @@
 
                         <tr class="border-b border-gray-400 whitespace-nowrap">
 
-                            <td class="py-3 px-3">
+                            <td class="border border-slate-300 bg-slate-50 px-3 py-3">
                                 {{ $loop->iteration }}
                             </td>
 
-                            <td class="py-3 px-3">
+                            <td class="border border-slate-300 bg-slate-50 px-3 py-3">
                                 {{ $item->inventaris->kode ?? '-' }}
                             </td>
 
-                            <td class="py-3 px-3">
+                            <td class="border border-slate-300 bg-slate-50 px-3 py-3">
                                 {{ $item->inventaris->nama ?? '-' }}
                             </td>
 
-                            <td class="py-3 px-3">
+                            <td class="border border-slate-300 bg-slate-50 px-3 py-3">
                                 {{ $item->tanggal_keluar }}
                             </td>
 
-                            <td class="py-3 px-3">
+                            <td class="border border-slate-300 bg-slate-50 px-3 py-3">
                                 {{ $item->inventaris->kondisi ?? '-' }}
                             </td>
 
-                            <td class="py-3 px-3">
+                            <td class="border border-slate-300 bg-slate-50 px-3 py-3">
                                 {{ $item->jumlah_keluar }}
                             </td>
 
-                            <td class="py-3 px-3">
+                            <td class="border border-slate-300 bg-slate-50 px-3 py-3">
                                 {{ $item->inventaris->lokasi ?? '-' }}
                             </td>
 
